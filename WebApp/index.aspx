@@ -10,7 +10,13 @@
     <form id="form1" runat="server">
     <div>
     
-        Hello World!!</div>
+        Hello World!!<br />
+        <br />
+        <asp:Button ID="btnTest" runat="server" OnClick="btnTest_Click" Text="Button" />
+        <br />
+        <br />
+        <asp:TextBox ID="txtResult" runat="server"></asp:TextBox>
+        </div>
     </form>
 </body>
 </html>
