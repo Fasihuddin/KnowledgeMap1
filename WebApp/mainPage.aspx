@@ -7,13 +7,13 @@
     <title></title>
 </head>
 <body>
-    <asp:LoginName ID="LoginName1" runat="server" />
+    <asp:LoginName ID="LoginName1" runat="server" FormatString="Welcome {0}" />
+
     <form id="form1" runat="server">
-        <h2>        
-        The mainpage</h2>
-    <div>
-    
-    </div>
+        <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutPageUrl="~/logout.aspx" LogoutAction="Redirect" />
+        <h2>The mainpage</h2>
+        <div>
+        </div>
     </form>
 </body>
 </html>
