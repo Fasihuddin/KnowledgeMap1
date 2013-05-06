@@ -1,4 +1,12 @@
-﻿using System;
+﻿///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                          Knowledge Map Web Application for Research                                           //
+//                                   Created by Ilung Pranata                                                    //
+//                                  Date created: 27-April-2013                                                  //
+//  This page accepts a test version ID from startTest.aspx form and retrieve the questions from database. Once  //
+//  the questions are retrieved, it dynamically displays the questions for student to answer and save student    //
+//  answers to the database.                                                                                     //
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,9 +17,6 @@ using System.Data;
 
 public partial class StdQuestionsForm : System.Web.UI.Page
 {
-    protected void Page_Load(object sender, EventArgs e)
-    {
-    }
 
     protected void DataList1_ItemDataBound(object sender, System.Web.UI.WebControls.DataListItemEventArgs e)  
     {
