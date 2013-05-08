@@ -126,18 +126,6 @@ public partial class StdQuestionsForm : System.Web.UI.Page
 
             cmd.ExecuteNonQuery();
             conStr.Close();
-
-
-            //SqlCommand cmd = new SqlCommand("insert into Student_answer(QuestionID,Student_choice,IsRight) values(@qid,@cid,@ct)", conStr);
-            //SqlParameter p1 = new SqlParameter("@qid", qid);
-            //SqlParameter p2 = new SqlParameter("@cid", (cid == 0 ? DBNull.Value : cid));
-            //SqlParameter p3 = new SqlParameter("@ct", (string.IsNullOrEmpty(ct) ? DBNull.Value : ct));
-            //cmd.Parameters.Add(p1);
-            //cmd.Parameters.Add(p2);
-            //cmd.Parameters.Add(p3);
-            //conStr.Open();
-            //cmd.ExecuteNonQuery();
-            //conStr.Close();
         }catch(Exception ex){
             Console.WriteLine(ex.ToString());
         }

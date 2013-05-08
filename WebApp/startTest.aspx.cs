@@ -45,8 +45,42 @@ public partial class startTest : System.Web.UI.Page
             {
                 Console.WriteLine(ex.ToString());
             }
+
+            //call the method to bind material links to the gridview
+            boundGridView();
         }
     }
+
+    /*
+     * Binding material links from database to the gridview (based on Node ID)
+     * */
+    private void boundGridView()
+    {
+        SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
+        DataSet ds = new DataSet();
+        try
+        {
+            // NEED TO ADD A PARAMETER Node ID. Use SESSION TO GET THE NODE ID!!!
+            SqlCommand cmd = new SqlCommand("SELECT Name, URL_Address FROM Link WHERE Node = " + 1, conStr);
+            //SqlParameter p1 = new SqlParameter("@id", questionId);
+            //cmd.Parameters.Add(p1);
+            SqlDataAdapter dtAdapt = new SqlDataAdapter();
+            dtAdapt.SelectCommand = cmd;
+            dtAdapt.Fill(ds, "links");
+
+            DataTable dt = ds.Tables["links"];
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+        }
+
+        //bind to gridview
+        grdLinks2.DataSource = ds;
+        grdLinks2.DataBind();
+
+    }
+
     protected void ddlNodeList_SelectedIndexChanged(object sender, EventArgs e)
     {
         lblTestId.Visible = true;
