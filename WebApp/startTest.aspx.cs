@@ -61,7 +61,7 @@ public partial class startTest : System.Web.UI.Page
         try
         {
             // NEED TO ADD A PARAMETER Node ID. Use SESSION TO GET THE NODE ID!!!
-            SqlCommand cmd = new SqlCommand("SELECT Name, URL_Address FROM Link WHERE Node = " + 1, conStr);
+            SqlCommand cmd = new SqlCommand("SELECT Name, URL_Address FROM Materials WHERE Node = " + 1+" ORDER BY Material_Order", conStr);
             //SqlParameter p1 = new SqlParameter("@id", questionId);
             //cmd.Parameters.Add(p1);
             SqlDataAdapter dtAdapt = new SqlDataAdapter();

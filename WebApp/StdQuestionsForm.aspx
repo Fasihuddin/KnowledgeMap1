@@ -29,7 +29,7 @@
                         </HeaderTemplate>
                         <ItemStyle BackColor="#EEEEEE" ForeColor="Black" />
                         <ItemTemplate>
-                            <asp:Label ID="lblQuestionID" runat="server" Text='<%# Eval("Question_Id") %>'></asp:Label>
+                            <asp:Label ID="lblQuestionID" runat="server" Text='<%# Eval("Question_order") %>'></asp:Label>
                             .&nbsp;
                             <asp:Label ID="lblQuestion" runat="server" Text='<%# Eval("Text") %>'></asp:Label>
                             <asp:RadioButtonList ID="RadioButtonList1" runat="server">
@@ -48,8 +48,8 @@
     
     </div>
         <asp:SqlDataSource ID="SqlDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:connString %>"
-                 SelectCommand="SELECT Questions.Question_Id, Text 
-                                FROM Test_questions JOIN Questions ON Test_questions.Question_Id = Questions.Question_Id WHERE (Test_questions.Test_Id = @TestID)">
+                 SelectCommand="SELECT Test_questions.Question_order, Text 
+                                FROM Test_questions JOIN Questions ON Test_questions.Question_Id = Questions.Question_Id WHERE (Test_questions.Test_Id = @TestID) ORDER BY Test_questions.Question_order">
          
             <SelectParameters>
                 <asp:QueryStringParameter Name="TestID" QueryStringField="id" Type="Int32" />

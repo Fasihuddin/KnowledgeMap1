@@ -28,7 +28,7 @@ public partial class CourseNode : System.Web.UI.Page
 
        
         // Draw the parent node
-        this.DrawPerson(g, Node, Color.Red, (Xcanvas/2)-37, 10, "Parent Node");
+        this.DrawNode(g, Node, Color.Red, (Xcanvas/2)-37, 10, "Parent Node");
 
         //Testing -- CHANGE
         int degree = 1; // get it from database based on pre-requisite nodes
@@ -57,16 +57,16 @@ public partial class CourseNode : System.Web.UI.Page
             for (int i = 0; i < leftNodes; i++)
             {
                 startX -= 100;
-                this.DrawPerson(g, Node, Color.Blue, startX, degree * 100, "Node " + i);
-                this.ConnectPerson(g, 500, 70 , startX+30, (degree*100), Color.Red);
+                this.DrawNode(g, Node, Color.Blue, startX, degree * 100, "Node " + i);
+                this.ConnectNode(g, 500, 70 , startX+30, (degree*100), Color.Red);
             }
 
             //Draw nodes on the right hand side of the parent nodes
             startX = (Xcanvas / 2) + 10;
             for (int i = 0; i < rightNodes; i++)
             {
-                this.DrawPerson(g, Node, Color.Blue, startX, degree * 100, "Node " + i);
-                this.ConnectPerson(g, 500, 70,startX + 30, (degree*100), Color.Red);
+                this.DrawNode(g, Node, Color.Blue, startX, degree * 100, "Node " + i);
+                this.ConnectNode(g, 500, 70,startX + 30, (degree*100), Color.Red);
                 startX += 100;
             }
         }
@@ -76,8 +76,8 @@ public partial class CourseNode : System.Web.UI.Page
         }
         
         //TESTING - PLEASE DELETE
-        this.DrawPerson(g, Node, Color.Blue, 500, 2 * 100, "Node test");
-        this.DrawPerson(g, Node, Color.Blue, 500, 3 * 100, "Node test");
+        this.DrawNode(g, Node, Color.Blue, 500, 2 * 100, "Node test");
+        this.DrawNode(g, Node, Color.Blue, 500, 3 * 100, "Node test");
 
         //this.DrawPerson(g, Node, Color.Blue, 50, 170, "Node 1");
         //this.ConnectPerson(g, 80, 160, 230, 110,
@@ -102,14 +102,14 @@ public partial class CourseNode : System.Web.UI.Page
         Response.End();
     }
 
-    private void DrawPerson(Graphics graphics,
+    private void DrawNode(Graphics graphics,
        GraphicsPath Shape, Color fill, float x,
        float y, string Name)
     {
         // Position the shape
         graphics.TranslateTransform(x, y);
 
-        // Draw the person and fill it 
+        // Draw the node and fill it 
         // with a gradient
         System.Drawing.Brush oBrush =
            new LinearGradientBrush(
@@ -134,7 +134,7 @@ public partial class CourseNode : System.Web.UI.Page
         graphics.ResetTransform();
     }
 
-    public void ConnectPerson(Graphics g, float x1,
+    public void ConnectNode(Graphics g, float x1,
        float y1, float x2, float y2, Color lineColor)
     {
         // Draw a line with a custom arrow-head
