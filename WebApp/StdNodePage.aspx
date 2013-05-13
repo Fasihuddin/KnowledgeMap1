@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="startTest.aspx.cs" Inherits="startTest" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="StdNodePage.aspx.cs" Inherits="startTest" %>
 
 <!DOCTYPE html>
 

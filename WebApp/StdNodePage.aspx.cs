@@ -121,9 +121,6 @@ public partial class startTest : System.Web.UI.Page
                 finalTestId = testId[0];
                 lblTestId.Text = finalTestId.ToString();
             }
-
-
-            
         }
         catch (Exception ex)
         {
