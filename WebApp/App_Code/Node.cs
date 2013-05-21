@@ -14,9 +14,25 @@ public class Node
     private int topicId;
     private List<int> prereq;
     private int degree; // degree is used to show the hierarchy of the nodes (it is based on prerequisites)
+<<<<<<< HEAD
     private int startX, startY;
     public int position { get; set; }
     public int noLeft { get; set;}
+=======
+<<<<<<< HEAD
+    private int startX, startY;
+    public int position { get; set; }
+    public int noLeft { get; set;}
+=======
+<<<<<<< HEAD
+
+=======
+    private int startX, startY;
+    public int position { get; set; }
+    public int noLeft { get; set;}
+>>>>>>> 21/05/2013
+>>>>>>> 83df69e5b6af54df5e444f5c49d5720769c876c8
+>>>>>>> 1e397fcbd8c876c0ba97a91b22b22f7fba66ec19
 
 	public Node()
 	{
@@ -74,6 +90,14 @@ public class Node
     {
         get { return prereq; }
     }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> 83df69e5b6af54df5e444f5c49d5720769c876c8
+>>>>>>> 1e397fcbd8c876c0ba97a91b22b22f7fba66ec19
 
     public int StartY
     {
@@ -86,4 +110,11 @@ public class Node
         get { return startX; }
         set { startX = value; }
     }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> 21/05/2013
+>>>>>>> 83df69e5b6af54df5e444f5c49d5720769c876c8
+>>>>>>> 1e397fcbd8c876c0ba97a91b22b22f7fba66ec19
 }

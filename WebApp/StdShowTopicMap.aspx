@@ -22,6 +22,22 @@
     
         // This function will be used to receive the information from the server after the mouse click
         function ReceiveServerData(arg) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+            if(arg.length < 0)
+            {
+                // if there is no region label and message, show null
+                document.form1.txtLabel.value = "Hello2";
+            }
+            else{
+                // Declare an array and split the passed argument into region label and message
+                document.form1.txtLabel.value = arg;
+=======
+>>>>>>> 83df69e5b6af54df5e444f5c49d5720769c876c8
+>>>>>>> 1e397fcbd8c876c0ba97a91b22b22f7fba66ec19
             if(arg.length <= 0)
             {
                 // if there is no region label and message, show null
@@ -31,11 +47,48 @@
                 // Declare an array and split the passed argument into region label and message
                 document.getElementById('<%=lblMessage.ClientID%>').textContent = "Node: " + arg;
                 document.location.href = "StdNodePage.aspx?nid=" + arg;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> 21/05/2013
+>>>>>>> 83df69e5b6af54df5e444f5c49d5720769c876c8
+>>>>>>> 1e397fcbd8c876c0ba97a91b22b22f7fba66ec19
             }
         }
 
         </script>
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+        <table style="width:100%;">
+            <tr>
+                <td><div id="pointer_div" onclick="point_it(event)"><img src="StdTopicMap.aspx" alt="image" id="imageCanvas" /></div>
+                </td>
+                <td></td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td><asp:Label ID="lblMessage" runat="server" Text="lblMessage"></asp:Label>
+                    <asp:TextBox ID="txtLabel" runat="server"></asp:TextBox>
+                </td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+=======
+>>>>>>> 83df69e5b6af54df5e444f5c49d5720769c876c8
+>>>>>>> 1e397fcbd8c876c0ba97a91b22b22f7fba66ec19
     <style type="text/css">
         .auto-style1
         {
@@ -73,6 +126,13 @@
             </tr>
             <tr>
                 <td>&nbsp;</td>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> 21/05/2013
+>>>>>>> 83df69e5b6af54df5e444f5c49d5720769c876c8
+>>>>>>> 1e397fcbd8c876c0ba97a91b22b22f7fba66ec19
             </tr>
         </table>
     

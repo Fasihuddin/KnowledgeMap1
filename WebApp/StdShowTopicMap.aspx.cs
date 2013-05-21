@@ -19,7 +19,19 @@ public partial class StdShowTopicNode : System.Web.UI.Page, ICallbackEventHandle
             "ReceiveServerData", "");
         String callbackScript = "function CallServer(arg, context) {" +
             cbReference + "; }";
+<<<<<<< HEAD
         cm.RegisterStartupScript(this.GetType(),
+=======
+<<<<<<< HEAD
+        cm.RegisterStartupScript(this.GetType(),
+=======
+<<<<<<< HEAD
+        cm.RegisterClientScriptBlock(this.GetType(),
+=======
+        cm.RegisterStartupScript(this.GetType(),
+>>>>>>> 21/05/2013
+>>>>>>> 83df69e5b6af54df5e444f5c49d5720769c876c8
+>>>>>>> 1e397fcbd8c876c0ba97a91b22b22f7fba66ec19
             "CallServer", callbackScript, true);
     }
 
@@ -43,12 +55,36 @@ public partial class StdShowTopicNode : System.Web.UI.Page, ICallbackEventHandle
         requestLoc = eventArgument.Split(';');
 
         //only for IE
+<<<<<<< HEAD
         if (requestLoc[0].IndexOf(".") != -1 )
+=======
+<<<<<<< HEAD
+        if (requestLoc[0].IndexOf(".") != -1 )
+=======
+<<<<<<< HEAD
+        if (requestLoc[0].IndexOf(".") != 0 )
+=======
+        if (requestLoc[0].IndexOf(".") != -1 )
+>>>>>>> 21/05/2013
+>>>>>>> 83df69e5b6af54df5e444f5c49d5720769c876c8
+>>>>>>> 1e397fcbd8c876c0ba97a91b22b22f7fba66ec19
         {
             requestLoc[0] = requestLoc[0].Substring(0, requestLoc[0].IndexOf("."));
         }
         
+<<<<<<< HEAD
         if (requestLoc[1].IndexOf(".") != -1)
+=======
+<<<<<<< HEAD
+        if (requestLoc[1].IndexOf(".") != -1)
+=======
+<<<<<<< HEAD
+        if (requestLoc[1].IndexOf(".") != 0)
+=======
+        if (requestLoc[1].IndexOf(".") != -1)
+>>>>>>> 21/05/2013
+>>>>>>> 83df69e5b6af54df5e444f5c49d5720769c876c8
+>>>>>>> 1e397fcbd8c876c0ba97a91b22b22f7fba66ec19
         {
             requestLoc[1] = requestLoc[1].Substring(0, requestLoc[1].IndexOf("."));
         }
@@ -74,9 +110,27 @@ public partial class StdShowTopicNode : System.Web.UI.Page, ICallbackEventHandle
                 y2 = Convert.ToInt32(recLoc[3]);
 
                 //Checking the mouse click coordinate with each region location.
+<<<<<<< HEAD
                 if ((x >= x1) & (x <= x2))
                 {
                     if ((y >= y1) & (y <= y2))
+=======
+<<<<<<< HEAD
+                if ((x >= x1) & (x <= x2))
+                {
+                    if ((y >= y1) & (y <= y2))
+=======
+<<<<<<< HEAD
+                if ((x > x1) & (x < x2))
+                {
+                    if ((y > y1) & (y < y2))
+=======
+                if ((x >= x1) & (x <= x2))
+                {
+                    if ((y >= y1) & (y <= y2))
+>>>>>>> 21/05/2013
+>>>>>>> 83df69e5b6af54df5e444f5c49d5720769c876c8
+>>>>>>> 1e397fcbd8c876c0ba97a91b22b22f7fba66ec19
                     {
                         // Set the boolean true and get the array location of the region
                         regTest = true;
@@ -89,6 +143,25 @@ public partial class StdShowTopicNode : System.Web.UI.Page, ICallbackEventHandle
             {
                 // Get the region label and region message
                 List<int> allNodes = (List<int>)Session["AllNodes"];
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+                string message = allNodes[arrayLoc].ToString();
+                strMessage = message;
+            }
+            else
+            {
+                strMessage = "Nothing";
+            }
+        }
+        else
+        {
+            strMessage = "Hello";
+=======
+>>>>>>> 83df69e5b6af54df5e444f5c49d5720769c876c8
+>>>>>>> 1e397fcbd8c876c0ba97a91b22b22f7fba66ec19
                 strMessage = allNodes[arrayLoc].ToString();
             }
             else
@@ -99,6 +172,13 @@ public partial class StdShowTopicNode : System.Web.UI.Page, ICallbackEventHandle
         else
         {
             strMessage = "Error - NoRegion";
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> 21/05/2013
+>>>>>>> 83df69e5b6af54df5e444f5c49d5720769c876c8
+>>>>>>> 1e397fcbd8c876c0ba97a91b22b22f7fba66ec19
         }
     }
 
