@@ -14,7 +14,13 @@ public class Node
     private int topicId;
     private List<int> prereq;
     private int degree; // degree is used to show the hierarchy of the nodes (it is based on prerequisites)
+<<<<<<< HEAD
 
+=======
+    private int startX, startY;
+    public int position { get; set; }
+    public int noLeft { get; set;}
+>>>>>>> 21/05/2013
 
 	public Node()
 	{
@@ -72,4 +78,19 @@ public class Node
     {
         get { return prereq; }
     }
+<<<<<<< HEAD
+=======
+
+    public int StartY
+    {
+        get { return startY; }
+        set { startY = value; }
+    }
+
+    public int StartX
+    {
+        get { return startX; }
+        set { startX = value; }
+    }
+>>>>>>> 21/05/2013
 }

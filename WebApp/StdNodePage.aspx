@@ -51,14 +51,9 @@
                         <SortedDescendingHeaderStyle BackColor="#000065" />
                     </asp:GridView>
                 </td>
-                <td><span class="auto-style1"><strong>Start Test<br />
-                    </strong></span>
+                <td><span class="auto-style1"><strong>Start Test</strong></span><br />
                     <br />
-                    Please select the node: <asp:DropDownList ID="ddlNodeList" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlNodeList_SelectedIndexChanged">
-                    </asp:DropDownList>
-                    <br />
-                    <br />
-                    Your computer generated Test ID is:&nbsp; <asp:Label ID="lblTestId" runat="server" Text="Label"></asp:Label>
+                    Your computer-generated Test ID is:&nbsp; <asp:Label ID="lblTestId" runat="server" Text="Label"></asp:Label>
                     <br />
                     <br />
                     <asp:Button ID="btnStartTest" runat="server" OnClick="btnStartTest_Click" Text="Start Test" />
@@ -67,6 +62,7 @@
         </table>
     
     </div>
+        <asp:Button ID="btnBack" runat="server" OnClick="btnBack_Click" Text="Back to Topic Map" />
     </form>
 </body>
 </html>

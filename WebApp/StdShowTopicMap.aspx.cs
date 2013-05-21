@@ -19,7 +19,11 @@ public partial class StdShowTopicNode : System.Web.UI.Page, ICallbackEventHandle
             "ReceiveServerData", "");
         String callbackScript = "function CallServer(arg, context) {" +
             cbReference + "; }";
+<<<<<<< HEAD
         cm.RegisterClientScriptBlock(this.GetType(),
+=======
+        cm.RegisterStartupScript(this.GetType(),
+>>>>>>> 21/05/2013
             "CallServer", callbackScript, true);
     }
 
@@ -43,12 +47,20 @@ public partial class StdShowTopicNode : System.Web.UI.Page, ICallbackEventHandle
         requestLoc = eventArgument.Split(';');
 
         //only for IE
+<<<<<<< HEAD
         if (requestLoc[0].IndexOf(".") != 0 )
+=======
+        if (requestLoc[0].IndexOf(".") != -1 )
+>>>>>>> 21/05/2013
         {
             requestLoc[0] = requestLoc[0].Substring(0, requestLoc[0].IndexOf("."));
         }
         
+<<<<<<< HEAD
         if (requestLoc[1].IndexOf(".") != 0)
+=======
+        if (requestLoc[1].IndexOf(".") != -1)
+>>>>>>> 21/05/2013
         {
             requestLoc[1] = requestLoc[1].Substring(0, requestLoc[1].IndexOf("."));
         }
@@ -74,9 +86,15 @@ public partial class StdShowTopicNode : System.Web.UI.Page, ICallbackEventHandle
                 y2 = Convert.ToInt32(recLoc[3]);
 
                 //Checking the mouse click coordinate with each region location.
+<<<<<<< HEAD
                 if ((x > x1) & (x < x2))
                 {
                     if ((y > y1) & (y < y2))
+=======
+                if ((x >= x1) & (x <= x2))
+                {
+                    if ((y >= y1) & (y <= y2))
+>>>>>>> 21/05/2013
                     {
                         // Set the boolean true and get the array location of the region
                         regTest = true;
@@ -89,6 +107,7 @@ public partial class StdShowTopicNode : System.Web.UI.Page, ICallbackEventHandle
             {
                 // Get the region label and region message
                 List<int> allNodes = (List<int>)Session["AllNodes"];
+<<<<<<< HEAD
                 string message = allNodes[arrayLoc].ToString();
                 strMessage = message;
             }
@@ -100,6 +119,18 @@ public partial class StdShowTopicNode : System.Web.UI.Page, ICallbackEventHandle
         else
         {
             strMessage = "Hello";
+=======
+                strMessage = allNodes[arrayLoc].ToString();
+            }
+            else
+            {
+                strMessage = "";
+            }
+        }//end if
+        else
+        {
+            strMessage = "Error - NoRegion";
+>>>>>>> 21/05/2013
         }
     }
 

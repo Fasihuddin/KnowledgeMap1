@@ -28,14 +28,31 @@ public partial class CourseNode : System.Web.UI.Page
         maxDegree = 0;
         nodesLocation = new List<String>();
 
+<<<<<<< HEAD
         // Generate the drawing canvas
         Xcanvas = 1000;
         Ycanvas = 700;
+=======
+        //Get topic ID and courseID
+        int topicId = Convert.ToInt32(Session["TopicID"]);
+        int courseId = Convert.ToInt32(Session["CourseID"]);
+
+        // Generate the drawing canvas
+        Xcanvas = 1002;
+        Ycanvas = 802;
+>>>>>>> 21/05/2013
         bmpDiagram = new Bitmap(Xcanvas, Ycanvas);
         g = Graphics.FromImage(bmpDiagram);
         g.Clear(Color.White);
         g.SmoothingMode = SmoothingMode.HighQuality;
 
+<<<<<<< HEAD
+=======
+        //create canvas border
+        Pen myPen = new Pen(Color.Black, 1);
+        g.DrawRectangle(myPen, 1, 1, 1000, 800);
+
+>>>>>>> 21/05/2013
         // Generate the shape of a node
         Node = new GraphicsPath();
         Node.AddEllipse(1, 1, 74, 34);
@@ -43,18 +60,29 @@ public partial class CourseNode : System.Web.UI.Page
         // Draw the parent node
         this.DrawNode(g, Node, Color.Red, (Xcanvas/2)-37, 10, "Parent Node");
 
+<<<<<<< HEAD
         List<Node> allNodes = getAllNodes(1, Convert.ToInt32(Session["TopicID"]));
         assignNodePrereq(allNodes, Convert.ToInt32(Session["CourseID"]));
+=======
+        //get all nodes and its prerequisites.
+        List<Node> allNodes = getAllNodes(1, topicId);
+        assignNodePrereq(allNodes, courseId);
+>>>>>>> 21/05/2013
 
         //for each degree
         for (int i = 1; i <= maxDegree; i++)
         {
+<<<<<<< HEAD
             List<String> nodesPerDegree = new List<String>();
             List<int> nodesIdPerDegree = new List<int>();
+=======
+            List<Node> nodesPerDegree = new List<Node>();
+>>>>>>> 21/05/2013
             for (int j = 0; j < allNodes.Count; j++)
             {
                 if (allNodes[j].Degree == i)
                 {
+<<<<<<< HEAD
                     nodesPerDegree.Add(Convert.ToString(allNodes[j].NodeId)+";"+allNodes[j].Name);
                     nodesIdPerDegree.Add(allNodes[j].NodeId);
                 }
@@ -82,6 +110,21 @@ public partial class CourseNode : System.Web.UI.Page
         //this.ConnectPerson(g, 380, 160, 230, 110,
         //   Color.Green);
 
+=======
+                    nodesPerDegree.Add(allNodes[j]);
+                }
+            }
+            if (i == 1)
+            {
+                DrawNodePerDegree(nodesPerDegree, allNodes, i);
+            }
+            else
+            {
+                drawOtherDegrees(nodesPerDegree, allNodes, i);
+            }
+        }
+
+>>>>>>> 21/05/2013
         // Save the completed diagram into 
         // the output stream
         Response.ContentType = "image/jpeg";
@@ -98,6 +141,38 @@ public partial class CourseNode : System.Web.UI.Page
     }
 
     /*
+<<<<<<< HEAD
+=======
+     * query database to get the Topic Name from topicID
+     * */
+    private String getTopicName(int topicId)
+    {
+        String topicName = "";
+
+        //Get all nodes from Database based on each topic
+        conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
+        try
+        {
+            conStr.Open();
+            SqlCommand cmd = new SqlCommand("SELECT Name FROM Topic WHERE (Topic_Id = @topicID)", conStr);
+            SqlParameter p1 = new SqlParameter("@topicID", topicId);
+            cmd.Parameters.Add(p1);
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                topicName = reader.GetString(0);
+            }
+        }
+        catch (Exception ex)
+        {
+            ex.ToString();
+        }
+        return topicName;
+    }
+
+    /*
+>>>>>>> 21/05/2013
      * This method is used to get all nodes from database.
      * It retrieve all nodes based on a topic id
      * */
@@ -179,6 +254,7 @@ public partial class CourseNode : System.Web.UI.Page
                 reader2.Close();
                 conStr.Close();
             } // end for
+<<<<<<< HEAD
 
             /*
             //The following code is used for determining the degree/level of hierarchy
@@ -210,6 +286,8 @@ public partial class CourseNode : System.Web.UI.Page
             
             }// end first for
              *  * */
+=======
+>>>>>>> 21/05/2013
         }// end try
         catch (Exception ex)
         {
@@ -217,6 +295,7 @@ public partial class CourseNode : System.Web.UI.Page
         }
     }
 
+<<<<<<< HEAD
     private void DrawNodePerDegree(List<String> NodesPerDegree, List<Node> allNodes, int degree)
     {
         //Testing -- CHANGE
@@ -226,6 +305,18 @@ public partial class CourseNode : System.Web.UI.Page
         {
             int leftNodes = 0;
             int rightNodes = 0;
+=======
+    private void DrawNodePerDegree(List<Node> NodesPerDegree, List<Node> allNodes, int degree)
+    {
+        //Get no of nodes for each degree
+        int noOfNodes = NodesPerDegree.Count; 
+
+        if (noOfNodes <= 10) // maximum nodes per degree is 10
+        {
+            int leftNodes = 0;
+            int rightNodes = 0;
+
+>>>>>>> 21/05/2013
             //Check whether the noOfNodes are even numbers. This is to specify the no of nodes in the 
             //left and right hand sides of the midCanvas
             if (noOfNodes % 2 != 0)
@@ -244,6 +335,7 @@ public partial class CourseNode : System.Web.UI.Page
             //Draw nodes on the left hand side of the parent nodes
             for (int i = 0; i < leftNodes; i++)
             {
+<<<<<<< HEAD
                 //get node Info (id and name)
                 String[] nodeInfo = NodesPerDegree[i].ToString().Split(';');
                 startX -= 100; // the width between node is 100px
@@ -255,12 +347,48 @@ public partial class CourseNode : System.Web.UI.Page
                                 Convert.ToString(startX + 74)+ ";"+ Convert.ToString(startY)+ ";"+
                                 Convert.ToString(startY + 34);
                 this.nodesLocation.Add(nodeLoc);
+=======
+                startX -= 100; // the width between node is 100px
+                this.DrawNode(g, Node, Color.Blue, startX, startY, NodesPerDegree[i].Name);
+
+                //connecting node with its prerequisite nodes
+                if (degree == 1)
+                {
+                    this.ConnectNode(g, 500, 70, startX + 36, startY, Color.Red);
+                }
+                else
+                {
+                    //get prerequisites nodes
+                    foreach (int nodeId in NodesPerDegree[i].getPrereq)
+                    {
+                        foreach (Node n in allNodes)
+                        {
+                            if (n.NodeId == nodeId)
+                            {
+                                int x = n.StartX+36;
+                                int y = n.StartY+55;
+                                this.ConnectNode(g, x, y, startX + 36, startY, Color.Red);
+                            }
+                        }//end foreach2
+                    }//end foreach1
+                }
+
+                //add the location of node to the list (for clicking feature)
+                String nodeLoc = NodesPerDegree[i].NodeId.ToString()+";"+Convert.ToString(startX) + ";"+
+                                Convert.ToString(startX + 74)+ ";"+ Convert.ToString(startY)+ ";"+
+                                Convert.ToString(startY + 34);
+                this.nodesLocation.Add(nodeLoc);
+                NodesPerDegree[i].StartX = startX;
+                NodesPerDegree[i].StartY = startY;
+                NodesPerDegree[i].position = 0;
+>>>>>>> 21/05/2013
             }
 
             //Draw nodes on the right hand side of the parent nodes
             startX = (Xcanvas / 2) + 10;
             for (int i = leftNodes; i < NodesPerDegree.Count; i++)
             {
+<<<<<<< HEAD
                 //get node Info (id and name)
                 String[] nodeInfo = NodesPerDegree[i].ToString().Split(';');
                 this.DrawNode(g, Node, Color.Blue, startX, startY, nodeInfo[1]);
@@ -272,15 +400,199 @@ public partial class CourseNode : System.Web.UI.Page
                                 Convert.ToString(startY + 34);
                 this.nodesLocation.Add(nodeLoc);
 
+=======
+                this.DrawNode(g, Node, Color.Blue, startX, startY, NodesPerDegree[i].Name);
+
+                //connecting node with its prerequisite nodes
+                if (degree == 1)
+                {
+                    this.ConnectNode(g, 500, 70, startX + 36, startY, Color.Red);
+                }
+                else
+                {
+                    //get prerequisites nodes
+                    foreach (int nodeId in NodesPerDegree[i].getPrereq)
+                    {
+                        foreach (Node n in allNodes)
+                        {
+                            if (n.NodeId == nodeId)
+                            {
+                                int x = n.StartX + 36;
+                                int y = n.StartY + 55;
+                                this.ConnectNode(g, x, y, startX + 36, startY, Color.Red);
+                            }
+                        }//end foreach2
+                    }//end foreach1
+                }
+                
+                //add the location of node to the list (for clicking feature)
+                String nodeLoc = NodesPerDegree[i].NodeId.ToString() + ";" + Convert.ToString(startX) + ";" +
+                                Convert.ToString(startX + 74) + ";" + Convert.ToString(startY) + ";" +
+                                Convert.ToString(startY + 34);
+                this.nodesLocation.Add(nodeLoc);
+                NodesPerDegree[i].StartX = startX;
+                NodesPerDegree[i].StartY = startY;
+                NodesPerDegree[i].position = 1;
+>>>>>>> 21/05/2013
                 startX += 100;// the width between node is 100px
             }
         }
         else
         {
             Console.WriteLine("Please increase the size of the canvas");
+<<<<<<< HEAD
         }
     }
 
+=======
+            
+        }
+    }
+
+    private void drawOtherDegrees(List<Node> NodesPerDegree, List<Node> allNodes, int degree)
+    {
+         //Get no of nodes for each degree
+        int noOfNodes = NodesPerDegree.Count;
+
+        if (noOfNodes <= 10) // maximum nodes per degree is 10
+        {
+            assignNodePosition(NodesPerDegree, allNodes);
+            int right = 0;
+            int left = 1;
+
+            int midCanvas = (Xcanvas / 2) + 10;
+            int startY = degree * 100;
+
+            foreach (Node n in NodesPerDegree)
+            {
+                int pos = n.position;
+                if (pos == 0)
+                {
+                    int startX = midCanvas - (100 * left);
+
+                    this.DrawNode(g, Node, Color.Blue, startX, startY, n.Name);
+
+                    foreach (int nodeId in n.getPrereq)
+                    {
+                        foreach (Node u in allNodes)
+                        {
+                            if (u.NodeId == nodeId)
+                            {
+                                int x = u.StartX + 36;
+                                int y = u.StartY + 55;
+                                this.ConnectNode(g, x, y, startX + 36, startY, Color.Red);
+                            }
+                        }//end foreach2
+                    }//end foreach1
+
+                    //add the location of node to the list (for clicking feature)
+                    String nodeLoc = n.NodeId.ToString() + ";" + Convert.ToString(startX) + ";" +
+                                    Convert.ToString(startX + 74) + ";" + Convert.ToString(startY) + ";" +
+                                    Convert.ToString(startY + 34);
+                    this.nodesLocation.Add(nodeLoc);
+                    n.StartX = startX;
+                    n.StartY = startY;
+                    n.position = 0;
+                    left++;
+                }
+                else
+                {
+                    int startX = midCanvas + (right*100);
+                    this.DrawNode(g, Node, Color.Blue, startX, startY, n.Name);
+
+                    //get prerequisites nodes
+                    foreach (int nodeId in n.getPrereq)
+                    {
+                        foreach (Node u in allNodes)
+                        {
+                            if (u.NodeId == nodeId)
+                            {
+                                int x = u.StartX + 36;
+                                int y = u.StartY + 55;
+                                this.ConnectNode(g, x, y, startX + 36, startY, Color.Red);
+                            }
+                        }//end foreach2
+                    }//end foreach1
+
+                    //add the location of node to the list (for clicking feature)
+                    String nodeLoc = n.NodeId.ToString() + ";" + Convert.ToString(startX) + ";" +
+                                    Convert.ToString(startX + 74) + ";" + Convert.ToString(startY) + ";" +
+                                    Convert.ToString(startY + 34);
+                    this.nodesLocation.Add(nodeLoc);
+                    n.StartX = startX;
+                    n.StartY = startY;
+                    n.position = 1;
+                    right++;
+                }//end else
+            }//end for each
+        }//end if
+    }
+
+    private void assignNodePosition(List<Node> NodesPerDegree, List<Node> allNodes)
+    {
+        
+        List<List<Node[]>> assignedNode = new List<List<Node[]>>();
+
+        List<int> leftNodesPos = new List<int>();
+        List<int> rightNodesPos = new List<int>();
+        int right, left;
+        int leftCounter = 0;
+        int rightCounter = 0;
+
+        for (int u=0; u<NodesPerDegree.Count;u++)
+        {
+            right = 0;
+            left = 0;
+            foreach (int i in NodesPerDegree[u].getPrereq)
+            {
+                foreach (Node k in allNodes)
+                {
+                    if (k.NodeId == i && k.position == 0)
+                    {
+                        left += 1;
+                    }
+                    else if (k.NodeId == i)
+                    {
+                        right+=1;
+                    }
+                }
+            }
+            if (left >= right && leftCounter <= 5)
+            {
+                NodesPerDegree[u].position = 0;
+                NodesPerDegree[u].noLeft = left;
+                leftNodesPos.Add(u);
+                leftCounter++;
+
+            }
+            else if(rightCounter <= 5)
+            {
+                NodesPerDegree[u].position = 1;
+                NodesPerDegree[u].noLeft = left;
+                rightNodesPos.Add(u);
+                rightCounter++;
+            }
+        }
+
+        //check the no of prerequisites nodes in the left between left and right nodes
+        //if left nodes have less prerequisites nodes in the left, swap with the right
+        for (int i = 0; i < rightNodesPos.Count; i++) 
+        {
+            int noRight = NodesPerDegree[rightNodesPos[i]].noLeft;
+            for (int j = 0; j < rightNodesPos.Count; j++)
+            {
+                int noLeft = NodesPerDegree[rightNodesPos[j]].noLeft;
+                if (noRight > noLeft)
+                {
+                    NodesPerDegree[rightNodesPos[j]].position = 1;
+                    NodesPerDegree[rightNodesPos[i]].position = 0;
+                }
+            }
+        }
+    }
+
+
+>>>>>>> 21/05/2013
     private void DrawNode(Graphics graphics,
        GraphicsPath Shape, Color fill, float x,
        float y, string Name)
@@ -325,8 +637,11 @@ public partial class CourseNode : System.Web.UI.Page
         g.DrawLine(p, x1, y1, x2, y2);
     }
 
+<<<<<<< HEAD
     
 
    
 
+=======
+>>>>>>> 21/05/2013
 }

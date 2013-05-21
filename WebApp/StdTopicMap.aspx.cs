@@ -17,23 +17,37 @@ public partial class StdTopicMap : System.Web.UI.Page
         //TEST ONLY - PLEASE DELETE
         Session["TopicID"] = 1;
         Session["CourseID"] = 1;
+<<<<<<< HEAD
+=======
+        int studentId = 1;
+>>>>>>> 21/05/2013
 
         Byte[] imageByte = drawKnowledgeMap();
         if (imageByte != null)
         {
             //Setting the canvas for the bitmap image
+<<<<<<< HEAD
             Bitmap oCanvas = new Bitmap(1000, 700);
             //Declare a graphics to draw the image
             Graphics g = Graphics.FromImage(oCanvas);
             // draw the line on the perimeter of the canvas
             g.FillRectangle(Brushes.White, 1, 1, 678, 568);
+=======
+            Bitmap oCanvas = new Bitmap(1002, 802);
+            //Declare a graphics to draw the image
+            Graphics g = Graphics.FromImage(oCanvas);
+>>>>>>> 21/05/2013
 
             // Draw the image using the data byte from database
             Bitmap objImage = new Bitmap(new System.IO.MemoryStream(imageByte));
             g.DrawImage(objImage, 0, 0);
 
             //draw region
+<<<<<<< HEAD
             drawRegion(g);
+=======
+            drawRegion(g, studentId);
+>>>>>>> 21/05/2013
 
             // Draw the canvas with the image and regions.
             Response.ContentType = "image/jpeg";
@@ -75,7 +89,11 @@ public partial class StdTopicMap : System.Web.UI.Page
         return imageByte;
     }
 
+<<<<<<< HEAD
     private void drawRegion(Graphics g)
+=======
+    private void drawRegion(Graphics g, int studentId)
+>>>>>>> 21/05/2013
     {
         GraphicsPath region = new GraphicsPath();
         List<int> nodeId = new List<int>();
@@ -102,6 +120,11 @@ public partial class StdTopicMap : System.Web.UI.Page
             reader.Close();
             conStr.Close();
            
+<<<<<<< HEAD
+=======
+            //this variable will be used to store all passedNodes
+            List<int> passedNodes = new List<int>();
+>>>>>>> 21/05/2013
 
             //create regions
             for (int i=0; i<nodeId.Count;i++)
@@ -122,9 +145,19 @@ public partial class StdTopicMap : System.Web.UI.Page
 
                     //conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
                     conStr.Open();
+<<<<<<< HEAD
                     cmd = new SqlCommand("SELECT Is_complete from Test WHERE Node_Id = @nodeID", conStr);
                     p1 = new SqlParameter("@nodeID", nodeId[i]);
                     cmd.Parameters.Add(p1);
+=======
+                    cmd = new SqlCommand("SELECT Student_test.IsPassed FROM Student_test INNER JOIN TEST ON "+
+                                        "Student_test.Test_Id = Test.Test_Id WHERE Test.Node_Id = @nodeID AND " +
+                                        "Student_test.Student_Id = @studentID", conStr);
+                    p1 = new SqlParameter("@nodeID", nodeId[i]);
+                    p2 = new SqlParameter("@studentID", studentId);
+                    cmd.Parameters.Add(p1);
+                    cmd.Parameters.Add(p2);
+>>>>>>> 21/05/2013
                     reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
@@ -132,6 +165,10 @@ public partial class StdTopicMap : System.Web.UI.Page
                         if (test == 1)
                         {
                             isComplete = true;
+<<<<<<< HEAD
+=======
+                            passedNodes.Add(nodeId[i]);
+>>>>>>> 21/05/2013
                         }
                     }
                     reader.Close();
@@ -161,7 +198,14 @@ public partial class StdTopicMap : System.Web.UI.Page
                     Session["AllNodes"] = nodeId;
                     Session["recLocation"] = loc;
                 }
+<<<<<<< HEAD
             }
+=======
+            }//end for
+
+            //add all passed nodes to the session.
+            Session["isPassed"] = passedNodes;
+>>>>>>> 21/05/2013
         }
         catch (Exception ex)
         {

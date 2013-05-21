@@ -22,6 +22,7 @@
     
         // This function will be used to receive the information from the server after the mouse click
         function ReceiveServerData(arg) {
+<<<<<<< HEAD
             if(arg.length < 0)
             {
                 // if there is no region label and message, show null
@@ -30,11 +31,23 @@
             else{
                 // Declare an array and split the passed argument into region label and message
                 document.form1.txtLabel.value = arg;
+=======
+            if(arg.length <= 0)
+            {
+                // if there is no region label and message, show null
+                document.getElementById('<%=lblMessage.ClientID%>').textContent = "You clicked at the wrong area. Please click on the Module only!";
+            }
+            else{
+                // Declare an array and split the passed argument into region label and message
+                document.getElementById('<%=lblMessage.ClientID%>').textContent = "Node: " + arg;
+                document.location.href = "StdNodePage.aspx?nid=" + arg;
+>>>>>>> 21/05/2013
             }
         }
 
         </script>
 
+<<<<<<< HEAD
 </head>
 <body>
     <form id="form1" runat="server">
@@ -57,6 +70,45 @@
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
+=======
+    <style type="text/css">
+        .auto-style1
+        {
+            width: 402px;
+        }
+        .auto-style2
+        {
+            height: 61px;
+        }
+        .auto-style3
+        {
+            height: 17px;
+        }
+    </style>
+
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div><h1>Topic Node</h1>
+        <table style="width:100%;">
+            <tr>
+                <td class="auto-style1" rowspan="3"><div id="pointer_div" onclick="point_it(event)"><img src="StdTopicMap.aspx" alt="image" id="imageCanvas" /></div>
+                </td>
+                <td class="auto-style3"><asp:Label ID="lblMessage" runat="server" Text="Please click on the Module to view the materials and start the test." Font-Bold="True" ForeColor="Red"></asp:Label>
+                    <br />
+                    <br />
+                    Legend:<br />
+                    <asp:Label ID="Label1" runat="server" Font-Bold="True" ForeColor="#009933" Text="Green Module"></asp:Label>
+&nbsp;- You have passed the test<br />
+                    <asp:Label ID="Label2" runat="server" Font-Bold="True" ForeColor="#0033CC" Text="Blue Module"></asp:Label>
+&nbsp;- You have NOT passed the test</td>
+            </tr>
+            <tr>
+                <td class="auto-style2">&nbsp;</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+>>>>>>> 21/05/2013
             </tr>
         </table>
     
