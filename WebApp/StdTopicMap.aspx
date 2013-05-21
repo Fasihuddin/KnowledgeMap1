@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="CourseNode.aspx.cs" Inherits="CourseNode" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="StdTopicMap.aspx.cs" Inherits="StdTopicMap" %>
 
 <!DOCTYPE html>
 
