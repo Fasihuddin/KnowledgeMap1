@@ -17,7 +17,7 @@
             </tr>
             <tr>
                 <td>
-                    <asp:DataList ID="DataList1" width="80%" runat="server" DataSourceID="SqlDataSource" onitemdatabound="DataList1_ItemDataBound" BackColor="White" BorderColor="#999999" BorderStyle="None" BorderWidth="1px" CellPadding="3" GridLines="Vertical" >
+                    <asp:DataList ID="DataList1" width="80%" runat="server" DataSourceID="SqlDataSource" BackColor="White" BorderColor="#999999" BorderStyle="None" BorderWidth="1px" CellPadding="3" GridLines="Vertical" onItemDataBound="DataList1_ItemDataBound">
                         <AlternatingItemStyle BackColor="#DCDCDC" />
                         <FooterStyle BackColor="#CCCCCC" ForeColor="Black" />
                         <FooterTemplate>

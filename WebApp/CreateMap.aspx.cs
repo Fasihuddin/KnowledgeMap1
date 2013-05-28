@@ -481,13 +481,31 @@ public partial class CourseNode : System.Web.UI.Page
         StringFormat sf = new StringFormat();
         sf.Alignment = StringAlignment.Center;
         Font oFont = new Font("Tahoma", 10);
-        System.Drawing.SizeF size =
-           graphics.MeasureString(Name, oFont);
-        System.Drawing.RectangleF rect =
-           new RectangleF(38 - (size.Width / 2),
-           40, size.Width, size.Height);
-        graphics.DrawString(Name, oFont,
-           Brushes.Black, rect, sf);
+       
+        //Check the length of node name
+        if(Name.Length >= 15){ // if the module has long name, write its name in 2 lines
+            //first half of the name
+            int midsize = Name.Length / 2;
+            System.Drawing.SizeF size1 = graphics.MeasureString(Name.Substring(0,midsize), oFont);
+            System.Drawing.RectangleF rect =
+                new RectangleF(38 - (size1.Width / 2), 40, size1.Width, size1.Height);
+            graphics.DrawString(Name.Substring(0, midsize), oFont,
+                Brushes.Black, rect, sf);
+
+            //second half of the name
+            String secondHalf = Name.Substring(midsize, Name.Length - midsize);
+            System.Drawing.SizeF size2 = graphics.MeasureString(secondHalf, oFont);
+            System.Drawing.RectangleF rect2 =
+                new RectangleF(38 - (size2.Width / 2), 50, size2.Width, size2.Height);
+            graphics.DrawString(secondHalf, oFont,
+                Brushes.Black, rect2, sf);
+        }else{
+           System.Drawing.SizeF size = graphics.MeasureString(Name, oFont);
+           System.Drawing.RectangleF rect =
+             new RectangleF(38 - (size.Width / 2), 40, size.Width, size.Height);
+           graphics.DrawString(Name, oFont,
+               Brushes.Black, rect, sf);
+        }
 
         // Rset the coordinate shift
         graphics.ResetTransform();
@@ -502,7 +520,7 @@ public partial class CourseNode : System.Web.UI.Page
            new AdjustableArrowCap(5, 5, true);
         p.EndCap = LineCap.Custom;
         p.CustomEndCap = myCap;
-        g.DrawLine(p, x1, y1, x2, y2);
+        g.DrawLine(p, x1, y1+7, x2, y2);
     }
 
 }

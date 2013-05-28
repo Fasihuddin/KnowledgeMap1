@@ -55,6 +55,12 @@
 <body>
     <form id="form1" runat="server">
     <div><h1>Topic Node</h1>
+        <p>
+            <asp:Label ID="lblTopicName" runat="server" Font-Italic="True" Text="Topic: "></asp:Label>
+        </p>
+        <p>
+            <asp:Label ID="lblDesc" runat="server" Font-Italic="True" Text="Description: "></asp:Label>
+        </p>
         <table style="width:100%;">
             <tr>
                 <td class="auto-style1" rowspan="3"><div id="pointer_div" onclick="point_it(event)"><img src="StdTopicMap.aspx" alt="image" id="imageCanvas" /></div>

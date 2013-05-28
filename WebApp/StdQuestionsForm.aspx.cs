@@ -35,7 +35,6 @@ public partial class StdQuestionsForm : System.Web.UI.Page
             rbl.DataTextField = "Text";
             rbl.DataValueField = "Choice_Id";
             rbl.DataBind();
-
         }
     }
 
@@ -66,6 +65,8 @@ public partial class StdQuestionsForm : System.Web.UI.Page
 
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
+        int testId = Convert.ToInt32(Request.QueryString["id"]);
+        int noRight = 0;
         foreach (DataListItem item in DataList1.Items)
         {
             if (item.ItemType == ListItemType.Item | item.ItemType == ListItemType.AlternatingItem)
@@ -77,25 +78,64 @@ public partial class StdQuestionsForm : System.Web.UI.Page
 
                 RadioButtonList rbl = (RadioButtonList)item.FindControl("RadioButtonList1");
                 choiceid = Convert.ToInt32(rbl.SelectedValue);
-                
-                int testId = Convert.ToInt32(Request.QueryString["id"]);
-                SaveAnswer(questionid, choiceid, testId);
+
+                noRight += SaveAnswer(questionid, choiceid, testId);
             }
         }
+
+        //calculate score based on the number of questions student got it right
+        double score = (double)noRight/(double)DataList1.Items.Count * 100;
+        //saveTest
+        SaveTest(testId, (int) Session["StudentId"], (int) score);
+
+
         DataList1.Visible = false;
         lblThanks.Text = "Thank you for answering the questions!";
     }
 
-
-    private void SaveAnswer(int qid, int cid, int testId)
+    private void SaveTest(int testId, int studentId, int score)
     {
-        //testId, qId, cId,answer
- 
+        int isPassed = 0;
+        if (score >= 50)
+        {
+            isPassed = 1;
+        }
+
+         SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
+         try
+         {
+             conStr.Open();
+             var today = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+             //Get the answer for the question
+             SqlCommand cmd = new SqlCommand("INSERT INTO Student_test VALUES(@studentId, @testId, @DateTime, @score, @isPassed)", conStr);
+             SqlParameter p1 = new SqlParameter("@studentId", studentId);
+             SqlParameter p2 = new SqlParameter("@testId", testId);
+             SqlParameter p3 = new SqlParameter("@DateTime", today);
+             SqlParameter p4 = new SqlParameter("@score", score);
+             SqlParameter p5 = new SqlParameter("@isPassed", isPassed);
+
+             cmd.Parameters.Add(p1);
+             cmd.Parameters.Add(p2);
+             cmd.Parameters.Add(p3);
+             cmd.Parameters.Add(p4);
+             cmd.Parameters.Add(p5);
+
+             int x = cmd.ExecuteNonQuery();
+
+         }
+         catch (Exception ex)
+         {
+             ex.ToString();
+         }
+    }
+
+    private int SaveAnswer(int qid, int cid, int testId)
+    {
+        int isRight = 0;
         SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
         try
         {
             conStr.Open();
-            int isRight = 0;
             //Get the answer for the question
             SqlCommand cmd = new SqlCommand("Select Choice_Id From Choices where Question = @qId and Status LIKE 'Y'", conStr);
             SqlParameter p1 = new SqlParameter("@qid", qid);
@@ -113,21 +153,40 @@ public partial class StdQuestionsForm : System.Web.UI.Page
             conStr.Close();
 
             conStr.Open();
+            var today = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             //Now inserting the values to database
-            cmd = new SqlCommand("insert into Student_answer(Test_Id,Question_Id,Student_choice,IsRight) values(@testId,@qid,@cid,@isRight)", conStr);
+            cmd = new SqlCommand("insert into Student_answer(Test_Id,Test_DateTime, Question_Id,Student_choice,IsRight) values(@testId,@DateTime,@qid,@cid,@isRight)", conStr);
             SqlParameter p2 = new SqlParameter("@testid", testId);
             SqlParameter p3 = new SqlParameter("@qid", qid);
             SqlParameter p4 = new SqlParameter("@cid", cid);
             SqlParameter p5 = new SqlParameter("@isRight", isRight);
+            SqlParameter p6 = new SqlParameter("@DateTime", today);
+
             cmd.Parameters.Add(p2);
             cmd.Parameters.Add(p3);
             cmd.Parameters.Add(p4);
             cmd.Parameters.Add(p5);
+            cmd.Parameters.Add(p6);
 
             cmd.ExecuteNonQuery();
             conStr.Close();
         }catch(Exception ex){
             Console.WriteLine(ex.ToString());
+        }
+
+        return isRight;
+    }
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            int testId = Convert.ToInt32(Request.QueryString["id"]);
+            int studentId = (int) Session["StudentId"];
+        }
+        catch (Exception ex)
+        {
+            Response.Redirect("~/Error.aspx");
         }
     }
 }

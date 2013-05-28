@@ -11,16 +11,42 @@ public partial class StdShowTopicNode : System.Web.UI.Page, ICallbackEventHandle
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        try
+        {
+            //get both course and topic id
+            String data = Session["CourseTopicID"].ToString();
+            int stdId = Convert.ToInt32(Session["StudentID"]);
+            string[] courseTopicID = new string[2];
+            courseTopicID = data.Split(';');
+            int courseId = Convert.ToInt32(courseTopicID[0]);
+            int topicId = Convert.ToInt32(courseTopicID[1]);
 
-        // This is the AJAX code will get the call back event from the javascript function.
-        // the arguments passed by the javascript function will be gotten from this code.
-        ClientScriptManager cm = Page.ClientScript;
-        String cbReference = cm.GetCallbackEventReference(this, "arg",
-            "ReceiveServerData", "");
-        String callbackScript = "function CallServer(arg, context) {" +
-            cbReference + "; }";
-        cm.RegisterStartupScript(this.GetType(),
-            "CallServer", callbackScript, true);
+            List<Topic> allTopics = (List<Topic>)Session["TopicList"];
+
+            foreach (Topic t in allTopics)
+            {
+                if (t.topicId == topicId)
+                {
+                    lblTopicName.Text += " " + t.name;
+                    lblDesc.Text += " " + t.description;
+                }
+            }
+
+
+            // This is the AJAX code will get the call back event from the javascript function.
+            // the arguments passed by the javascript function will be gotten from this code.
+            ClientScriptManager cm = Page.ClientScript;
+            String cbReference = cm.GetCallbackEventReference(this, "arg",
+                "ReceiveServerData", "");
+            String callbackScript = "function CallServer(arg, context) {" +
+                cbReference + "; }";
+            cm.RegisterStartupScript(this.GetType(),
+                "CallServer", callbackScript, true);
+        }
+        catch (Exception ex)
+        {
+            ex.ToString();
+        }
     }
 
     // This is the inherits code from callback event interface.
@@ -98,7 +124,7 @@ public partial class StdShowTopicNode : System.Web.UI.Page, ICallbackEventHandle
         }//end if
         else
         {
-            strMessage = "Error - NoRegion";
+            strMessage = "";
         }
     }
 
