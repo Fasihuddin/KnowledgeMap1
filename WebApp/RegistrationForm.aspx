@@ -63,15 +63,6 @@
                 </td>
             </tr>
             <tr>
-                <td class="auto-style2">Choose your username</td>
-                <td class="auto-style3">
-        <asp:TextBox ID="TBUsername" runat="server" MaxLength="20" style="margin-top: 0px" Width="200px"></asp:TextBox>
-                </td>
-                <td>
-                    <asp:RequiredFieldValidator ID="RequiredFieldValidatorUsername" runat="server" ControlToValidate="TBUsername" ErrorMessage="Please enter a username" ForeColor="Red"></asp:RequiredFieldValidator>
-                </td>
-            </tr>
-            <tr>
                 <td class="auto-style2">Create a password</td>
                 <td class="auto-style3">
         <asp:TextBox ID="TBPassword" runat="server" MaxLength="10" TextMode="Password" Width="200px"></asp:TextBox>

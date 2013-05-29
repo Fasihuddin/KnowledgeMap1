@@ -28,7 +28,7 @@ public partial class login : System.Web.UI.Page
         {
             // If User is Authenticated then moved to a main page
             if (User.Identity.IsAuthenticated)
-                Response.Redirect("~/StdCourseIntro.aspx");
+                Response.Redirect("mainPage.aspx");
         }
     }
 
@@ -55,10 +55,10 @@ public partial class login : System.Web.UI.Page
     }
 
     // Function name Authentication which will get check the user_name and passwrod from sql database then return a value true or false
-    protected Boolean Authentication(string username, string password)
+    protected static Boolean Authentication(string username, string password)
     {
         string sqlstring;
-        sqlstring = "SELECT Student_Id FROM Students WHERE Username='" + username + "' AND Password ='" + password + "'";
+        sqlstring = "SELECT Student_Id, Password FROM Students WHERE Student_Id='" + username + "' AND Password ='" + password + "'";
 
         // create a connection with sqldatabase 
         SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
@@ -72,14 +72,9 @@ public partial class login : System.Web.UI.Page
 
         // check if reader has any value then return true otherwise return false
         if (reader.Read())
-        {
-            int studentId = reader.GetInt32(0);
-            Session["StudentID"] = studentId;
             return true;
-        }
-        else
-        {
+        else 
             return false;
-        }
+
     }
 }

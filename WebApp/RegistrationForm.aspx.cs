@@ -20,7 +20,7 @@ public partial class RegistrationForm : System.Web.UI.Page
     protected void Submit_Click(object sender, EventArgs e)
     {
         int added = 0;
-        bool usernameExists = false;
+       // bool usernameExists = false;
         bool idExists = false;
         try
         {
@@ -34,26 +34,24 @@ public partial class RegistrationForm : System.Web.UI.Page
                 idExists = (int)cmd.ExecuteScalar() > 0;
             }
 
-            // create a command to check if the username exists
-            using (SqlCommand cmd = new SqlCommand("select count(*) from Students where Username = @UserName", conStr))
-            {
-                cmd.Parameters.AddWithValue("UserName", TBUsername.Text);
-                usernameExists = (int)cmd.ExecuteScalar() > 0;
-            }
+            //// create a command to check if the username exists
+            //using (SqlCommand cmd = new SqlCommand("select count(*) from Students where Username = @UserName", conStr))
+            //{
+            //    cmd.Parameters.AddWithValue("UserName", TBUsername.Text);
+            //    usernameExists = (int)cmd.ExecuteScalar() > 0;
+            //}
 
             // if username exists, show a message error
-            if (usernameExists || idExists)
+            if (idExists)
             {
                 LblResults.ForeColor = System.Drawing.Color.Red;
                 if (idExists)
                     LblResults.Text = "This student id is already registered.";
-                else if (usernameExists)
-                LblResults.Text = "This username is already taken, try again.";
             }
             else
             {
 
-                cmd = new SqlCommand("INSERT INTO Students VALUES ('" + TBId.Text + "','" + TBName.Text + "','" + TBEmail.Text + "','" + TBUsername.Text + "','" + TBPassword.Text + "','" + TBSecQ.Text + "','" + TBSecA.Text + "')", conStr);
+                cmd = new SqlCommand("INSERT INTO Students VALUES ('" + TBId.Text + "','" + TBName.Text + "','" + TBEmail.Text + "','" + TBPassword.Text + "','" + TBSecQ.Text + "','" + TBSecA.Text + "')", conStr);
                 added = cmd.ExecuteNonQuery(); // to get the number of affected record
                 if (added > 0)
                 {
