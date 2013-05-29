@@ -30,7 +30,6 @@ public partial class startTest : System.Web.UI.Page
 
             //select randomTestID
             int testID = pickRandomTest(nodeID);
-            Session["testID"] = testID;
         }
         else if (strNodeID == "" || strNodeID == null)
         {
@@ -166,6 +165,7 @@ public partial class startTest : System.Web.UI.Page
     protected void btnStartTest_Click(object sender, EventArgs e)
     {
         int testId = Convert.ToInt32(lblTestId.Text);
+        Session["testID"] = testId;
         Response.Redirect("~/StdQuestionsForm.aspx?id=" + testId);
     }
     protected void btnBack_Click(object sender, EventArgs e)

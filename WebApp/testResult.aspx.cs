@@ -38,6 +38,8 @@ public partial class testResult : System.Web.UI.Page
             cmd.Connection = conStr;
             varTestId = cmd.ExecuteScalar().ToString();
             testIdLabel.Text = varTestId;
+
+            //int testID = (int) Session["testID"];
            
             //get the test date and time
             sqlQuery.Remove(0); //remove the previous sql query

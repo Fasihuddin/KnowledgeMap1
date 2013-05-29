@@ -66,7 +66,6 @@ public partial class StdQuestionsForm : System.Web.UI.Page
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
         int testId = Convert.ToInt32(Request.QueryString["id"]);
-        int noRight = 0;
         foreach (DataListItem item in DataList1.Items)
         {
             if (item.ItemType == ListItemType.Item | item.ItemType == ListItemType.AlternatingItem)
@@ -79,49 +78,38 @@ public partial class StdQuestionsForm : System.Web.UI.Page
                 RadioButtonList rbl = (RadioButtonList)item.FindControl("RadioButtonList1");
                 choiceid = Convert.ToInt32(rbl.SelectedValue);
 
-                noRight += SaveAnswer(questionid, choiceid, testId);
+                SaveAnswer(questionid, choiceid, testId);
             }
         }
 
-        //calculate score based on the number of questions student got it right
-        double score = (double)noRight/(double)DataList1.Items.Count * 100;
+        
         //saveTest
-        SaveTest(testId, (int) Session["StudentId"], (int) score);
+        SaveTest(testId, (int) Session["StudentId"]);
 
 
         DataList1.Visible = false;
         lblThanks.Text = "Thank you for answering the questions!";
     }
 
-    private void SaveTest(int testId, int studentId, int score)
+    private void SaveTest(int testId, int studentId)
     {
-        int isPassed = 0;
-        if (score >= 50)
-        {
-            isPassed = 1;
-        }
-
          SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
          try
          {
              conStr.Open();
              var today = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
              //Get the answer for the question
-             SqlCommand cmd = new SqlCommand("INSERT INTO Student_test VALUES(@studentId, @testId, @DateTime, @score, @isPassed)", conStr);
+             SqlCommand cmd = new SqlCommand("INSERT INTO Student_test VALUES(@studentId, @testId, @DateTime, '', '')", conStr);
              SqlParameter p1 = new SqlParameter("@studentId", studentId);
              SqlParameter p2 = new SqlParameter("@testId", testId);
              SqlParameter p3 = new SqlParameter("@DateTime", today);
-             SqlParameter p4 = new SqlParameter("@score", score);
-             SqlParameter p5 = new SqlParameter("@isPassed", isPassed);
 
              cmd.Parameters.Add(p1);
              cmd.Parameters.Add(p2);
              cmd.Parameters.Add(p3);
-             cmd.Parameters.Add(p4);
-             cmd.Parameters.Add(p5);
 
              int x = cmd.ExecuteNonQuery();
-
+             Session["TestDateTime"] = today;
          }
          catch (Exception ex)
          {
@@ -129,7 +117,7 @@ public partial class StdQuestionsForm : System.Web.UI.Page
          }
     }
 
-    private int SaveAnswer(int qid, int cid, int testId)
+    private void SaveAnswer(int qid, int cid, int testId)
     {
         int isRight = 0;
         SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
@@ -173,8 +161,6 @@ public partial class StdQuestionsForm : System.Web.UI.Page
         }catch(Exception ex){
             Console.WriteLine(ex.ToString());
         }
-
-        return isRight;
     }
 
     protected void Page_Load(object sender, EventArgs e)
@@ -186,6 +172,7 @@ public partial class StdQuestionsForm : System.Web.UI.Page
         }
         catch (Exception ex)
         {
+            Console.WriteLine(ex.ToString());
             Response.Redirect("~/Error.aspx");
         }
     }
