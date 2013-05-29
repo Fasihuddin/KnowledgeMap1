@@ -41,6 +41,15 @@
         {
             height: 32px;
         }
+        .auto-style9
+        {
+            width: 164px;
+            height: 39px;
+        }
+        .auto-style10
+        {
+            height: 39px;
+        }
     </style>
 </head>
 <body>
@@ -62,7 +71,7 @@
             <tr>
                 <td class="auto-style2">Course Description: </td>
                 <td class="auto-style3">
-                    <asp:TextBox ID="txtCourseDesc" runat="server" Height="68px" TextMode="MultiLine" Width="360px"></asp:TextBox>
+                    <asp:TextBox ID="txtCourseDesc" runat="server" Height="68px" TextMode="MultiLine" Width="360px" Enabled="False"></asp:TextBox>
                 </td>
             </tr>
             <tr>
@@ -72,9 +81,9 @@
 &nbsp;&nbsp;&nbsp;&nbsp; </td>
             </tr>
             <tr>
-                <td class="auto-style1">Topic Description: </td>
-                <td>
-                    <asp:TextBox ID="txtTopicDesc" runat="server" Height="68px" TextMode="MultiLine" Width="360px"></asp:TextBox>
+                <td class="auto-style9">Topic Description: </td>
+                <td class="auto-style10">
+                    <asp:TextBox ID="txtTopicDesc" runat="server" Height="68px" TextMode="MultiLine" Width="360px" Enabled="False"></asp:TextBox>
                 </td>
             </tr>
             <tr>
