@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data.SqlClient;
 using System.Data;
+using System.Drawing;
 
 public partial class testResult : System.Web.UI.Page
 {
@@ -27,40 +28,33 @@ public partial class testResult : System.Web.UI.Page
         int switchExp = 0;
        int updated =0;
         int rightOrWrong;
+        string ansResult;
 
         // Try to open database and read information.
         try
         {
             conStr.Open();
             // get the test id
-            sqlQuery = "SELECT test_Id from Student_test WHERE Student_Id="+ User.Identity.Name;
-            cmd.CommandText = sqlQuery;
-            cmd.Connection = conStr;
-            varTestId = cmd.ExecuteScalar().ToString();
-            testIdLabel.Text = varTestId;
+            varTestId = Session["testID"].ToString();
 
-            //int testID = (int) Session["testID"];
-           
             //get the test date and time
-            sqlQuery.Remove(0); //remove the previous sql query
-            sqlQuery = "SELECT test_DateTime from Student_test where test_Id =" + varTestId + " and student_Id=" + User.Identity.Name;
-            cmd.CommandText = sqlQuery;
-            varDateTime = cmd.ExecuteScalar().ToString();
-          
-             varDt = DateTime.ParseExact(varDateTime, "dd/MM/yyyy hh:mm:ss tt",null);
-             string varDateTime2 = Convert.ToDateTime(varDateTime).ToString("yyyy/MM/dd hh:mm:ss tt");
+            varDateTime = Session["TestDateTime"].ToString();
+              
+             //varDt = DateTime.ParseExact(varDateTime, "dd/MM/yyyy hh:mm:ss tt",null);
+             //string varDateTime2 = Convert.ToDateTime(varDateTime).ToString("yyyy/MM/dd hh:mm:ss tt");
             DateTimeLabel.Text = varDateTime;
 
             //get the node id
-            sqlQuery.Remove(0);
+           // sqlQuery.Remove(0);
             sqlQuery = "SELECT Node_Id from Test where Test_Id=" + varTestId;
             cmd.CommandText = sqlQuery;
+            cmd.Connection = conStr;
             varNodeId = cmd.ExecuteScalar().ToString();
             NodeIdLabel.Text = varNodeId;
 
             //reading the questions answers and thier strength
             sqlQuery.Remove(0);
-            sqlQuery ="select sa.Question_Id, IsRight, Strength_Level from Student_answer sa, Strength sg where sa.Student_Id=" + User.Identity.Name+" and sa.test_Id="+ varTestId +" and sa.TestDateTime= '"+varDateTime2+"' and sa.Question_Id= sg.Question_Id";
+            sqlQuery ="select sa.Question_Id, IsRight, Strength_Level from Student_answer sa, Strength sg where sa.Student_Id=" + User.Identity.Name+" and sa.test_Id="+ varTestId +" and sa.Test_DateTime= '"+varDateTime+"' and sa.Question_Id= sg.Question_Id";
             cmd.CommandText = sqlQuery;
             reader = cmd.ExecuteReader();
             while (reader.Read())
@@ -90,25 +84,66 @@ public partial class testResult : System.Web.UI.Page
                     resultTotal += 0;
             } //end of while
             reader.Close();
-            studentResult = (resultTotal / strengthTotal) * 100;
-            ResuleLabel.Text = studentResult.ToString() + "%";
+            double tempResult = (double)resultTotal/strengthTotal;
+            studentResult = Convert.ToInt32(tempResult * 100);
+            ResultLabel.Text = studentResult.ToString() + "%";
 
             // insert the score into the DB Student_test table
             sqlQuery.Remove(0);
-            sqlQuery = "UPDATE Student_test SET Score='" + studentResult + "' where Student_Id =" + User.Identity.Name + "and Test_Id=" + varTestId + "and Test_DateTime= '" + varDateTime2 + "'";
+            sqlQuery = "UPDATE Student_test SET Score='" + studentResult + "' where Student_Id =" + User.Identity.Name + "and Test_Id=" + varTestId + "and Test_DateTime= '" + varDateTime + "'";
             cmd.CommandText = sqlQuery;
             updated = cmd.ExecuteNonQuery(); 
 
             //insert whether student pass a test (pass if result >=50)
             sqlQuery.Remove(0);
             if (studentResult >= 50)
-                sqlQuery = "UPDATE Student_test SET IsPassed= 1 where Student_Id =" + User.Identity.Name + "and Test_Id=" + varTestId + "and Test_DateTime= '" + varDateTime2 + "'";
+                sqlQuery = "UPDATE Student_test SET IsPassed= 1 where Student_Id =" + User.Identity.Name + "and Test_Id=" + varTestId + "and Test_DateTime= '" + varDateTime + "'";
             else
-                sqlQuery = "UPDATE Student_test SET IsPassed= 0 where Student_Id =" + User.Identity.Name + "and Test_Id=" + varTestId + "and Test_DateTime= '" + varDateTime2 + "'";
+                sqlQuery = "UPDATE Student_test SET IsPassed= 0 where Student_Id =" + User.Identity.Name + "and Test_Id=" + varTestId + "and Test_DateTime= '" + varDateTime + "'";
             cmd.CommandText = sqlQuery;
             updated = cmd.ExecuteNonQuery(); 
-            
-            
+
+            //show the student a report of his Q&A through grid view
+            sqlQuery = "select q.text, ch.text, sa.IsRight FROM Questions q, Choices ch, Student_answer sa WHERE sa.Student_Id="+User.Identity.Name+"and sa.test_Id=1 and sa.Test_DateTime= '2013/05/29 00:00:00 AM' and sa.Question_Id= q.Question_Id and sa.Student_choice= ch.Choice_Id";
+            cmd.CommandText = sqlQuery;
+            reader = cmd.ExecuteReader();
+            List<ResultQA> newItem = new List<ResultQA>();
+            while (reader.Read())
+            {
+                string Question = reader.GetString(0);
+                string Answer = reader.GetString(1);
+                int isRight = reader.GetInt32(2);
+
+                if (isRight==1)
+                    ansResult= "Right";
+                else
+                    ansResult ="Wrong";
+                newItem.Add(new ResultQA(Question,Answer,isRight,ansResult));
+            }//end of while
+            GridView1.DataSource = newItem;
+            GridView1.DataBind();
+
+            //to hide the isRight col. in the grid view
+            GridView1.HeaderRow.Cells[2].Visible = false;
+            foreach (GridViewRow gvr in GridView1.Rows)
+            {
+                gvr.Cells[2].Visible = false;
+            }
+            // to change the color of the cell
+            foreach (GridViewRow gvr in GridView1.Rows)
+            {
+                if (gvr.Cells[2].Text.Equals("1"))
+                {
+                    gvr.Cells[3].ForeColor = Color.Green;
+                    gvr.Cells[3].BorderColor = Color.Black;
+                }
+                else
+                {
+                    gvr.Cells[3].ForeColor = Color.Red;
+                    gvr.Cells[3].BorderColor = Color.Black;
+                }
+
+            }
         }// end of try
         catch (Exception err)
         {

@@ -89,6 +89,9 @@ public partial class StdQuestionsForm : System.Web.UI.Page
 
         DataList1.Visible = false;
         lblThanks.Text = "Thank you for answering the questions!";
+
+        //to get to student result
+        Response.Redirect("~/testResult.aspx");
     }
 
     private void SaveTest(int testId, int studentId)
