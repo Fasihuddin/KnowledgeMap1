@@ -75,7 +75,8 @@ public partial class _Default : System.Web.UI.Page
 
         SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
         SqlDataReader reader;
-        SqlCommand cmd = new SqlCommand("SELECT Topic_Id, Name, Description FROM Topic WHERE Course = @courseId", conStr);
+        SqlCommand cmd = new SqlCommand("SELECT Topic.Topic_Id, Topic.Name, Topic.Description "+
+                    "FROM Topic INNER JOIN TopicOnCourse ON Topic.Topic_Id = TopicOnCourse.TopicID WHERE TopicOnCourse.CourseID = @courseId", conStr);
         SqlParameter p1 = new SqlParameter("@courseId", selectedCourse.courseID);
         cmd.Parameters.Add(p1);
         // Try to open database and read information.

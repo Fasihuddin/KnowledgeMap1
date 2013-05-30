@@ -52,8 +52,8 @@ public partial class CourseNode : System.Web.UI.Page
         this.DrawNode(g, Node, Color.Red, (Xcanvas/2)-37, 10, "Parent Node");
 
         //get all nodes and its prerequisites.
-        List<Node> allNodes = getAllNodes(1, topicId);
-        assignNodePrereq(allNodes, courseId);
+        List<Node> allNodes = getAllNodes(topicId);
+        assignNodePrereq(allNodes, topicId);
 
         //for each degree
         for (int i = 1; i <= maxDegree; i++)
@@ -124,7 +124,7 @@ public partial class CourseNode : System.Web.UI.Page
      * This method is used to get all nodes from database.
      * It retrieve all nodes based on a topic id
      * */
-    private List<Node> getAllNodes(int courseId, int topicId)
+    private List<Node> getAllNodes(int topicId)
     {
         //Create a list to hold all nodes from database
         List<Node> allNodes = new List<Node>();
@@ -134,12 +134,10 @@ public partial class CourseNode : System.Web.UI.Page
         try
         {
             conStr.Open();
-            SqlCommand cmd = new SqlCommand("SELECT Nodes.Node_Id, Nodes.Name, Nodes.Description, NodeOnCourse.Degree "+
-                             "FROM NodeOnCourse INNER JOIN Nodes ON NodeOnCourse.Node_ID = Nodes.Node_Id "+
-                             "WHERE (NodeOnCourse.Course_Id = @courseID) AND (NodeOnCourse.Topic_Id = @topicID)",conStr);
-            SqlParameter p1 = new SqlParameter("@courseID", courseId);
+            SqlCommand cmd = new SqlCommand("SELECT Nodes.Node_Id, Nodes.Name, Nodes.Description, NodeOnTopic.Degree "+
+                             "FROM NodeOnTopic INNER JOIN Nodes ON NodeOnTopic.Node_Id = Nodes.Node_Id "+
+                             "WHERE (NodeOnTopic.Topic_Id = @topicID)",conStr);
             SqlParameter p2 = new SqlParameter("@topicID", topicId);
-            cmd.Parameters.Add(p1);
             cmd.Parameters.Add(p2);
             SqlDataReader reader = cmd.ExecuteReader();
 
@@ -175,7 +173,7 @@ public partial class CourseNode : System.Web.UI.Page
      * This method is used to add the pre-requisites nodes to each node
      * Further, this method also assign the degree/level of hierarcy for each node in the bitmap
      * */
-    private void assignNodePrereq(List<Node> allNodes, int courseId)
+    private void assignNodePrereq(List<Node> allNodes, int topicId)
     {
         conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
         try
@@ -184,12 +182,11 @@ public partial class CourseNode : System.Web.UI.Page
             {
                 conStr.Open();
                 //get all pre-requisites courses and add those to node object
-                SqlCommand cmd = new SqlCommand("SELECT Prerequisites.Prereq_ID FROM NodeOnCourse INNER JOIN "+
-                                "Prerequisites ON NodeOnCourse.Node_ID = Prerequisites.Node_ID AND NodeOnCourse.Course_ID "+
-                                "= Prerequisites.Course_ID WHERE (Prerequisites.Node_ID = @nodeID) AND (Prerequisites.Course_ID = @courseID)",conStr);
+                SqlCommand cmd = new SqlCommand("SELECT Prereq_ID FROM Prerequisites "+
+                                "WHERE (Node_ID = @nodeID) AND (Topic_ID = @topicID)",conStr);
                     
                 SqlParameter p1 = new SqlParameter("@nodeID", allNodes[i].NodeId);
-                SqlParameter p2 = new SqlParameter("@courseID", courseId);
+                SqlParameter p2 = new SqlParameter("@topicID", topicId);
                 cmd.Parameters.Add(p1);
                 cmd.Parameters.Add(p2);
                 SqlDataReader reader2 = cmd.ExecuteReader();
