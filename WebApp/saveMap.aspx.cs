@@ -81,13 +81,11 @@ public partial class saveMap : System.Web.UI.Page
             {
                 //get node Info (id and name)
                 String[] nodeInfo = nodesLocation[i].ToString().Split(';');
-                SqlCommand cmd = new SqlCommand("UPDATE NodeOnCourse SET NodeLocation = @loc "+
-                                 "WHERE (Node_Id = @nodeId) AND (Course_Id = @courseId) AND (Topic_Id = @topicId)", conStr);
-                SqlParameter p1 = new SqlParameter("@courseId",Convert.ToInt32(Session["CourseID"]));
+                SqlCommand cmd = new SqlCommand("UPDATE NodeOnTopic SET NodeLocation = @loc "+
+                                 "WHERE (Node_Id = @nodeId) AND (Topic_Id = @topicId)", conStr);
                 SqlParameter p2 = new SqlParameter("@topicId", Convert.ToInt32(Session["TopicID"]));
                 SqlParameter p3 = new SqlParameter("@nodeId", Convert.ToInt32(nodeInfo[0]));
                 SqlParameter p4 = new SqlParameter("@loc",nodeInfo[1]+";"+nodeInfo[2]+";"+nodeInfo[3]+";"+nodeInfo[4]);
-                cmd.Parameters.Add(p1);
                 cmd.Parameters.Add(p2);
                 cmd.Parameters.Add(p3);
                 cmd.Parameters.Add(p4);

@@ -66,13 +66,17 @@ public partial class StdQuestionsForm : System.Web.UI.Page
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
         int testId = Convert.ToInt32(Request.QueryString["id"]);
+        //saveTest
+        SaveTest(testId, (int)Session["StudentId"]);
+
+        //save student answers
         foreach (DataListItem item in DataList1.Items)
         {
             if (item.ItemType == ListItemType.Item | item.ItemType == ListItemType.AlternatingItem)
             {
                 int questionid = 0;
                 int choiceid = 0;
-                Label lbl = (Label) item.FindControl("lblQuestionID");
+                Label lbl = (Label)item.FindControl("lblQuestionID");
                 questionid = Convert.ToInt32(lbl.Text);
 
                 RadioButtonList rbl = (RadioButtonList)item.FindControl("RadioButtonList1");
@@ -81,11 +85,6 @@ public partial class StdQuestionsForm : System.Web.UI.Page
                 SaveAnswer(questionid, choiceid, testId);
             }
         }
-
-        
-        //saveTest
-        SaveTest(testId, (int) Session["StudentId"]);
-
 
         DataList1.Visible = false;
         lblThanks.Text = "Thank you for answering the questions!";

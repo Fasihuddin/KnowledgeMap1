@@ -25,7 +25,7 @@ public partial class StdTopicMap : System.Web.UI.Page
             int courseId = Convert.ToInt32(courseTopicID[0]);
             int topicId = Convert.ToInt32(courseTopicID[1]);
 
-            Byte[] imageByte = drawKnowledgeMap(courseId, topicId);
+            Byte[] imageByte = drawKnowledgeMap(topicId);
             if (imageByte != null)
             {
                 //Setting the canvas for the bitmap image
@@ -38,7 +38,7 @@ public partial class StdTopicMap : System.Web.UI.Page
                 g.DrawImage(objImage, 0, 0);
 
                 //draw region
-                drawRegion(g, studentId, courseId, topicId);
+                drawRegion(g, studentId, topicId);
 
                 // Draw the canvas with the image and regions.
                 Response.ContentType = "image/jpeg";
@@ -55,18 +55,16 @@ public partial class StdTopicMap : System.Web.UI.Page
         }
     }
 
-    private Byte[] drawKnowledgeMap(int courseId, int topicId){
+    private Byte[] drawKnowledgeMap(int topicId){
         Byte[] imageByte = null;
         SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
         try
         {
             conStr.Open();
             //get image from topic table in the database
-            SqlCommand cmd = new SqlCommand("SELECT img_data FROM Topic WHERE Topic_id = @topicID AND Course = @courseID", conStr);
+            SqlCommand cmd = new SqlCommand("SELECT img_data FROM Topic WHERE Topic_id = @topicID", conStr);
             SqlParameter p1 = new SqlParameter("@topicID", topicId);
-            SqlParameter p2 = new SqlParameter("@courseID", courseId);
             cmd.Parameters.Add(p1);
-            cmd.Parameters.Add(p2);
 
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
@@ -86,7 +84,7 @@ public partial class StdTopicMap : System.Web.UI.Page
         return imageByte;
     }
 
-    private void drawRegion(Graphics g, int studentId, int courseId, int topicId)
+    private void drawRegion(Graphics g, int studentId, int topicId)
     {
         GraphicsPath region = new GraphicsPath();
         List<int> nodeId = new List<int>();
@@ -97,10 +95,8 @@ public partial class StdTopicMap : System.Web.UI.Page
         {
             conStr.Open();
             //get image from topic table in the database
-            SqlCommand cmd = new SqlCommand("SELECT Node_Id, NodeLocation FROM NodeOnCourse WHERE Topic_Id = @topicID AND Course_Id = @courseID", conStr);
-            SqlParameter p1 = new SqlParameter("@topicID", courseId);
-            SqlParameter p2 = new SqlParameter("@courseID", topicId);
-            cmd.Parameters.Add(p1);
+            SqlCommand cmd = new SqlCommand("SELECT Node_Id, NodeLocation FROM NodeOnTopic WHERE Topic_Id = @topicID", conStr);
+            SqlParameter p2 = new SqlParameter("@topicID", topicId);
             cmd.Parameters.Add(p2);
 
             SqlDataReader reader = cmd.ExecuteReader();
@@ -138,7 +134,7 @@ public partial class StdTopicMap : System.Web.UI.Page
                     cmd = new SqlCommand("SELECT Student_test.IsPassed FROM Student_test INNER JOIN TEST ON "+
                                         "Student_test.Test_Id = Test.Test_Id WHERE Test.Node_Id = @nodeID AND " +
                                         "Student_test.Student_Id = @studentID", conStr);
-                    p1 = new SqlParameter("@nodeID", nodeId[i]);
+                    SqlParameter p1 = new SqlParameter("@nodeID", nodeId[i]);
                     p2 = new SqlParameter("@studentID", studentId);
                     cmd.Parameters.Add(p1);
                     cmd.Parameters.Add(p2);
