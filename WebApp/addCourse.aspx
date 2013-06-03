@@ -89,7 +89,7 @@
                     <asp:Button ID="btnAddExisting" runat="server" Enabled="False" OnClick="btnAddExisting_Click" Text="Assign Existing Topics" Width="161px" />
                 </td>
                 <td class="auto-style2">
-                    <asp:Button ID="btnAddNewTopics" runat="server" Enabled="False" Text="Add New Topics" Width="196px" />
+                    <asp:Button ID="btnAddNewTopics" runat="server" Enabled="False" Text="Add New Topics" Width="196px" OnClick="btnAddNewTopics_Click" />
                 </td>
             </tr>
         </table>
