@@ -12,14 +12,14 @@ public partial class testResult : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        testLbl.Text = User.Identity.Name;
+        
         SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
         
         String sqlQuery;
         SqlCommand cmd = new SqlCommand();
         string varTestId;
         string varDateTime;
-        DateTime varDt;
+        //DateTime varDt;
         string varNodeId;
         int strengthTotal = 0; // to hold the total values of the questions strength
         int resultTotal = 0; // to hold the total of the strength of the right question
@@ -45,7 +45,6 @@ public partial class testResult : System.Web.UI.Page
             DateTimeLabel.Text = varDateTime;
 
             //get the node id
-           // sqlQuery.Remove(0);
             sqlQuery = "SELECT Node_Id from Test where Test_Id=" + varTestId;
             cmd.CommandText = sqlQuery;
             cmd.Connection = conStr;
@@ -54,7 +53,7 @@ public partial class testResult : System.Web.UI.Page
 
             //reading the questions answers and thier strength
             sqlQuery.Remove(0);
-            sqlQuery ="select sa.Question_Id, IsRight, Strength_Level from Student_answer sa, Strength sg where sa.Student_Id=" + User.Identity.Name+" and sa.test_Id="+ varTestId +" and sa.Test_DateTime= '"+varDateTime+"' and sa.Question_Id= sg.Question_Id";
+            sqlQuery = " select sa.Question_Id, IsRight, Strength_Level from Student_answer sa, Strength sg, Student_test st where st.Student_Id=" + User.Identity.Name + " and sa.test_Id=" + varTestId + " and sa.Test_DateTime= '" + varDateTime + "' and sa.Question_Id= sg.Question_Id and sa.Test_Id= st.Test_Id and sa.Test_DateTime= st.Test_DateTime";
             cmd.CommandText = sqlQuery;
             reader = cmd.ExecuteReader();
             while (reader.Read())
@@ -97,14 +96,23 @@ public partial class testResult : System.Web.UI.Page
             //insert whether student pass a test (pass if result >=50)
             sqlQuery.Remove(0);
             if (studentResult >= 50)
+            {
                 sqlQuery = "UPDATE Student_test SET IsPassed= 1 where Student_Id =" + User.Identity.Name + "and Test_Id=" + varTestId + "and Test_DateTime= '" + varDateTime + "'";
+                ResultMsg.ForeColor = Color.Green;
+                ResultMsg.Text = "Well done, you passed the test!!";
+            }
             else
+            {
                 sqlQuery = "UPDATE Student_test SET IsPassed= 0 where Student_Id =" + User.Identity.Name + "and Test_Id=" + varTestId + "and Test_DateTime= '" + varDateTime + "'";
+                ResultMsg.ForeColor = Color.Red;
+                ResultMsg.Text = "Sorry, you didn't pass the test!!";
+            }
             cmd.CommandText = sqlQuery;
             updated = cmd.ExecuteNonQuery(); 
 
             //show the student a report of his Q&A through grid view
-            sqlQuery = "select q.text, ch.text, sa.IsRight FROM Questions q, Choices ch, Student_answer sa WHERE sa.Student_Id="+User.Identity.Name+"and sa.test_Id=1 and sa.Test_DateTime= '2013/05/29 00:00:00 AM' and sa.Question_Id= q.Question_Id and sa.Student_choice= ch.Choice_Id";
+            
+            sqlQuery = "select q.text, ch.text, sa.IsRight, l.Strength_Level FROM Questions q, Choices ch, Student_answer sa, Student_test st, Strength l WHERE st.Student_Id=" + User.Identity.Name + " and sa.test_Id=" + varTestId + " and sa.Test_DateTime= '" + varDateTime + "' and sa.Question_Id= q.Question_Id and sa.Student_choice= ch.Choice_Id and sa.Test_Id= st.Test_Id and sa.Test_DateTime= st.Test_DateTime  and l.Question_Id= sa.Question_Id and l.Node_Id="+ varNodeId;
             cmd.CommandText = sqlQuery;
             reader = cmd.ExecuteReader();
             List<ResultQA> newItem = new List<ResultQA>();
@@ -113,12 +121,16 @@ public partial class testResult : System.Web.UI.Page
                 string Question = reader.GetString(0);
                 string Answer = reader.GetString(1);
                 int isRight = reader.GetInt32(2);
+                int weight = reader.GetInt32(3);
 
                 if (isRight==1)
                     ansResult= "Right";
                 else
                     ansResult ="Wrong";
-                newItem.Add(new ResultQA(Question,Answer,isRight,ansResult));
+                double temp = (double) weight / strengthTotal; 
+                int varWeight = Convert.ToInt32(temp* 100);
+                string strWeight = varWeight.ToString() + "%";
+                newItem.Add(new ResultQA(Question,Answer,isRight,ansResult,strWeight));
             }//end of while
             GridView1.DataSource = newItem;
             GridView1.DataBind();

@@ -15,25 +15,21 @@
     
     </div>
         <p>
-            current user name is
-            <asp:Label ID="testLbl" runat="server" Text="Label"></asp:Label>
-        </p>
-        <p>
-            Test Id :<asp:Label ID="testIdLabel" runat="server"></asp:Label>
-        </p>
-        <p>
             Test Date/Time:
             <asp:Label ID="DateTimeLabel" runat="server"></asp:Label>
         </p>
         <p>
-            Node Id:<asp:Label ID="NodeIdLabel" runat="server"></asp:Label>
+            Module:<asp:Label ID="NodeIdLabel" runat="server"></asp:Label>
         </p>
         <p>
             <asp:Label ID="LblErrMsg" runat="server"></asp:Label>
         </p>
         <p>
-            your score is :
+            Your total score is :
             <asp:Label ID="ResultLabel" runat="server"></asp:Label>
+        </p>
+        <p>
+            <asp:Label ID="ResultMsg" runat="server" Text="ResultMsg"></asp:Label>
         </p>
         <br />
         <asp:GridView ID="GridView1" runat="server" CellPadding="4" ForeColor="#333333" GridLines="None">

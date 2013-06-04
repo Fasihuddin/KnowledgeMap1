@@ -11,13 +11,15 @@ public class ResultQA
     public string Question {get;set;}
     public string Answer {get;set;}
     public int IsRight {get;set;}
-    public string answerResult { get; set; }
+    public string AnswerResult { get; set; }
+    public string QuestionWeight { get; set; }
 
-	public ResultQA(string Qs, string Ans, int Right, string Result)
+	public ResultQA(string Qs, string Ans, int Right, string Result, string weight)
 	{
         this.Question = Qs;
         this.Answer = Ans;
         this.IsRight = Right;
-        this.answerResult = Result;
+        this.AnswerResult = Result;
+        this.QuestionWeight = weight;
 	}
 }
