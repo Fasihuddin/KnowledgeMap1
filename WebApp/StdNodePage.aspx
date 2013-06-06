@@ -62,7 +62,6 @@
         </table>
     
     </div>
-        <asp:Button ID="btnBack" runat="server" OnClick="btnBack_Click" Text="Back to Topic Map" />
     </form>
 </body>
 </html>

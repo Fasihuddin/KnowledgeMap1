@@ -176,8 +176,4 @@ public partial class startTest : System.Web.UI.Page
         Session["testID"] = testId;
         Response.Redirect("~/StdQuestionsForm.aspx?id=" + testId);
     }
-    protected void btnBack_Click(object sender, EventArgs e)
-    {
-        Response.Redirect("~/StdShowTopicMap.aspx");
-    }
 }
