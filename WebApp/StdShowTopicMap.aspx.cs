@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Data.SqlClient;
+using System.Data;
 
 public partial class StdShowTopicNode : System.Web.UI.Page, ICallbackEventHandler
 {
@@ -13,26 +15,15 @@ public partial class StdShowTopicNode : System.Web.UI.Page, ICallbackEventHandle
     {
         try
         {
-            //get both course and topic id
-            String data = Session["CourseTopicID"].ToString();
-            int stdId = Convert.ToInt32(Session["StudentID"]);
-            string[] courseTopicID = new string[2];
-            courseTopicID = data.Split(';');
-            int courseId = Convert.ToInt32(courseTopicID[0]);
-            int topicId = Convert.ToInt32(courseTopicID[1]);
+            //get course and topic ID from url address
+            int courseID = Convert.ToInt32(Request.QueryString["cid"]);
+            int topicId = Convert.ToInt32(Request.QueryString["tid"]);
+            //add those IDs to a session
+            Session["CourseTopicID"] = courseID + ";" + topicId;
 
-            List<Topic> allTopics = (List<Topic>)Session["TopicList"];
-
-            foreach (Topic t in allTopics)
-            {
-                if (t.topicId == topicId)
-                {
-                    lblTopicName.Text += " " + t.name;
-                    lblDesc.Text += " " + t.description;
-                }
-            }
-
-
+           //fill topic labels
+            setTopicLabels(topicId);
+                
             // This is the AJAX code will get the call back event from the javascript function.
             // the arguments passed by the javascript function will be gotten from this code.
             ClientScriptManager cm = Page.ClientScript;
@@ -46,6 +37,37 @@ public partial class StdShowTopicNode : System.Web.UI.Page, ICallbackEventHandle
         catch (Exception ex)
         {
             ex.ToString();
+        }
+    }
+
+    private void setTopicLabels(int topicId)
+    {
+         //select all test versions for the node
+        SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
+        try
+        {
+            conStr.Open();
+            SqlCommand cmd = new SqlCommand("SELECT Name, Description FROM Topic WHERE Topic_id = @topicId", conStr);
+            SqlParameter p1 = new SqlParameter("@topicId", topicId);
+            cmd.Parameters.Add(p1);
+
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                lblTopicName.Text += " " + reader.GetString(0);
+                lblDesc.Text += " " + reader.GetString(1);
+            }
+            //close sql connection
+            reader.Close();
+        }
+        catch (Exception ex)
+        {
+            ex.ToString();
+
+        }
+        finally
+        {
+            conStr.Close();
         }
     }
 

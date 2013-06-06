@@ -16,8 +16,6 @@ public partial class StdTopicMap : System.Web.UI.Page
     {
         try
         {
-            int studentId = Convert.ToInt32(Session["StudentID"]);
-
             //get both course and topic id
             String data = Session["CourseTopicID"].ToString();
             string[] courseTopicID = new string[2];
@@ -37,8 +35,16 @@ public partial class StdTopicMap : System.Web.UI.Page
                 Bitmap objImage = new Bitmap(new System.IO.MemoryStream(imageByte));
                 g.DrawImage(objImage, 0, 0);
 
-                //draw region
-                drawRegion(g, studentId, topicId);
+                if (User.Identity.IsAuthenticated)
+                {
+                    int studentId = Convert.ToInt32(Session["StudentID"]);
+                    //draw region
+                    drawRegion(g, studentId, topicId);
+                }
+                else
+                {
+                    getNodesLoc(topicId);
+                }
 
                 // Draw the canvas with the image and regions.
                 Response.ContentType = "image/jpeg";
@@ -47,6 +53,10 @@ public partial class StdTopicMap : System.Web.UI.Page
                 oCanvas.Dispose();
                 Response.End();
             }//end if
+
+        }
+        catch (System.Threading.ThreadAbortException lException)
+        {
 
         }
         catch (Exception ex)
@@ -184,5 +194,43 @@ public partial class StdTopicMap : System.Web.UI.Page
         {
             Console.WriteLine(ex.ToString());
         }
+    }
+
+    private void getNodesLoc(int topicId){
+        List<int> nodeId = new List<int>();
+        List<String> loc = new List<string>();
+        SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
+
+        try
+        {
+            conStr.Open();
+            //get image from topic table in the database
+            SqlCommand cmd = new SqlCommand("SELECT Node_Id, NodeLocation FROM NodeOnTopic WHERE Topic_Id = @topicID", conStr);
+            SqlParameter p2 = new SqlParameter("@topicID", topicId);
+            cmd.Parameters.Add(p2);
+
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                nodeId.Add(reader.GetInt32(0));
+                loc.Add(reader.GetString(1));
+            }
+            //close sqlconnection
+            reader.Close();
+
+
+            //add nodes and locations to the sessions
+            Session["AllNodes"] = nodeId;
+            Session["recLocation"] = loc;
+        }
+        catch (Exception ex)
+        {
+            ex.ToString();
+        }
+        finally
+        {
+            conStr.Close();
+        }
+
     }
 }

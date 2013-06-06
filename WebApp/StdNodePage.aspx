@@ -56,7 +56,7 @@
                     Your computer-generated Test ID is:&nbsp; <asp:Label ID="lblTestId" runat="server" Text="Label"></asp:Label>
                     <br />
                     <br />
-                    <asp:Button ID="btnStartTest" runat="server" OnClick="btnStartTest_Click" Text="Start Test" />
+                    <asp:Button ID="btnStartTest" runat="server" OnClick="btnStartTest_Click" Text="Start Test" Enabled="False" />
                 </td>
             </tr>
         </table>

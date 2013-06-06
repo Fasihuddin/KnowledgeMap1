@@ -28,8 +28,16 @@ public partial class startTest : System.Web.UI.Page
             //call the method to bind material links to the gridview
             boundGridView(nodeID);
 
-            //select randomTestID
-            int testID = pickRandomTest(nodeID);
+            if (User.Identity.IsAuthenticated)
+            {
+                //select randomTestID
+                int testID = pickRandomTest(nodeID);
+                btnStartTest.Enabled = true;
+            }
+            else
+            {
+                lblTestId.Text = "You are not login! Please login before doing the test!";
+            }
         }
         else if (strNodeID == "" || strNodeID == null)
         {
@@ -37,7 +45,7 @@ public partial class startTest : System.Web.UI.Page
             System.Web.HttpContext.Current.Response.Write("<SCRIPT LANGUAGE='JavaScript'>");
             System.Web.HttpContext.Current.Response.Write("alert('No Node ID has been Selected! Please select the nodeID first!')");
             System.Web.HttpContext.Current.Response.Write("</SCRIPT>");
-            Response.Redirect("~/StdShowTopicMap.aspx");
+            //Response.Redirect("~/StdShowTopicMap.aspx");
         }
        
     }

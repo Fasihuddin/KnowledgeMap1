@@ -7,17 +7,23 @@
     <title>Show Topic Map</title>
 
     <script language="javascript" type="text/javascript">
-        function point_it(event){
-            // Getting the x and y position of the mouse
-            ofsetLeft = document.getElementById("pointer_div").offsetLeft;
-            ofsetTop = document.getElementById("pointer_div").offsetTop;
-            pos_x = event.offsetX?(event.offsetX):event.pageX-document.getElementById("pointer_div").offsetLeft;
-            pos_y = event.offsetY?(event.offsetY):event.pageY-document.getElementById("pointer_div").offsetTop;
-            document.getElementById("imageCanvas").style.left = (pos_x-1) ;
-            document.getElementById("imageCanvas").style.top = (pos_y-15) ;
-            document.getElementById("imageCanvas").style.visibility = "visible" ;    
+        function point_it(event) {
+            //detect browser. firefox?
+            var val = navigator.userAgent.toLowerCase();
+            if (val.indexOf("firefox") > -1) {
+                pos_x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft - 10 - document.getElementById("pointer_div").offsetLeft;
+                pos_y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop -152 - document.getElementById("pointer_div").offsetTop;
+               
+            } else {
+                // Getting the x and y position of the mouse
+                pos_x = event.offsetX ? (event.offsetX) : event.pageX - document.getElementById("pointer_div").offsetLeft;
+                pos_y = event.offsetY ? (event.offsetY) : event.pageY - document.getElementById("pointer_div").offsetTop;
+            }
+            document.getElementById("imageCanvas").style.left = (pos_x - 1);
+            document.getElementById("imageCanvas").style.top = (pos_y - 15);
+            document.getElementById("imageCanvas").style.visibility = "visible";
             //Calling the server to pass the coordinate of the mouse click        
-            CallServer(pos_x+";"+pos_y, "Position of the mouse click");
+            CallServer(pos_x + ";" + pos_y, "Position of the mouse click");
         }
     
         // This function will be used to receive the information from the server after the mouse click

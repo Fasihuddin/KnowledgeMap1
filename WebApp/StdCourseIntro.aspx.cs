@@ -47,6 +47,8 @@ public partial class _Default : System.Web.UI.Page
                 txtCourseDesc.Text = desc;
             }
             reader.Close();
+            addTopics(newItem[0].courseID);
+            ListCourse.SelectedIndex = 0;
             Session["CourseList"] = newItem;
         }
         catch (Exception err)
@@ -62,7 +64,7 @@ public partial class _Default : System.Web.UI.Page
     protected void ListCourse_SelectedIndexChanged(object sender, EventArgs e)
     {
         //make listbox, textbox and button visible
-        lstTopic.Enabled = true;
+        //lstTopic.Enabled = true;
         lstTopic.Items.Clear();
         txtTopicDesc.Text = "";
         BtnStart.Enabled = false;
@@ -73,11 +75,17 @@ public partial class _Default : System.Web.UI.Page
         Course selectedCourse = newItem[item];
         txtCourseDesc.Text = selectedCourse.description;
 
+        addTopics(selectedCourse.courseID);
+    }
+
+    private void addTopics(int courseID)
+    {
+        List<Topic> allTopics = new List<Topic>();
         SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
         SqlDataReader reader;
-        SqlCommand cmd = new SqlCommand("SELECT Topic.Topic_Id, Topic.Name, Topic.Description "+
+        SqlCommand cmd = new SqlCommand("SELECT Topic.Topic_Id, Topic.Name, Topic.Description " +
                     "FROM Topic INNER JOIN TopicOnCourse ON Topic.Topic_Id = TopicOnCourse.TopicID WHERE TopicOnCourse.CourseID = @courseId", conStr);
-        SqlParameter p1 = new SqlParameter("@courseId", selectedCourse.courseID);
+        SqlParameter p1 = new SqlParameter("@courseId", courseID);
         cmd.Parameters.Add(p1);
         // Try to open database and read information.
         try
@@ -100,11 +108,20 @@ public partial class _Default : System.Web.UI.Page
                 //assign the description of topic 1
                 txtTopicDesc.Text = allTopics[0].description;
                 BtnStart.Enabled = true;
+                this.lstTopic.SelectedIndex = 0;
+                lstTopic.Enabled = true;
+            }
+            else
+            {
+                BtnStart.Enabled = false;
+                lstTopic.Enabled = false;
             }
 
             reader.Close();
             Session["TopicList"] = allTopics;
-        }catch(Exception ex){
+        }
+        catch (Exception ex)
+        {
             Console.WriteLine(ex.ToString());
         }
         finally
@@ -112,6 +129,7 @@ public partial class _Default : System.Web.UI.Page
             conStr.Close();
         }
     }
+
     protected void lstTopic_SelectedIndexChanged(object sender, EventArgs e)
     {
         int item = lstTopic.SelectedIndex;
@@ -130,8 +148,7 @@ public partial class _Default : System.Web.UI.Page
         int courseId = allCourses[ListCourse.SelectedIndex].courseID;
 
         //add topic and course id to the session to be passed to subsequent forms
-        Session["CourseTopicID"] = courseId.ToString() + ";" + topicId.ToString();
-        Response.Redirect("~/StdShowTopicMap.aspx");
+        Response.Redirect("~/StdShowTopicMap.aspx?cid=" + courseId.ToString() + "&tid=" + topicId.ToString());
     }
 }
 
