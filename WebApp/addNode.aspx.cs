@@ -9,9 +9,15 @@ using System.Data;
 
 public partial class addNode : System.Web.UI.Page
 {
+    
+
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        if (!IsPostBack && Session["newNodes"] == null)
+        {
+            List<Node> nodeLst = new List<Node>();
+            Session["newNodes"] = nodeLst;
+        }
     }
     protected void btnAddNewNode_Click(object sender, EventArgs e)
     {
@@ -41,8 +47,15 @@ public partial class addNode : System.Web.UI.Page
             cmd.Parameters.Add(p3);
             int x = cmd.ExecuteNonQuery();
 
+            //add new node object to session of new nodes
+            List<Node> nodeLst = (List<Node>)Session["newNodes"];
+            nodeLst.Add(new Node(nodeID, txtNode.Text, txtNodeDesc.Text));
+            Session["newNodes"] = nodeLst;
+
             //Show success Alerts
             lblMessage.Visible = true;
+
+
         }
         catch (Exception ex)
         {

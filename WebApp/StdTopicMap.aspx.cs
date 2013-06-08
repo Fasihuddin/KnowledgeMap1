@@ -57,7 +57,7 @@ public partial class StdTopicMap : System.Web.UI.Page
         }
         catch (System.Threading.ThreadAbortException lException)
         {
-
+            Console.WriteLine(lException.ToString());
         }
         catch (Exception ex)
         {

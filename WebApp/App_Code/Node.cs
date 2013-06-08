@@ -35,6 +35,13 @@ public class Node
         prereq = new List<int>();
     }
 
+    public Node(int nodeId, String name, String description)
+    {
+        this.nodeId = nodeId;
+        this.name = name;
+        this.description = description;
+    }
+
     public int NodeId
     {
         get { return nodeId; }

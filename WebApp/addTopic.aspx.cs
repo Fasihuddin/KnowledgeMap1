@@ -19,6 +19,7 @@ public partial class addTopic : System.Web.UI.Page
     {
         //TEST ONLY - PLEASE DELETE
         Session["maxCourseID"] = 3;
+       // addExistingTopic(false);
 
         if (!IsPostBack)
         {
@@ -54,9 +55,19 @@ public partial class addTopic : System.Web.UI.Page
              //Assign topic ID to session
              Session["topicID"] = topicID;
 
+             //enable buttons
+             btnAddNodes.Enabled = true;
+             btnRefresh.Enabled = true;
+             btnRight.Enabled = true;
+             btnConfirmAssignment.Enabled = true;
+             btnRemove.Enabled = true;
+             btnCreate.Enabled = false;
+             //fill the topics and modules
+             addExistingTopic(true);
+
              //Show success Alerts
              System.Web.HttpContext.Current.Response.Write("<SCRIPT LANGUAGE='JavaScript'>");
-             System.Web.HttpContext.Current.Response.Write("alert('A new topic has been created and added to the course. Next step is to add the nodes to the topic!')");
+             System.Web.HttpContext.Current.Response.Write("alert('A new topic has been created and added to the course. Next step is to add nodes to this topic!')");
              System.Web.HttpContext.Current.Response.Write("</SCRIPT>");
          }
          catch (Exception ex)
@@ -67,7 +78,6 @@ public partial class addTopic : System.Web.UI.Page
 
         //enable node textboxes and button
         btnCreate.Enabled = false;
-        btnAddNodes.Enabled = true;
     }
 
     private int getNextTopicID()
@@ -101,21 +111,191 @@ public partial class addTopic : System.Web.UI.Page
         return maxTopicID;
     }
 
+    private void addExistingTopic(bool refresh)
+    {
+        if (!Page.IsPostBack || refresh == true)
+        {
+            ddlTopic.Items.Clear(); //clear all items in dropdownlist
+            if (Session["newNodes"] != null)
+            {
+                List<Node> newNodes = (List<Node>)Session["newNodes"];
+                if (newNodes.Count > 0)
+                {
+                    ListItem newNode = new ListItem();
+                    newNode.Value = "-2"; //add -2 to the value if there is new nodes
+                    newNode.Text = "New Modules";
+                    ddlTopic.Items.Add(newNode);
+                }
+            }
+
+            SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
+            try
+            {
+                conStr.Open();
+                //Get the answer for the question
+                SqlCommand cmd = new SqlCommand("SELECT Topic_Id, name FROM Topic", conStr);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    ListItem lstItems = new ListItem();
+                    lstItems.Value = Convert.ToString(reader.GetInt32(0));
+                    lstItems.Text = reader.GetString(1);
+                    ddlTopic.Items.Add(lstItems);
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                Response.Redirect("~/Error.aspx");
+            }
+            finally
+            {
+                conStr.Close();
+            }
+
+            //fill in the modules for first item in the dropdown list
+            fillExistingModules(Convert.ToInt32(ddlTopic.Items[0].Value));
+        } 
+    }
+
     protected void btnShowMap_Click(object sender, EventArgs e)
     {
-
         Session["TopicID"] = 1;
         Session["CourseID"] = 1;
         Response.Redirect("~/saveMap.aspx");
     }
     protected void btnAddNodes_Click(object sender, EventArgs e)
     {
-       ScriptManager.RegisterStartupScript(Page, typeof(Page), "OpenWindow", "window.open('addNode.aspx?','AddNode','left=300, top=150,resizable=no,width=540,height=280');",true);
+       ScriptManager.RegisterStartupScript(Page, typeof(Page), "OpenWindow", "window.open('addNode.aspx?','AddNode','left=300, top=150,resizable=no,width=600,height=400');",true);
     }
-    protected void Button1_Click(object sender, EventArgs e)
+   
+    protected void ddlTopic_SelectedIndexChanged(object sender, EventArgs e)
     {
+        //clear existing items
+        lstExistingModules.Items.Clear();
 
+        //get topicID
+        int topicId = Convert.ToInt32(ddlTopic.SelectedItem.Value);
+        fillExistingModules(topicId);
+    }
 
-        //enable show
+    private void fillExistingModules(int topicId)
+    {
+        //if user selected the newly created module
+        if (topicId == -2)
+        {
+            List<Node> newNodes = (List<Node>)Session["newNodes"];
+            foreach (Node n in newNodes){
+                ListItem lstItems = new ListItem();
+                lstItems.Value = n.NodeId.ToString();
+                lstItems.Text = n.Name;
+                lstExistingModules.Items.Add(lstItems);
+            }
+        }
+        else
+        {
+                //get all modules based on the selected topicId
+                SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
+                try
+                {
+                    conStr.Open();
+                    //Get the answer for the question
+                    SqlCommand cmd = new SqlCommand("SELECT Nodes.Node_Id, Nodes.Name FROM NodeOnTopic INNER JOIN" +
+                                 " Nodes ON NodeOnTopic.Node_Id = Nodes.Node_Id WHERE (NodeOnTopic.Topic_Id = @topicId)", conStr);
+
+                    SqlParameter p1 = new SqlParameter("@topicId", topicId);
+                    cmd.Parameters.Add(p1);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        ListItem lstItems = new ListItem();
+                        lstItems.Value = Convert.ToString(reader.GetInt32(0));
+                        lstItems.Text = reader.GetString(1);
+                        lstExistingModules.Items.Add(lstItems);
+                    }
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    ex.ToString();
+                    Response.Redirect("~/Error.aspx");
+                }
+                finally
+                {
+                    conStr.Close();
+                }
+          }
+    }
+
+    protected void btnRight_Click(object sender, EventArgs e)
+    {
+        for (int i = lstExistingModules.Items.Count - 1; i >= 0; i--)
+        {
+            if (lstExistingModules.Items[i].Selected == true)
+            {
+                lstModuleOnTopic.Items.Add(lstExistingModules.Items[i]);
+            }
+        }
+    }
+    protected void btnRemove_Click(object sender, EventArgs e)
+    {
+        if (lstModuleOnTopic.SelectedIndex >= 0)
+        {
+           lstModuleOnTopic.Items.Remove(lstModuleOnTopic.SelectedItem);
+        }
+    }
+
+    protected void btnRefresh_Click(object sender, EventArgs e)
+    {
+        lstExistingModules.Items.Clear();
+        addExistingTopic(true);
+    }
+
+    protected void btnConfirmAssignment_Click(object sender, EventArgs e)
+    {
+        if (lstModuleOnTopic.Items.Count > 0)
+        {
+            int topicId = Convert.ToInt32(Session["topicID"]);
+
+            //get all modules based on the selected topicId
+            SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
+            try
+            {
+                conStr.Open();
+                for(int i = 0; i<lstModuleOnTopic.Items.Count; i++){
+
+                    int nodeId = Convert.ToInt32(lstModuleOnTopic.Items[i].Value);
+                    //Get the answer for the question
+                    SqlCommand cmd = new SqlCommand("INSERT INTO NodeOnTopic(Node_Id, Topic_Id) VALUES(@nodeID, @topicID)", conStr);
+
+                    SqlParameter p1 = new SqlParameter("@nodeID", nodeId);
+                    SqlParameter p2 = new SqlParameter("@topicID", topicId);
+                    cmd.Parameters.Add(p1);
+                    cmd.Parameters.Add(p2);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                Response.Redirect("~/Error.aspx");
+            }
+            finally
+            {
+                conStr.Close();
+            }
+        }
+        else
+        {
+            //Show No modules Alerts
+            System.Web.HttpContext.Current.Response.Write("<SCRIPT LANGUAGE='JavaScript'>");
+            System.Web.HttpContext.Current.Response.Write("alert('You have not assigned any module to the new topic. Please assign the modules')");
+            System.Web.HttpContext.Current.Response.Write("</SCRIPT>");
+        }
     }
 }
