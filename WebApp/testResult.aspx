@@ -1,14 +1,8 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="testResult.aspx.cs" Inherits="testResult" %>
+﻿<%@ Page Title="Login" Language="C#" AutoEventWireup="true" CodeFile="testResult.aspx.cs" Inherits="testResult"  MasterPageFile="~/MasterPage.master"%>
 
-<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-</head>
-<body>
-    <h3 style="text-align: center">Test result</h3>
-    <form id="form1" runat="server">
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+    <h3>Test result</h3>
+  
     <div>
     
         <asp:LoginName ID="LoginName1" runat="server" />
@@ -45,6 +39,4 @@
             <SortedDescendingCellStyle BackColor="#FFFDF8" />
             <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
         </asp:GridView>
-    </form>
-</body>
-</html>
+   </asp:Content>

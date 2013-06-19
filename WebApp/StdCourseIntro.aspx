@@ -1,11 +1,7 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="StdCourseIntro.aspx.cs" Inherits="_Default" %>
+﻿<%@ Page Title="Course Intro" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="StdCourseIntro.aspx.cs" Inherits="_Default" %>
 
-<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-    <style type="text/css">
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">   
+     <style type="text/css">
         .auto-style1
         {
             width: 164px;
@@ -51,19 +47,17 @@
             height: 39px;
         }
     </style>
-</head>
-<body>
-    <form id="form1" runat="server">
+
     <div>
     
-        <h1>Course Selection</h1>
+        <h3>Course Selection</h3>
         <span class="auto-style6">Please select the course that you want to access the contents. Then, select the Topic of the course.</span><br />
 &nbsp;<br />
         <table style="width:100%;">
             <tr>
                 <td class="auto-style7">
     
-        <asp:Label ID="Label1" runat="server" Font-Bold="True" Font-Size="Medium" Text="Please select course"></asp:Label>
+        <asp:Label ID="Label1" runat="server" Font-Bold="False" Font-Size="Small" Text="Please select course"></asp:Label>
 &nbsp;&nbsp;</td>
                 <td class="auto-style8"><asp:ListBox ID="ListCourse" runat="server" style="margin-top: 4px" Width="250px" Font-Size="Medium" Rows="1" AutoPostBack="True" OnSelectedIndexChanged="ListCourse_SelectedIndexChanged"></asp:ListBox>
                 </td>
@@ -101,6 +95,4 @@
     
     </div>
 
-    </form>
-</body>
-</html>
+    </asp:Content>

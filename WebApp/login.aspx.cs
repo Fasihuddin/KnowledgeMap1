@@ -17,13 +17,19 @@ public partial class login : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
-        // Check if the user is already loged in or not
-        if ((Session["Check"] != null) && (Convert.ToBoolean(Session["Check"]) == true))
+        try
         {
-            // If User is Authenticated then moved to a main page
-            if (User.Identity.IsAuthenticated)
-                Response.Redirect("~/StdCourseIntro.aspx");
+            // Check if the user is already loged in or not
+            if ((Session["Check"] != null) && (Convert.ToBoolean(Session["Check"]) == true))
+            {
+                // If User is Authenticated then moved to a main page
+                if (User.Identity.IsAuthenticated)
+                    Response.Redirect("~/StdCourseIntro.aspx");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
         }
     }
 

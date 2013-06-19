@@ -1,10 +1,6 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="StdShowTopicMap.aspx.cs" Inherits="StdShowTopicNode" %>
+﻿<%@ Page Title="Topic Map" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="StdShowTopicMap.aspx.cs" Inherits="StdShowTopicNode" %>
 
-<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title>Show Topic Map</title>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
     <script language="javascript" type="text/javascript">
         function point_it(event) {
@@ -57,9 +53,8 @@
         }
     </style>
 
-</head>
-<body>
-    <form id="form1" runat="server">
+
+   
     <div><h1>Topic Node</h1>
         <p>
             <asp:Label ID="lblTopicName" runat="server" Font-Italic="True" Text="Topic: "></asp:Label>
@@ -89,6 +84,5 @@
         </table>
     
     </div>
-    </form>
-</body>
-</html>
+  
+    </asp:Content>

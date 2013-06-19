@@ -1,22 +1,18 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="StdNodePage.aspx.cs" Inherits="startTest" %>
+﻿<%@ Page Title="Module Page" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="StdNodePage.aspx.cs" Inherits="startTest" %>
 
-<!DOCTYPE html>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">   
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
     <style type="text/css">
         .auto-style1
         {
             text-decoration: underline;
         }
     </style>
-</head>
-<body>
-    <form id="form1" runat="server">
+
+   
     <div>
     
-        <h1>Node Page</h1>
+        <h3>Node Page</h3>
         <br />
         <br />
         <table style="width:100%;">
@@ -25,8 +21,8 @@
                     <br />
                     &lt;&lt; Links for the node materials here &gt;&gt;<br />
                     <br />
-                    <asp:GridView ID="grdLinks2" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="None" BorderWidth="1px" CellPadding="3" GridLines="Vertical" AutoGenerateColumns="False">
-                        <AlternatingRowStyle BackColor="#DCDCDC" />
+                    <asp:GridView ID="grdLinks2" runat="server" CellPadding="4" GridLines="None" AutoGenerateColumns="False" ForeColor="#333333">
+                        <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
                  
                         <Columns>
                             <asp:BoundField DataField="Name" HeaderText="Name" />
@@ -40,15 +36,17 @@
                             </asp:TemplateField>
                         </Columns>
                  
-                        <FooterStyle BackColor="#CCCCCC" ForeColor="Black" />
-                        <HeaderStyle BackColor="#000084" Font-Bold="True" ForeColor="White" />
-                        <PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
-                        <RowStyle BackColor="#EEEEEE" ForeColor="Black" />
-                        <SelectedRowStyle BackColor="#008A8C" Font-Bold="True" ForeColor="White" />
-                        <SortedAscendingCellStyle BackColor="#F1F1F1" />
-                        <SortedAscendingHeaderStyle BackColor="#0000A9" />
-                        <SortedDescendingCellStyle BackColor="#CAC9C9" />
-                        <SortedDescendingHeaderStyle BackColor="#000065" />
+                        <EditRowStyle BackColor="#999999" />
+                 
+                        <FooterStyle BackColor="#5D7B9D" ForeColor="White" Font-Bold="True" />
+                        <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                        <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
+                        <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
+                        <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
+                        <SortedAscendingCellStyle BackColor="#E9E7E2" />
+                        <SortedAscendingHeaderStyle BackColor="#506C8C" />
+                        <SortedDescendingCellStyle BackColor="#FFFDF8" />
+                        <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
                     </asp:GridView>
                 </td>
                 <td><span class="auto-style1"><strong>Start Test</strong></span><br />
@@ -62,6 +60,4 @@
         </table>
     
     </div>
-    </form>
-</body>
-</html>
+    </asp:Content>
