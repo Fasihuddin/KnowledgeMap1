@@ -32,7 +32,6 @@ public partial class startTest : System.Web.UI.Page
             {
                 //select randomTestID
                 int testID = pickRandomTest(nodeID);
-                btnStartTest.Enabled = true;
             }
             else
             {
@@ -117,7 +116,7 @@ public partial class startTest : System.Web.UI.Page
             }
 
             //generate random test no if student has not passed the test
-            if (allTests.Count > 1 && isPassed == 0)
+            if (allTests.Count >= 1 && isPassed == 0)
             {
                 List<int> availableTest = new List<int>();
                 conStr.Open();
@@ -148,6 +147,7 @@ public partial class startTest : System.Web.UI.Page
                     testID = allTests[rand.Next(0, allTests.Count)];
                     lblTestId.Text = testID.ToString();
                 }
+                btnStartTest.Enabled = true;
             }
             else if (isPassed == 1) // if student has passed the test, disable the start test button
             {

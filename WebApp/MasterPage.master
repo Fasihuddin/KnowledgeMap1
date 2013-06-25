@@ -25,7 +25,7 @@
   </div>
 </div>
         
-<div id="bodyPan" style="position: relative; left: -150px">
+<div id="bodyPan" style="position: relative; left: -46px; top: 0px;">
     <div id="topLoginInfoPan" style="background-color: #CEE3F6; font-size: medium; width: 970px;">
          <asp:Label ID="UserLabel" runat="server" Font-Bold="True" Font-Italic="False"></asp:Label>
       <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutPageUrl="~/logout.aspx" />

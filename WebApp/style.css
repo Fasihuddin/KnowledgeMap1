@@ -37,9 +37,13 @@ ul{list-style-type:none;}
 #topMenuRightPan{width:70px; height:16px; float:left; background:url(images/menu-rightbg.gif) 0 0 no-repeat;}
 /*----/TOP PANEL----*/
 /*----BODY PANEL----*/
-#bodyPan{width:683px; position:relative; margin:0 auto; padding:25px 0 0;}
+#bodyPan{width:907px; 
+position:relative; margin:0 auto; padding:25px 0 0;
+}
 /*----BODY LEFT PANEL----*/
-#bodyLeftPan{width:410px; float:left; padding:12px 36px 0 0;}
+#bodyLeftPan{width:868px; 
+float:left; padding:12px 36px 0 0;
+}
 #bodyLeftPan h2{width:410px; height:30px; background:url(images/border1.gif) 100% 70% no-repeat #fff; color:#00111A; font:28px/28px Georgia, "Times New Roman", Times, serif;}
 #bodyLeftPan h2 span{background:#fff; color:#046598;}
 

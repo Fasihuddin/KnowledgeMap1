@@ -17,14 +17,7 @@ public partial class addTopic : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        //TEST ONLY - PLEASE DELETE
-        Session["maxCourseID"] = 3;
-       // addExistingTopic(false);
 
-        if (!IsPostBack)
-        {
-
-        }
     }
     protected void btnCreate_Click(object sender, EventArgs e)
     {

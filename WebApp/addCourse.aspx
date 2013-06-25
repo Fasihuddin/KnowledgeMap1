@@ -32,6 +32,10 @@
             width: 348px;
             height: 30px;
         }
+        .auto-style8
+        {
+            color: #FF3300;
+        }
     </style>
 </head>
 <body>
@@ -82,6 +86,8 @@
                     * If you want to assign the existing topics to the course, click <em><strong>Assign Existing Topics</strong></em> button.
                     <br />
                     * If you want to add new topics to the course, click <em><strong>Add New Topics</strong></em> button<br />
+                    <br />
+                    <span class="auto-style8"><strong><em>NOTE: PLEASE ADD EXISTING TOPICS TO THE COURSE BEFORE CREATING NEW TOPICS</em></strong></span><br />
                 </td>
             </tr>
             <tr>
