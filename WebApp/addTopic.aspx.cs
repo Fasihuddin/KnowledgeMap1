@@ -39,7 +39,7 @@ public partial class addTopic : System.Web.UI.Page
 
              //Insert topicOnCourse
              cmd = new SqlCommand("INSERT INTO TopicOnCourse VALUES (@courseID, @topicID)", conStr);
-             p1 = new SqlParameter("@courseID", (int) Session["maxCourseID"]);
+             p1 = new SqlParameter("@courseID", (int) Session["CourseID"]);
               p2 = new SqlParameter("@topicID", topicID);
              cmd.Parameters.Add(p1);
              cmd.Parameters.Add(p2);
@@ -55,12 +55,13 @@ public partial class addTopic : System.Web.UI.Page
              btnConfirmAssignment.Enabled = true;
              btnRemove.Enabled = true;
              btnCreate.Enabled = false;
+
              //fill the topics and modules
-             addExistingTopic(true);
+             addExistingTopic(true, topicID);
 
              //Show success Alerts
              System.Web.HttpContext.Current.Response.Write("<SCRIPT LANGUAGE='JavaScript'>");
-             System.Web.HttpContext.Current.Response.Write("alert('A new topic has been created and added to the course. Next step is to add nodes to this topic!')");
+             System.Web.HttpContext.Current.Response.Write("alert('A new topic has been created and added to the course. Next step is to add modules to this topic!')");
              System.Web.HttpContext.Current.Response.Write("</SCRIPT>");
          }
          catch (Exception ex)
@@ -104,7 +105,7 @@ public partial class addTopic : System.Web.UI.Page
         return maxTopicID;
     }
 
-    private void addExistingTopic(bool refresh)
+    private void addExistingTopic(bool refresh, int currentTopicID)
     {
         if (!Page.IsPostBack || refresh == true)
         {
@@ -126,15 +127,19 @@ public partial class addTopic : System.Web.UI.Page
             {
                 conStr.Open();
                 //Get the answer for the question
-                SqlCommand cmd = new SqlCommand("SELECT Topic_Id, name FROM Topic", conStr);
+                SqlCommand cmd = new SqlCommand("SELECT Topic_Id, name FROM Topic ORDER BY name", conStr);
                 SqlDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    ListItem lstItems = new ListItem();
-                    lstItems.Value = Convert.ToString(reader.GetInt32(0));
-                    lstItems.Text = reader.GetString(1);
-                    ddlTopic.Items.Add(lstItems);
+                    int topicId = reader.GetInt32(0);
+                    if (topicId != currentTopicID)
+                    {
+                        ListItem lstItems = new ListItem();
+                        lstItems.Value = Convert.ToString(topicId);
+                        lstItems.Text = reader.GetString(1);
+                        ddlTopic.Items.Add(lstItems);
+                    }
                 }
                 reader.Close();
             }
@@ -161,7 +166,7 @@ public partial class addTopic : System.Web.UI.Page
     }
     protected void btnAddNodes_Click(object sender, EventArgs e)
     {
-       ScriptManager.RegisterStartupScript(Page, typeof(Page), "OpenWindow", "window.open('addNode.aspx?','AddNode','left=300, top=150,resizable=no,width=600,height=400');",true);
+       ScriptManager.RegisterStartupScript(Page, typeof(Page), "OpenWindow", "window.open('addNode.aspx?','AddNode','left=300, top=150,resizable=no,width=600,height=500');",true);
     }
    
     protected void ddlTopic_SelectedIndexChanged(object sender, EventArgs e)
@@ -245,7 +250,7 @@ public partial class addTopic : System.Web.UI.Page
     protected void btnRefresh_Click(object sender, EventArgs e)
     {
         lstExistingModules.Items.Clear();
-        addExistingTopic(true);
+        addExistingTopic(true, Convert.ToInt32(Session["topicID"]));
     }
 
     protected void btnConfirmAssignment_Click(object sender, EventArgs e)
@@ -272,6 +277,7 @@ public partial class addTopic : System.Web.UI.Page
 
                     cmd.ExecuteNonQuery();
                 }
+
             }
             catch (Exception ex)
             {
@@ -282,6 +288,9 @@ public partial class addTopic : System.Web.UI.Page
             {
                 conStr.Close();
             }
+
+            //open up node pre-requisite page
+            Response.Redirect("~/addNodesPrereq.aspx");
         }
         else
         {

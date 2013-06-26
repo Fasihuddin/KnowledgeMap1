@@ -24,7 +24,7 @@
         <br />
     
     </div>
-        <asp:Button ID="btnSave" runat="server" OnClick="btnSave_Click" Text="Save Modules" />
+        <asp:Button ID="btnSave" runat="server" OnClick="btnSave_Click" Text="Save Prerequisite Modules and Generate Knowledge Map" Width="377px" />
         <br />
         <br />
         <asp:Panel ID="Panel2" runat="server" Height="343px" Visible="False">

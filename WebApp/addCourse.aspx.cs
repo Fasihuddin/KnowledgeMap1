@@ -28,7 +28,7 @@ public partial class addCourse : System.Web.UI.Page
                     maxCourseID = reader.GetInt32(0);
                 }
                 reader.Close();
-                Session["maxCourseID"] = maxCourseID;
+                Session["CourseID"] = maxCourseID;
             }
             catch (Exception ex)
             {
@@ -96,7 +96,7 @@ public partial class addCourse : System.Web.UI.Page
             conStr.Open();
             //Get the answer for the question
             SqlCommand cmd = new SqlCommand("INSERT INTO TopicOnCourse VALUES (@courseID, @topicID)", conStr);
-            SqlParameter p1 = new SqlParameter("@courseID", (int)Session["maxCourseID"]);
+            SqlParameter p1 = new SqlParameter("@courseID", (int)Session["CourseID"]);
             SqlParameter p2 = new SqlParameter("@topicID", drpTopics.SelectedItem.Value);
             cmd.Parameters.Add(p1);
             cmd.Parameters.Add(p2);
@@ -126,7 +126,7 @@ public partial class addCourse : System.Web.UI.Page
             conStr.Open();
             //Get the answer for the question
             SqlCommand cmd = new SqlCommand("INSERT INTO Course VALUES (@courseID, @name, @code, @desc)", conStr);
-            SqlParameter p1 = new SqlParameter("@courseID", (int)Session["maxCourseID"] + 1);
+            SqlParameter p1 = new SqlParameter("@courseID", (int)Session["CourseID"] + 1);
             SqlParameter p2 = new SqlParameter("@name", txtCourseName.Text);
             SqlParameter p3 = new SqlParameter("@code", txtCourseCode.Text);
             SqlParameter p4 = new SqlParameter("@desc", txtCourseDesc.Text);
@@ -138,7 +138,7 @@ public partial class addCourse : System.Web.UI.Page
 
             int x = cmd.ExecuteNonQuery();
 
-            Session["maxCourseID"] = (int) Session["maxCourseID"] + 1;
+            Session["CourseID"] = (int) Session["CourseID"] + 1;
 
             //Show success Alerts
             System.Web.HttpContext.Current.Response.Write("<SCRIPT LANGUAGE='JavaScript'>");

@@ -170,7 +170,7 @@ public partial class StdQuestionsForm : System.Web.UI.Page
         try
         {
             int testId = Convert.ToInt32(Request.QueryString["id"]);
-            int studentId = (int) Session["StudentId"];
+            int studentId = (int) Session["StudentID"];
         }
         catch (Exception ex)
         {

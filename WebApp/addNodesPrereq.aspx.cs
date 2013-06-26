@@ -13,7 +13,7 @@ public partial class addNodesPrereq : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            Session["topicID"] = 3; // DELETE LATER~!!!! TEST ONLY
+            //Session["topicID"] = 3; // DELETE LATER~!!!! TEST ONLY
 
             int topicID = Convert.ToInt32(Session["topicID"]);
             List<Node> tn = new List<Node>();
@@ -114,6 +114,7 @@ public partial class addNodesPrereq : System.Web.UI.Page
         int degree = 2;
         int startingIndex = 0;
 
+        //Algorithm for adding degree for each module
         do
         {
             counter = 0;
@@ -148,6 +149,10 @@ public partial class addNodesPrereq : System.Web.UI.Page
                 degree++;
             
         } while (counter != 0); //end while
+
+
+        //open saveMap.aspx to generate the knowledge map
+        Response.Redirect("~/saveMap.aspx");
     }
 
     private void setDegree(int degree, int nodeId)
