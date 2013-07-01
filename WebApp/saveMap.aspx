@@ -8,7 +8,7 @@
     <style type="text/css">
         .auto-style1
         {
-            height: 23px;
+            text-decoration: underline;
         }
     </style>
 
@@ -19,21 +19,25 @@
         <h1><strong>Save Knowledge Map</strong></h1>
         <table style="width:100%;">
             <tr>
-                <td><img id="imgMap" src="CreateMap.aspx" runat="server" /></td>
+                <td>* Please review the computer-generated knowledge map below. This knowledge map will be used by students<br />
+&nbsp;&nbsp; in the course. <strong>Don&#39;t forget to </strong><span class="auto-style1"><strong>Save</strong></span><strong> the knowledge map!!</strong><br />
+                    * You may add a new topic to the course through a button that would appear after the knowledge map is saved.
+                    <br />
+                </td>
+            </tr>
+            <tr>
+                <td><asp:Button ID="btnSave" runat="server" Text="Save Knowledge Map" OnClick="btnSave_Click" />
+                    &nbsp;
+                    <asp:Button ID="btnAddTopic" runat="server" Text="Add Another Topic" Width="185px" Visible="False" OnClick="btnAddTopic_Click" />
+
+                </td>
             </tr>
             <tr>
                 <td>
-                    <asp:Button ID="btnSave" runat="server" Text="Save Knowledge Map" OnClick="btnSave_Click" />
+                    <img id="imgMap" src="CreateMap.aspx" runat="server" />
                 </td>
             </tr>
-            <tr>
-                <td class="auto-style1">
-                    
-                </td>
-            </tr>
-        </table>
-        <br />
-        <br />
+            </table>
         <br />
     </form>
 </body>

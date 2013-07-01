@@ -6,52 +6,67 @@
 <head runat="server">
     <title></title>
     <link rel="stylesheet" href="CSS/Main.css" />
+    
     <style type="text/css">
+        .auto-style1
+        {
+            height: 30px;
+            width: 214px;
+        }
         .auto-style2
         {
-            height: 23px;
-            width: 141px;
+            width: 207px;
         }
         .auto-style3
         {
-            width: 141px;
+            height: 30px;
+            width: 207px;
         }
         .auto-style4
         {
-            height: 23px;
-            width: 380px;
+            width: 203px;
         }
         .auto-style5
         {
-            width: 380px;
+            height: 30px;
+            width: 203px;
         }
         .auto-style6
         {
-            width: 141px;
-            height: 26px;
+            width: 198px;
         }
         .auto-style7
         {
-            width: 380px;
-            height: 26px;
+            height: 30px;
+            width: 198px;
         }
-        .auto-style14
+        .auto-style8
         {
-            width: 109px;
+            width: 161px;
+        }
+        .auto-style9
+        {
+            height: 30px;
+            width: 161px;
+        }
+        .auto-style10
+        {
+            width: 214px;
         }
     </style>
+    
 </head>
 <body>
     <form id="form1" runat="server">
     <div>
     
-        <h1>Create Tests for a Module</h1>
+        <h1>Create/Edit Tests for a Module</h1>
         <br />
         <table style="width: 56%;">
             <tr>
                 <td class="auto-style2">Select Course:</td>
                 <td class="auto-style4">
-                    <asp:DropDownList ID="ddlCourse" runat="server" Height="31px" Width="352px" AutoPostBack="True" OnSelectedIndexChanged="ddlCourse_SelectedIndexChanged">
+                    <asp:DropDownList ID="ddlCourse" runat="server" Height="25px" Width="352px" AutoPostBack="True" OnSelectedIndexChanged="ddlCourse_SelectedIndexChanged">
                     </asp:DropDownList>
                 </td>
             </tr>
@@ -72,12 +87,12 @@
             <tr>
                 <td class="auto-style3">&nbsp;</td>
                 <td class="auto-style5">
-                    <asp:Button ID="btnTest" runat="server" Text="Create Test" Width="168px" OnClick="btnTest_Click" />
+                    <asp:Button ID="btnTest" runat="server" Text="Create/Edit Test Questions" Width="230px" OnClick="btnTest_Click" />
                 </td>
             </tr>
         </table>
         <br />
-        <asp:Panel ID="pnlTest" runat="server" Height="367px" Visible="False">
+        <asp:Panel ID="pnlTest" runat="server" Height="720px" Visible="False">
             <asp:Label ID="Label1" runat="server" Font-Bold="True" Text="Test Questions"></asp:Label>
             <br />
             <br />
@@ -88,10 +103,14 @@
             OnRowEditing="gvEG_RowEditing" >
                 <AlternatingRowStyle CssClass="gridAltRow" />
                 <Columns>
-                    <asp:TemplateField HeaderText="ID"></asp:TemplateField>
+                    <asp:TemplateField HeaderText="ID">
+                        <ItemTemplate>
+                            <asp:Label ID="lblID" runat="server" Text='<%# Bind("qId") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
                     <asp:TemplateField HeaderText="Question Text">
                         <EditItemTemplate>
-                            <asp:TextBox ID="txtQuestionText" runat="server" Height="16px" Width="420px" Text='<%# Bind("Text") %>'></asp:TextBox>
+                            <asp:TextBox ID="txtQuestionText" runat="server" TextMode="MultiLine" Height="157px" Width="282px" Text='<%# Bind("Text") %>'></asp:TextBox>
                             <asp:RequiredFieldValidator ID="rfvQuestionText" ValidationGroup="Insert" runat="server"
                             ControlToValidate="txtQuestionText" ErrorMessage="Please Enter Question Text"
                             ToolTip="Please Enter Question Text" SetFocusOnError="true" ForeColor="Red">*</asp:RequiredFieldValidator>
@@ -100,16 +119,29 @@
                             <asp:Label ID="Label2" runat="server" Text='<%# Bind("Text") %>'></asp:Label>
                         </ItemTemplate>
                         <FooterTemplate>
-                        <asp:TextBox ID="txtQuestionText" runat="server" Height="16px" Width="420px"></asp:TextBox>
+                        <asp:TextBox ID="txtQuestionText" runat="server" TextMode="MultiLine" Height="157px" Width="282px"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="rfvQuestionText" ValidationGroup="Insert" runat="server"
                             ControlToValidate="txtQuestionText" ErrorMessage="Please Enter Question Text"
                             ToolTip="Please Enter Question Text" SetFocusOnError="true" ForeColor="Red">*</asp:RequiredFieldValidator>
                     </FooterTemplate>
-
                     </asp:TemplateField>
+                    
+                     <asp:TemplateField HeaderText="Picture">
+                        <EditItemTemplate>
+                             <asp:Label ID="lblImage2" runat="server" Text='<%# Bind("imgName") %>'></asp:Label>
+                          <asp:FileUpload ID="fuPicture" runat="server" Width="200px" />
+                        </EditItemTemplate>
+                        <ItemTemplate>
+                            <asp:Label ID="lblImage" runat="server" Text='<%# Bind("imgName") %>'></asp:Label>
+                        </ItemTemplate>
+                        <FooterTemplate>
+                          <asp:FileUpload ID="fuPicture" runat="server" Width="200px" />
+                    </FooterTemplate>
+                    </asp:TemplateField>
+
                     <asp:TemplateField HeaderText="Choices">
                         <EditItemTemplate>
-                       Option 1:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                       Option 1:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <asp:RadioButton ID="rdbAnswer1" runat="server" Text="Answer" GroupName="Answer" Checked="True" /> 
                             <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ValidationGroup="Update" runat="server"
                             ControlToValidate="txtAnswer1" ErrorMessage="Please Enter Option 1"
@@ -141,7 +173,7 @@
                             <asp:Label ID="Label6" runat="server" Text='<%# Bind("choice4") %>'></asp:Label><br />
                         </ItemTemplate>
                         <FooterTemplate>
-                       Option 1:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                       Option 1:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <asp:RadioButton ID="rdbAnswer1" runat="server" Text="Answer" GroupName="Answer" Checked="True" /> 
                             <asp:RequiredFieldValidator ID="RequiredFieldValidator6" ValidationGroup="Insert" runat="server"
                             ControlToValidate="txtAnswer1" ErrorMessage="Please Enter Option 1"
@@ -224,13 +256,14 @@
        
                 <EditRowStyle CssClass="gridEditRow" />
                 <EmptyDataTemplate>
-                    <table id="gvEG" border="1" cellspacing="0" class="grid" rules="all" style="border-collapse: collapse;">
+                    <table id="gvEG" border="1" class="grid" style="padding: 0px; border-collapse: collapse;">
                         <tr>
-                            <th align="left" scope="col">No.</th>
-                            <th align="left" scope="col">Question Text</th>
-                            <th align="left" scope="col">Answer Options </th>
-                            <th align="left" scope="col">Difficulty (Strength) </th>
-                            <th align="left" scope="col">Edit</th>
+                            <th scope="col">No.</th>
+                            <th scope="col">Question Text</th>
+                            <th scope="col">Picture</th>
+                            <th scope="col">Answer Options </th>
+                            <th scope="col">Difficulty (Strength) </th>
+                            <th scope="col">Edit</th>
                             <th scope="col">Delete </th>
                         </tr>
                         <tr class="gridFooterRow">
@@ -238,13 +271,16 @@
                                 <asp:TextBox ID="txtNo" runat="server" MaxLength="6" Width="34px"></asp:TextBox>
                             </td>
                             <td>
-                                <asp:TextBox ID="txtQuestionText" runat="server" Height="16px" Width="420px"></asp:TextBox>
+                                <asp:TextBox ID="txtQuestionText" runat="server" Height="157px" Width="282px" TextMode="MultiLine"></asp:TextBox>
                                 <asp:RequiredFieldValidator ID="rfvQuestionText" ValidationGroup="emptyInsert" runat="server"
                             ControlToValidate="txtQuestionText" ErrorMessage="Please Enter Question Text"
                             ToolTip="Please Enter Question Text" SetFocusOnError="true" ForeColor="Red">*</asp:RequiredFieldValidator>
                             </td>
+                            <td>
+                                <asp:FileUpload ID="fuPicture" runat="server" Width="200px" />
+                            </td>
                             <td class="auto-style14">
-                                Option 1:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                Option 1:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <asp:RadioButton ID="rdbAnswer1" runat="server" Text="Answer" GroupName="Answer" Checked="True" /> 
                                 <asp:RequiredFieldValidator ID="rfvChoice1" ValidationGroup="emptyInsert" runat="server"
                             ControlToValidate="txtAnswer1" ErrorMessage="Please Enter Option 1"
@@ -279,7 +315,7 @@
                                     <asp:ListItem Text="5" Value="5"></asp:ListItem>
                                 </asp:DropDownList>
                             </td>
-                            <td align="justify" colspan="2" valign="middle">
+                            <td colspan="2">
                                 <asp:LinkButton ID="lnkAdd" runat="server" CausesValidation="True" ValidationGroup="emptyInsert" CommandName="emptyInsert" Text="emptyInsert"></asp:LinkButton>
                                  <asp:ValidationSummary ID="vsInsert" runat="server" ShowMessageBox="true" ShowSummary="false"
                             ValidationGroup="emptyInsert" Enabled="true" HeaderText="Validation..." />
@@ -292,10 +328,36 @@
         </asp:GridView>
 
             <br />
+            <table style="width: 340px; height: 78px;">
+                <tr>
+                    <td class="auto-style1">Number of Test Versions:&nbsp;&nbsp;
+                        <asp:DropDownList ID="ddlVersions" runat="server">
+                            <asp:ListItem>1</asp:ListItem>
+                            <asp:ListItem>2</asp:ListItem>
+                            <asp:ListItem>3</asp:ListItem>
+                            <asp:ListItem>4</asp:ListItem>
+                            <asp:ListItem>5</asp:ListItem>
+                        </asp:DropDownList>
+                    </td>
+                    <td class="auto-style9"></td>
+                </tr>
+                <tr>
+                    <td class="auto-style1">
+                        <asp:Button ID="btnSaveTest" runat="server" OnClick="btnSaveTest_Click" Text="Save Test Questions" Width="222px" />
+                    </td>
+                    <td class="auto-style9">
+                        <asp:Button ID="btnUpdateQs" runat="server" Text="Update Questions" Width="209px" OnClick="btnUpdateQs_Click" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="auto-style10">&nbsp;</td>
+                    <td class="auto-style8">&nbsp;</td>
+                </tr>
+            </table>
+            <br />
             <br />
 
-            <br />
-            <br />
+           
         </asp:Panel>
     
     </div>

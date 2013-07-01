@@ -39,6 +39,7 @@
             <asp:ListBox ID="lstModules" runat="server" Height="222px" SelectionMode="Multiple" Width="322px"></asp:ListBox>
             <br />
             <asp:Button ID="btnConfirm" runat="server" OnClick="btnConfirm_Click" Text="Save Prerequisite Modules" />
+            &nbsp;
         </asp:Panel>
     </form>
 </body>

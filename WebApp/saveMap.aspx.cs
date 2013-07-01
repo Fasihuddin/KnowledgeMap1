@@ -31,6 +31,10 @@ public partial class saveMap : System.Web.UI.Page
             System.Web.HttpContext.Current.Response.Write("<SCRIPT LANGUAGE='JavaScript'>");
             System.Web.HttpContext.Current.Response.Write("alert('Knowlege map has been stored in the database.')");
             System.Web.HttpContext.Current.Response.Write("</SCRIPT>");
+
+            //enable button for adding another topic to course
+            btnAddTopic.Visible = true;
+            btnSave.Enabled = false;
         }//end if
         else
         {
@@ -100,5 +104,9 @@ public partial class saveMap : System.Web.UI.Page
         {
             Console.WriteLine(ex.ToString());
         }
+    }
+    protected void btnAddTopic_Click(object sender, EventArgs e)
+    {
+
     }
 }
