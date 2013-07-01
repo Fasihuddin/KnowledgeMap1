@@ -1,0 +1,90 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="InstMasterPage.master.cs" Inherits="InstMasterPage" %>
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>CALC</title>
+<link href="CSS/InstStyle.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .auto-style1 {
+            left: 0px;
+            top: 0px;
+        }
+    </style>
+    </head>
+<body>
+    <form id="form1" runat="server">
+<div id="topPan" class="auto-style1"> <img src="images/CALC.png" alt="CALC" width="245" height="37" class="logo" title="Education Zone"/>
+  <p>Collaborative Adaptive Learning on the Cloud </p>
+  <div id="topMenuPan">
+    <div id="topMenuLeftPan"></div>
+    <div id="topMenuMiddlePan">
+        <ul>
+            <li><a href="#">Home</a></li>
+
+            <li><a href="#">About Us</a>
+                <ul>
+                    <li><a href="#">The Team</a></li>            
+                    <li><a href="#">Vision</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Courses</a>
+                <ul>
+                    <li><a href="addCourse.aspx">Create new course</a></li>
+                    <li><a href="#">Edit existing course</a></li>
+                    
+                </ul>
+            </li>
+            <li><a href="#">Topics</a>
+                <ul>
+                    <li><a href="addTopic.aspx">Add new topic</a></li>
+                    <li><a href="#">Edit existing topic</a></li>                
+                </ul>
+            </li>
+             <li><a href="#">Modules</a>
+                <ul>
+                    <li><a href="addNode.aspx">Add new module</a></li>
+                    <li><a href="#">Edit existing module</a></li>
+                    <li><a href="addModuleTest.aspx">Create test for a module</a></li>                
+                </ul>
+            </li>
+             <li><a href="#">Contact</a></li>
+</ul>  
+    </div>
+
+    <div id="topMenuRightPan"></div>
+  </div>
+</div>
+        
+<div id="bodyPan" style="position: relative; left: -46px; top: 0px;">
+    <div id="topLoginInfoPan" style="background-color: #CEE3F6; font-size: medium; width: 970px;">
+         <asp:Label ID="UserLabel" runat="server" Font-Bold="True" Font-Italic="False"></asp:Label>
+         <asp:HyperLink ID="LoginLink" runat="server" NavigateUrl="~/InstLogin.aspx" Visible="False">Login</asp:HyperLink>
+         <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutAction="Redirect" LogoutPageUrl="~/InstLogout.aspx" Visible="False" />
+      <br/>
+
+    </div>
+  <div id="bodyLeftPan">
+      <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+          
+      </asp:ContentPlaceHolder>
+  </div>
+  </div>
+<div id="footermainPan">
+  <div id="footerPan">
+    <ul>
+      <li><a href="http://www.free-css.com/">Home</a>| </li>
+      <li><a href="AboutUs.aspx">About us</a>| </li>
+      <li><a href="http://www.free-css.com/">Contact</a>| </li>
+    </ul>
+    <p class="copyright">© CALC. All right reserved.</p>
+    <ul class="templateworld">
+      <li>design by:</li>
+      <li><a href="http://www.templateworld.com" target="_blank">Template World</a></li>
+    </ul>
+  </div>
+</div>
+        </form>
+</body>
+</html>
