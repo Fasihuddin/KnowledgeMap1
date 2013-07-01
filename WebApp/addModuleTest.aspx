@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="Add test" Language="C#" MasterPageFile="~/InstMasterPage.master" AutoEventWireup="true" CodeFile="addModuleTest.aspx.cs" Inherits="addModuleTest" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">  
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">   
     <link rel="stylesheet" href="CSS/Main.css" />
     
     <style type="text/css">
@@ -50,21 +50,11 @@
             width: 214px;
         }
     </style>
-<<<<<<< HEAD
-    
-</head>
-<body>
-    <form id="form1" runat="server">
     <div>
     
         <h1>Create/Edit Tests for a Module</h1>
-=======
-
-   
+    </div>
     <div>
-    
-        <h3>Create Tests for a Module</h3>
->>>>>>> 078340cbd87261c473ce5b251f71d6b3ce556aad
         <br />
         <table style="width: 56%;">
             <tr>
@@ -363,6 +353,5 @@
 
            
         </asp:Panel>
-    
     </div>
    </asp:Content>

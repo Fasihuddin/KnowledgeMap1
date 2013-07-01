@@ -542,6 +542,7 @@ public partial class addModuleTest : System.Web.UI.Page
                 //create test versions
                 generateTest(testQs);
 
+                btnSaveTest.Enabled = false;
                 //Show success Alerts
                 System.Web.HttpContext.Current.Response.Write("<SCRIPT LANGUAGE='JavaScript'>");
                 System.Web.HttpContext.Current.Response.Write("alert('Success! Test questions added.')");
