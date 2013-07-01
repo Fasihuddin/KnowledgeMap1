@@ -1,10 +1,6 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="addModuleTest.aspx.cs" Inherits="addModuleTest" %>
+﻿<%@ Page Title="Add test" Language="C#" MasterPageFile="~/InstMasterPage.master" AutoEventWireup="true" CodeFile="addModuleTest.aspx.cs" Inherits="addModuleTest" %>
 
-<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">  
     <link rel="stylesheet" href="CSS/Main.css" />
     <style type="text/css">
         .auto-style2
@@ -40,12 +36,11 @@
             width: 109px;
         }
     </style>
-</head>
-<body>
-    <form id="form1" runat="server">
+
+   
     <div>
     
-        <h1>Create Tests for a Module</h1>
+        <h3>Create Tests for a Module</h3>
         <br />
         <table style="width: 56%;">
             <tr>
@@ -299,6 +294,4 @@
         </asp:Panel>
     
     </div>
-    </form>
-</body>
-</html>
+   </asp:Content>

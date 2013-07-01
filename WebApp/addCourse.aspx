@@ -1,10 +1,6 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="addCourse.aspx.cs" Inherits="addCourse" %>
+﻿<%@ Page Title="Add course" Language="C#" MasterPageFile="~/InstMasterPage.master" AutoEventWireup="true" CodeFile="addCourse.aspx.cs" Inherits="addCourse" %>
 
-<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">    
     <style type="text/css">
         .auto-style1
         {
@@ -37,12 +33,10 @@
             color: #FF3300;
         }
     </style>
-</head>
-<body>
-    <form id="form1" runat="server">
+
     <div>
     
-        <h1><strong>Add Course</strong></h1>
+        <h3><strong>Add Course</strong></h3>
         <table style="width: 92%;">
             <tr>
                 <td class="auto-style5">
@@ -129,6 +123,5 @@
         <br />
     
     </div>
-    </form>
-</body>
-</html>
+       </asp:Content>
+

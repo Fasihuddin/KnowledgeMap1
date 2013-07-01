@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>CALC</title>
-<link href="style.css" rel="stylesheet" type="text/css" />
+<link href="CSS/style.css" rel="stylesheet" type="text/css" />
     </head>
 <body>
     <form id="form1" runat="server">
@@ -28,7 +28,7 @@
 <div id="bodyPan" style="position: relative; left: -46px; top: 0px;">
     <div id="topLoginInfoPan" style="background-color: #CEE3F6; font-size: medium; width: 970px;">
          <asp:Label ID="UserLabel" runat="server" Font-Bold="True" Font-Italic="False"></asp:Label>
-      <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutPageUrl="~/logout.aspx" />
+      <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutPageUrl="~/logout.aspx" LogoutAction="Redirect" />
       <br/>
 
     </div>

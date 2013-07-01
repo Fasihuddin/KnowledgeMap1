@@ -1,10 +1,6 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="addTopic.aspx.cs" Inherits="addTopic" %>
+﻿<%@ Page Title="Add topic" Language="C#" MasterPageFile="~/InstMasterPage.master" AutoEventWireup="true" CodeFile="addTopic.aspx.cs" Inherits="addTopic" %>
 
-<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server"> 
     <style type="text/css">
         .auto-style2
         {
@@ -55,13 +51,11 @@
             width: 81px;
         }
     </style>
-</head>
-<body>
-    <form id="form1" runat="server">
+
     <div>
     
-        <h1 style="height: 33px">Add New Topic<br />
-        </h1>
+        <h3>Add New Topic<br />
+        </h3>
             <table style="width: 89%;">
                 <tr>
                     <td class="auto-style22">
@@ -109,7 +103,8 @@
 &nbsp;&nbsp;&nbsp;
             <asp:Button ID="btnRefresh" runat="server" Text="Refresh Modules" OnClick="btnRefresh_Click" Enabled="False" />
         </h3>
-        <h3 class="auto-style18">Assign Modules to Topic</h3>
+        <br />
+        <h3>Assign Modules to Topic</h3>
         <table style="width: 89%;">
             <tr>
                 <td class="auto-style19"><strong>Modules Selection Table:</strong></td>
@@ -150,6 +145,4 @@
         <br />
     
     </div>
-    </form>
-</body>
-</html>
+          </asp:Content>
