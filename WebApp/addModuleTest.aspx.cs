@@ -192,6 +192,12 @@ public partial class addModuleTest : System.Web.UI.Page
             FillEmployeeGrid();
         }
 
+        protected void gvEG_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        {
+            gvEG.EditIndex = -1;
+            FillEmployeeGrid();
+        }
+
         protected void gvEG_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
             try

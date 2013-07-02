@@ -94,7 +94,7 @@
             AlternatingRowStyle-CssClass="gridAltRow" RowStyle-CssClass="gridRow" ShowFooter="True"
             EditRowStyle-CssClass="gridEditRow" FooterStyle-CssClass="gridFooterRow"
             OnRowCommand="gvEG_RowCommand" OnRowDeleting="gvEG_RowDeleting" OnRowUpdating="gvEG_RowUpdating"
-            OnRowEditing="gvEG_RowEditing" >
+            OnRowEditing="gvEG_RowEditing" OnRowCancelingEdit="gvEG_RowCancelingEdit" >
                 <AlternatingRowStyle CssClass="gridAltRow" />
                 <Columns>
                     <asp:TemplateField HeaderText="ID">
