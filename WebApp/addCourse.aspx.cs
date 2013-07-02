@@ -23,7 +23,7 @@ public partial class addCourse : System.Web.UI.Page
                 SqlCommand cmd = new SqlCommand("SELECT MAX(Course_Id) FROM Course", conStr);
                 SqlDataReader reader = cmd.ExecuteReader();
 
-                while (reader.Read())
+                while (reader.Read() && !reader.IsDBNull(0))
                 {
                     maxCourseID = reader.GetInt32(0);
                 }
@@ -102,6 +102,18 @@ public partial class addCourse : System.Web.UI.Page
             cmd.Parameters.Add(p2);
 
             int x = cmd.ExecuteNonQuery();
+
+            //remove the assigned topic from the dropdownlist
+            drpTopics.Items.Remove(drpTopics.SelectedItem);
+            if (drpTopics.Items.Count > 0)
+            {
+                drpTopics.SelectedIndex = 0;
+            }
+            else
+            {
+                btnAddTopicCourse.Enabled = false;
+                txtTopicDesc.Text = "";
+            }
 
             //Show success Alerts
             System.Web.HttpContext.Current.Response.Write("<SCRIPT LANGUAGE='JavaScript'>");

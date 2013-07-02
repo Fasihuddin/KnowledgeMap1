@@ -166,4 +166,8 @@ public partial class testResult : System.Web.UI.Page
             conStr.Close();
         }
     }
+    protected void btnBack_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("~/StdCourseIntro.aspx");
+    }
 }

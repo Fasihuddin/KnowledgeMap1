@@ -54,8 +54,8 @@ public partial class StdShowTopicNode : System.Web.UI.Page, ICallbackEventHandle
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                lblTopicName.Text += " " + reader.GetString(0);
-                lblDesc.Text += " " + reader.GetString(1);
+                txtTopicName.Text = reader.GetString(0);
+                txtDesc.Text = reader.GetString(1);
             }
             //close sql connection
             reader.Close();

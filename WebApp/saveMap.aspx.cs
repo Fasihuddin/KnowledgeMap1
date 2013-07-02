@@ -34,6 +34,7 @@ public partial class saveMap : System.Web.UI.Page
 
             //enable button for adding another topic to course
             btnAddTopic.Visible = true;
+            btnFinish.Visible = true;
             btnSave.Enabled = false;
         }//end if
         else
@@ -107,6 +108,15 @@ public partial class saveMap : System.Web.UI.Page
     }
     protected void btnAddTopic_Click(object sender, EventArgs e)
     {
+        int courseID = Convert.ToInt32(Session["CourseID"]);
+        Session.Clear();
 
+        Session["CourseID"] = courseID;
+        Response.Redirect("~/addTopic.aspx");
+    }
+    protected void btnFinish_Click(object sender, EventArgs e)
+    {
+        Session.Abandon();
+        Response.Redirect("~/mainPage.aspx");
     }
 }

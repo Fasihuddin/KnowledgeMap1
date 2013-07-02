@@ -25,7 +25,6 @@ public partial class StdQuestionsForm : System.Web.UI.Page
             //Get the questionID from the aspx label
             Label questionId = (Label) e.Item.FindControl("lblQuestionID");
             RadioButtonList rbl = (RadioButtonList) e.Item.FindControl("RadioButtonList1");
-
             //get all choices for the question
             DataSet ds = getQuestionChoices(questionId.Text);
 
@@ -35,7 +34,68 @@ public partial class StdQuestionsForm : System.Web.UI.Page
             rbl.DataTextField = "Text";
             rbl.DataValueField = "Choice_Id";
             rbl.DataBind();
+
+            try
+            {
+                //process image
+                Image img = (Image)e.Item.FindControl("imgCanvas");
+                int qsId = Convert.ToInt32(questionId.Text);
+                string imgByte = getImageByte(qsId);
+                if (!imgByte.Equals(""))
+                {
+                    img.ImageUrl = imgByte;
+                }
+                else
+                {
+                    img.Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            
         }
+    }
+
+    private string getImageByte(int questionId)
+    {
+        SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
+        byte[] picture = null;
+        try
+        {
+            conStr.Open();
+            SqlCommand cmd = new SqlCommand("SELECT imgData FROM Questions where Question_Id = @id", conStr);
+            SqlParameter p1 = new SqlParameter("@id", questionId);//questionId);
+            cmd.Parameters.Add(p1);
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                picture = (byte[])reader[0];
+                if (picture.Length <= 0)
+                {
+                    picture = null;
+                }
+            }
+            reader.Close();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+        }
+        finally
+        {
+            conStr.Close();
+        }
+
+        string returnData ="";
+        if (picture != null && picture.Length > 0)
+        {
+            returnData = "data:image/jpg;base64," + Convert.ToBase64String(picture);
+        }
+
+        return returnData;
     }
 
     /*

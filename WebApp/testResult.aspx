@@ -39,4 +39,6 @@
             <SortedDescendingCellStyle BackColor="#FFFDF8" />
             <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
         </asp:GridView>
+    <br />
+    <asp:Button ID="btnBack" runat="server" Text="Back to Course Selection." OnClick="btnBack_Click" />
    </asp:Content>

@@ -10,7 +10,8 @@
             </tr>
             <tr>
                 <td>
-                    <asp:DataList ID="DataList1" width="80%" runat="server" DataSourceID="SqlDataSource" CellPadding="4" onItemDataBound="DataList1_ItemDataBound" ForeColor="#333333">
+                    <asp:DataList ID="DataList1" width="80%" runat="server" DataSourceID="SqlDataSource" 
+                        CellPadding="4" onItemDataBound="DataList1_ItemDataBound" ForeColor="#333333">
                         <AlternatingItemStyle BackColor="White" ForeColor="#284775" />
                         <FooterStyle BackColor="#5D7B9D" ForeColor="White" Font-Bold="True" />
                         <FooterTemplate>
@@ -22,6 +23,7 @@
                         </HeaderTemplate>
                         <ItemStyle BackColor="#F7F6F3" ForeColor="#333333" />
                         <ItemTemplate>
+                            <asp:Image ID="imgCanvas" runat="server" Width="50%" /><br />
                             <asp:Label ID="lblQuestionOrder" runat="server" Text='<%# Eval("Question_order") %>'></asp:Label>
                             .&nbsp;
                             <asp:Label ID="lblQuestion" runat="server" Text='<%# Eval("Text") %>'></asp:Label>
@@ -43,7 +45,7 @@
     </div>
         <asp:SqlDataSource ID="SqlDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:connString %>"
                  SelectCommand="SELECT Test_questions.Question_order, Text, Test_questions.Question_Id
-                                FROM Test_questions JOIN Questions ON Test_questions.Question_Id = Questions.Question_Id WHERE (Test_questions.Test_Id = @TestID) ORDER BY Test_questions.Question_order">
+                                FROM Test_questions JOIN Questions ON Test_questions.Question_Id = Questions.Question_Id WHERE (Test_questions.Test_Id = 12) ORDER BY Test_questions.Question_order">
          
             <SelectParameters>
                 <asp:QueryStringParameter Name="TestID" QueryStringField="id" Type="Int32" />

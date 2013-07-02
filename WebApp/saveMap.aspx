@@ -30,6 +30,9 @@
                     &nbsp;
                     <asp:Button ID="btnAddTopic" runat="server" Text="Add Another Topic" Width="185px" Visible="False" OnClick="btnAddTopic_Click" />
 
+                &nbsp;&nbsp;
+                    <asp:Button ID="btnFinish" runat="server" OnClick="btnFinish_Click" Text="Finish and Go to Main Page" Visible="False" Width="198px" />
+
                 </td>
             </tr>
             <tr>

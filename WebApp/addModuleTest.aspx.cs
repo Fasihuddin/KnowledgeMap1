@@ -599,7 +599,7 @@ public partial class addModuleTest : System.Web.UI.Page
                  SqlCommand cmd = new SqlCommand("SELECT MAX(Test_Id) FROM Test", conStr);
                  SqlDataReader reader = cmd.ExecuteReader();
 
-                 while (reader.Read())
+                 while (reader.Read() && !reader.IsDBNull(0))
                  {
                      maxTestID = reader.GetInt32(0);
                  }
@@ -655,7 +655,7 @@ public partial class addModuleTest : System.Web.UI.Page
                     SqlCommand cmd = new SqlCommand("SELECT MAX(Question_Id) FROM Questions", conStr);
                     SqlDataReader reader = cmd.ExecuteReader();
 
-                    while (reader.Read())
+                    while (reader.Read() && !reader.IsDBNull(0))
                     {
                         maxQsID = reader.GetInt32(0);
                     }
@@ -698,7 +698,7 @@ public partial class addModuleTest : System.Web.UI.Page
                         cmd = new SqlCommand("SELECT MAX(Choice_Id) FROM Choices", conStr);
                         reader = cmd.ExecuteReader();
 
-                        while (reader.Read())
+                        while (reader.Read() && !reader.IsDBNull(0))
                         {
                             maxChoiceID = reader.GetInt32(0);
                         }
@@ -937,12 +937,9 @@ public partial class addModuleTest : System.Web.UI.Page
                     cmd.Parameters.Add(p1);
                     reader = cmd.ExecuteReader();
 
-                    while (reader.Read())
+                    while (reader.Read() && !reader.IsDBNull(0))
                     {
-                        if (!reader.IsDBNull(0))
-                        {
                             qs_order += reader.GetInt32(0);
-                        }
                     }
                     reader.Close();
 

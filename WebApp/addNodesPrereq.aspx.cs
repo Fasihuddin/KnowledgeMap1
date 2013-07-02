@@ -82,13 +82,13 @@ public partial class addNodesPrereq : System.Web.UI.Page
                 }
             }// end for
 
+            btnSave.Enabled = false;
         }//end if
 
     }
 
     protected void btnSave_Click(object sender, EventArgs e)
     {
-        
         List<int> parentNodes = new List<int>();
         List<String> prereqList = new List<String>();
         for (int i = 0; i < GridView1.Rows.Count; i++)
@@ -209,7 +209,8 @@ public partial class addNodesPrereq : System.Web.UI.Page
                 }
             }
 
-
+            //enable btnSave prerequisites nodes
+            btnSave.Enabled = true;
         }
         catch (Exception ex)
         {

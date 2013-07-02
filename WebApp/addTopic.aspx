@@ -27,10 +27,6 @@
         {
             width: 335px;
         }
-        .auto-style18
-        {
-            text-decoration: underline;
-        }
         .auto-style19
         {
             width: 335px;
@@ -140,7 +136,6 @@
         <br />
                     <asp:Button ID="btnConfirmAssignment" runat="server" Text="Confirm Modules and Next" Width="193px" Enabled="False" OnClick="btnConfirmAssignment_Click" />
         <br />
-        <asp:Button ID="btnShowMap" runat="server" OnClick="btnShowMap_Click" Text="Show Knowledge Map" />
         <br />
         <br />
     

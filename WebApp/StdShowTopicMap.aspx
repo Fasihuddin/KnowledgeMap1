@@ -43,45 +43,43 @@
         {
             width: 402px;
         }
-        .auto-style2
-        {
-            height: 61px;
-        }
-        .auto-style3
-        {
-            height: 17px;
-        }
-    </style>
+        </style>
 
 
    
     <div><h1>Topic Node</h1>
-        <p>
-            <asp:Label ID="lblTopicName" runat="server" Font-Italic="True" Text="Topic: "></asp:Label>
-        </p>
-        <p>
-            <asp:Label ID="lblDesc" runat="server" Font-Italic="True" Text="Description: "></asp:Label>
-        </p>
+            <table style="width:63%;">
+                <tr>
+                    <td><asp:Label ID="lblTopicName" runat="server" Font-Italic="True" Text="Topic: " Font-Bold="True" ForeColor="#6666FF"></asp:Label></td>
+                    <td>
+            <asp:TextBox ID="txtTopicName" runat="server" ReadOnly="True" Font-Italic="True" BorderWidth="0" BorderStyle="None" Rows="2" Width="556px" Font-Bold="True" ForeColor="#6666FF"></asp:TextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">
+            <asp:Label ID="lblDesc" runat="server" Font-Italic="True" Text="Description: " Font-Bold="True" ForeColor="#6666FF"></asp:Label>
+                    </td>
+                    <td>
+            <asp:TextBox ID="txtDesc" runat="server" ReadOnly="True" TextMode="MultiLine" Font-Italic="True" BorderWidth="0" BorderStyle="None" Rows="2" Width="556px" Font-Bold="True" ForeColor="#6666FF"></asp:TextBox>
+                    </td>
+                </tr>
+                </table><br />
         <table style="width:100%;">
             <tr>
-                <td class="auto-style1" rowspan="3"><div id="pointer_div" onclick="point_it(event)"><img src="StdTopicMap.aspx" alt="image" id="imageCanvas" /></div>
-                </td>
-                <td class="auto-style3"><asp:Label ID="lblMessage" runat="server" Text="Please click on the Module to view the materials and start the test." Font-Bold="True" ForeColor="Red"></asp:Label>
-                    <br />
-                    <br />
-                    Legend:<br />
+                <td>
+                   <b>Legend:</b><br />
                     <asp:Label ID="Label1" runat="server" Font-Bold="True" ForeColor="#009933" Text="Green Module"></asp:Label>
-&nbsp;- You have passed the test<br />
+&nbsp;- You have passed the test&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <asp:Label ID="Label2" runat="server" Font-Bold="True" ForeColor="#0033CC" Text="Blue Module"></asp:Label>
-&nbsp;- You have NOT passed the test</td>
+                    &nbsp;- You have NOT passed the test<br />
+                    <asp:Label ID="lblMessage" runat="server" Text="Please click on the Module to view the materials and start the test." Font-Bold="True" ForeColor="Red"></asp:Label>
+                </td>
             </tr>
             <tr>
-                <td class="auto-style2">&nbsp;</td>
+                <td class="auto-style1"><div id="pointer_div" onclick="point_it(event)"><img src="StdTopicMap.aspx" alt="image" id="imageCanvas" /></div>
+                </td>
             </tr>
-            <tr>
-                <td>&nbsp;</td>
-            </tr>
-        </table>
+            </table>
     
     </div>
   

@@ -86,7 +86,7 @@ public partial class addTopic : System.Web.UI.Page
             SqlCommand cmd = new SqlCommand("SELECT MAX(Topic_Id) FROM Topic", conStr);
             SqlDataReader reader = cmd.ExecuteReader();
 
-            while (reader.Read())
+            while (reader.Read() && !reader.IsDBNull(0))
             {
                 maxTopicID = reader.GetInt32(0);
             }
@@ -158,15 +158,9 @@ public partial class addTopic : System.Web.UI.Page
         } 
     }
 
-    protected void btnShowMap_Click(object sender, EventArgs e)
-    {
-        Session["TopicID"] = 1;
-        Session["CourseID"] = 1;
-        Response.Redirect("~/saveMap.aspx");
-    }
     protected void btnAddNodes_Click(object sender, EventArgs e)
     {
-       ScriptManager.RegisterStartupScript(Page, typeof(Page), "OpenWindow", "window.open('addNode.aspx?','AddNode','left=300, top=150,resizable=no,width=600,height=500');",true);
+       ScriptManager.RegisterStartupScript(Page, typeof(Page), "OpenWindow", "window.open('addNode.aspx?','AddNode','left=300, top=150,resizable=no,width=900,height=800');",true);
     }
    
     protected void ddlTopic_SelectedIndexChanged(object sender, EventArgs e)
