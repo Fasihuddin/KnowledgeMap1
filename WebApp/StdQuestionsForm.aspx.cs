@@ -66,7 +66,7 @@ public partial class StdQuestionsForm : System.Web.UI.Page
         {
             conStr.Open();
             SqlCommand cmd = new SqlCommand("SELECT imgData FROM Questions where Question_Id = @id", conStr);
-            SqlParameter p1 = new SqlParameter("@id", questionId);//questionId);
+            SqlParameter p1 = new SqlParameter("@id", questionId);
             cmd.Parameters.Add(p1);
             SqlDataReader reader = cmd.ExecuteReader();
 

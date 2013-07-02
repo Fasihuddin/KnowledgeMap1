@@ -118,9 +118,6 @@ public partial class StdTopicMap : System.Web.UI.Page
             //close sqlconnection
             reader.Close();
             conStr.Close();
-           
-            //this variable will be used to store all passedNodes
-            List<int> passedNodes = new List<int>();
 
             //create regions
             for (int i=0; i<nodeId.Count;i++)
@@ -155,7 +152,6 @@ public partial class StdTopicMap : System.Web.UI.Page
                         if (test == 1)
                         {
                             isComplete = true;
-                            passedNodes.Add(nodeId[i]);
                         }
                     }
                     reader.Close();
@@ -187,8 +183,6 @@ public partial class StdTopicMap : System.Web.UI.Page
                 }
             }//end for
 
-            //add all passed nodes to the session.
-            Session["isPassed"] = passedNodes;
         }
         catch (Exception ex)
         {

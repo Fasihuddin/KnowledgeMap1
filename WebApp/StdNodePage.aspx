@@ -7,6 +7,10 @@
         {
             text-decoration: underline;
         }
+        .auto-style2
+        {
+            width: 503px;
+        }
     </style>
 
    
@@ -17,7 +21,7 @@
         <br />
         <table style="width:100%;">
             <tr>
-                <td><span class="auto-style1"><strong>Node Materials</strong></span><br />
+                <td class="auto-style2"><span class="auto-style1"><strong>Node Materials</strong></span><br />
                     <br />
                     &lt;&lt; Links for the node materials here &gt;&gt;<br />
                     <br />
@@ -51,7 +55,7 @@
                 </td>
                 <td><span class="auto-style1"><strong>Start Test</strong></span><br />
                     <br />
-                    Your computer-generated Test ID is:&nbsp; <asp:Label ID="lblTestId" runat="server" Text="Label"></asp:Label>
+                    Computer-generated Test ID is:&nbsp; <asp:Label ID="lblTestId" runat="server" Text="Label"></asp:Label>
                     <br />
                     <br />
                     <asp:Button ID="btnStartTest" runat="server" OnClick="btnStartTest_Click" Text="Start Test" Enabled="False" />

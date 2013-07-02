@@ -80,6 +80,46 @@ public partial class startTest : System.Web.UI.Page
 
     }
 
+    /*
+     * Method used to check whether student has passed the module.
+     * */
+    private bool getPassedTest(int nodeId)
+    {
+        bool isPassed = false;
+        SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
+        try
+        {
+            conStr.Open();
+            SqlCommand cmd = new SqlCommand("SELECT Student_test.IsPassed FROM Student_test INNER JOIN TEST ON " +
+                                "Student_test.Test_Id = Test.Test_Id WHERE Test.Node_Id = @nodeID AND " +
+                                "Student_test.Student_Id = @studentID", conStr);
+            SqlParameter p1 = new SqlParameter("@nodeID", nodeId);
+            SqlParameter p2 = new SqlParameter("@studentID", Convert.ToInt32(Session["StudentID"]));
+            cmd.Parameters.Add(p1);
+            cmd.Parameters.Add(p2);
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                int test = reader.GetInt32(0);
+                if (test == 1)
+                {
+                    isPassed = true;
+                }
+            }
+            reader.Close();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+        }
+        finally
+        {
+            conStr.Close();
+        }
+
+        return isPassed;
+    }
+
     private int pickRandomTest(int nodeID)
     {
 
@@ -103,20 +143,11 @@ public partial class startTest : System.Web.UI.Page
             reader.Close();
             conStr.Close();
 
-            //get all passed nodes from the session. This session is filled in the stdTopicMap.aspx
-            //Then check whether student has passed the node on any of its test versions
-            List<int> passedNode = (List<int>)Session["isPassed"];
-            int isPassed = 0;
-            foreach (int i in passedNode)
-            {
-                if (i == nodeID)
-                {
-                    isPassed = 1;
-                }
-            }
+            //check whether student has passed the node on any of its test versions
+            bool isPassed = getPassedTest(nodeID);
 
             //generate random test no if student has not passed the test
-            if (allTests.Count >= 1 && isPassed == 0)
+            if (allTests.Count >= 1 && !isPassed)
             {
                 List<int> availableTest = new List<int>();
                 conStr.Open();
@@ -149,7 +180,7 @@ public partial class startTest : System.Web.UI.Page
                 }
                 btnStartTest.Enabled = true;
             }
-            else if (isPassed == 1) // if student has passed the test, disable the start test button
+            else if (isPassed) // if student has passed the test, disable the start test button
             {
                 testID = -1;
                 lblTestId.Text = "You have passed the test for this node";

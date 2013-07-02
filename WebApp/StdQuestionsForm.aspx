@@ -45,7 +45,7 @@
     </div>
         <asp:SqlDataSource ID="SqlDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:connString %>"
                  SelectCommand="SELECT Test_questions.Question_order, Text, Test_questions.Question_Id
-                                FROM Test_questions JOIN Questions ON Test_questions.Question_Id = Questions.Question_Id WHERE (Test_questions.Test_Id = 12) ORDER BY Test_questions.Question_order">
+                                FROM Test_questions JOIN Questions ON Test_questions.Question_Id = Questions.Question_Id WHERE (Test_questions.Test_Id = @TestID) ORDER BY Test_questions.Question_order">
          
             <SelectParameters>
                 <asp:QueryStringParameter Name="TestID" QueryStringField="id" Type="Int32" />
