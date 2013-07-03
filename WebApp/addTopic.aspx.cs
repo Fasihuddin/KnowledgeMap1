@@ -130,7 +130,7 @@ public partial class addTopic : System.Web.UI.Page
                 SqlCommand cmd = new SqlCommand("SELECT Topic_Id, name FROM Topic ORDER BY name", conStr);
                 SqlDataReader reader = cmd.ExecuteReader();
 
-                while (reader.Read())
+                while (reader.Read() && !reader.IsDBNull(0))
                 {
                     int topicId = reader.GetInt32(0);
                     if (topicId != currentTopicID)
