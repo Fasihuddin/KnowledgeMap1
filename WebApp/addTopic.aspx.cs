@@ -202,7 +202,7 @@ public partial class addTopic : System.Web.UI.Page
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
-                    while (reader.Read())
+                    while (reader.Read() && !reader.IsDBNull(0))
                     {
                         ListItem lstItems = new ListItem();
                         lstItems.Value = Convert.ToString(reader.GetInt32(0));

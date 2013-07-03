@@ -19,7 +19,7 @@ public partial class addModuleTest : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            //fill courses
+            //fill courses in the dropdownlist
             SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
             try
             {
@@ -28,7 +28,7 @@ public partial class addModuleTest : System.Web.UI.Page
                 SqlCommand cmd = new SqlCommand("SELECT Course_Id, Name, Code FROM Course", conStr);
                 SqlDataReader reader = cmd.ExecuteReader();
 
-                while (reader.Read())
+                while (reader.Read() && !reader.IsDBNull(0))
                 {
                     ListItem lstItems = new ListItem();
                     lstItems.Value = Convert.ToString(reader.GetInt32(0));
@@ -36,6 +36,12 @@ public partial class addModuleTest : System.Web.UI.Page
                     this.ddlCourse.Items.Add(lstItems);
                 }
                 reader.Close();
+
+                //get all topics of the first selected course in the dropdownlist 
+                getTopicsFromDB();
+
+                //fill all modules based on the selected topic in dropdownlist
+                fillModules();
             }
             catch (Exception ex)
             {
@@ -49,13 +55,20 @@ public partial class addModuleTest : System.Web.UI.Page
         }
     }
 
-        private void FillEmployeeGrid()
+    /*
+     * This method is used to bind the questions to the gridview
+     * */
+        private void FillQuestionGrid()
         {
             List<Question> testQs = (List<Question>)Session["testQuestion"];
             gvEG.DataSource = testQs;
             gvEG.DataBind();
         }
         
+    /*
+     * Thid funciton is called when user click on the "emptyInsert" or "insert" button of the gridview.
+     * It stores the inserted data to the gridview.
+     * */
         protected void gvEG_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName.Equals("emptyInsert") || e.CommandName.Equals("Insert"))
@@ -63,6 +76,8 @@ public partial class addModuleTest : System.Web.UI.Page
                 try
                 {
                     GridViewRow emptyRow;
+                    //check whether the command name is insert or emptyInsert. Then get the required values either from footerrow (insert)
+                    //or emptyDataTemplate (emptyInsert) of the gridview
                     if (e.CommandName.Equals("Insert"))
                     {
                         emptyRow = gvEG.FooterRow;
@@ -104,6 +119,7 @@ public partial class addModuleTest : System.Web.UI.Page
                     RadioButton rd3 = (RadioButton)emptyRow.FindControl("rdbAnswer3");
                     RadioButton rd4 = (RadioButton)emptyRow.FindControl("rdbAnswer4");
 
+                    //storing the correct answer
                     int answer = 4;
                     if (rd1.Checked)
                     {
@@ -133,7 +149,7 @@ public partial class addModuleTest : System.Web.UI.Page
                     Session["testQuestion"] = testQs;
 
                     //fill the gridview
-                    FillEmployeeGrid();
+                    FillQuestionGrid();
                 }
                 catch (Exception ex)
                 {
@@ -141,10 +157,14 @@ public partial class addModuleTest : System.Web.UI.Page
                 }
             }
         }
+
+    /*
+     * This method is used when "edit" button of the grid view is selected. It edit the data in the gridview
+     * */
         protected void gvEG_RowEditing(object sender, GridViewEditEventArgs e)
         {
             gvEG.EditIndex = e.NewEditIndex;
-            FillEmployeeGrid();
+            FillQuestionGrid();
 
             //get existing questions
                 List<Question> testQs = (List<Question>)Session["testQuestion"];
@@ -176,12 +196,15 @@ public partial class addModuleTest : System.Web.UI.Page
 
         }
         
+    /*
+     * This method is used to delete data in the gridview.
+     * */
         protected void gvEG_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             //add to session
             List<Question> testQs = (List<Question>)Session["testQuestion"];
 
-            //check if data exists in database
+            //check if data exists in database. If exists, first delete the existing data in the session. then remove data in testQs session
             if (testQs[0].qId > 0)
             {
                 List<int> deleteID = (List<int>) Session["DeleteQsID"];
@@ -189,15 +212,21 @@ public partial class addModuleTest : System.Web.UI.Page
             }
             testQs.RemoveAt(e.RowIndex);
             Session["testQuestion"] = testQs;
-            FillEmployeeGrid();
+            FillQuestionGrid();
         }
 
+    /*
+     * This function is used to cancel the "edit" of question
+     * */
         protected void gvEG_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
         {
             gvEG.EditIndex = -1;
-            FillEmployeeGrid();
+            FillQuestionGrid();
         }
 
+    /*
+     * This funciton is used to update the existing record in gridviewrow. 
+     * */
         protected void gvEG_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
             try
@@ -266,27 +295,29 @@ public partial class addModuleTest : System.Web.UI.Page
                 testQs[e.RowIndex].contentType = contentType;
                 testQs[e.RowIndex].imgName = imgName;
 
-                //create question object
-                //Question qs = new Question(text, choice1, choice2, choice3, choice4, strength, answer,imageData,contentType, imgName);
-
                 //add to session
                 Session["testQuestion"] = testQs;
 
                 gvEG.EditIndex = -1;
-                FillEmployeeGrid();
+                FillQuestionGrid();
             }
             catch (Exception ex)
             {
                 ex.ToString();
             }
         }
+
+    /*
+     * This button will make the panel visible and check whether the selected module has existing questions in database.
+     * If existing questions exist, show the questions in gridview. Otherwise, open gridview with emptyDataTemplate
+     * */
         protected void btnTest_Click(object sender, EventArgs e)
         {
             if (ddlModule.SelectedIndex >=0 && ddlTopic.SelectedItem.Value != null && ddlModule.SelectedIndex >=0)
             {
                 //get existing questions from database
                 List<Question> qsItem = getQuestionsOfModule();
-                if (qsItem.Count > 0)
+                if (qsItem.Count > 0) //if there is existing question in DB
                 {
                     foreach (Question qs in qsItem)
                     {
@@ -294,9 +325,8 @@ public partial class addModuleTest : System.Web.UI.Page
                          try
                          {
                              conStr.Open();
-                             //Get the choices and answer for the questions
-
-                             //Get the answer for the question
+               
+                             //Get the image and strength of each existing  question
                              SqlCommand cmd = new SqlCommand("SELECT Questions.img_contenttype, Questions.imgData, Questions.imgName, Strength.Strength_Level " +
                                                 "FROM Questions INNER JOIN Strength ON Questions.Question_Id = Strength.Question_Id "+
                                                 "WHERE (Strength.Node_Id = @nodeID) AND (Strength.Question_Id = @qsID)", conStr);
@@ -375,7 +405,7 @@ public partial class addModuleTest : System.Web.UI.Page
                          ddlVersions.Enabled = false;
                          btnUpdateQs.Enabled = true;
                         //fill data to gridview
-                         FillEmployeeGrid();
+                         FillQuestionGrid();
                     }//end foreach
                 }//end if
                 else
@@ -397,6 +427,9 @@ public partial class addModuleTest : System.Web.UI.Page
             }
         }
 
+    /*
+     * This function returns all questions of a particular module. It retrieves these questions from DB.
+     * */
         private List<Question> getQuestionsOfModule()
         {
             List<Question> qsItems = new List<Question>();
@@ -435,28 +468,26 @@ public partial class addModuleTest : System.Web.UI.Page
             return qsItems;
         }
 
-
-        protected void ddlCourse_SelectedIndexChanged(object sender, EventArgs e)
+    /*
+     * This method is used to fill topics in the topics dropdownlist. Topics are obtained from DB
+     * */
+        private void getTopicsFromDB()
         {
-            //clear all items
-            ddlTopic.Items.Clear();
-            pnlTest.Visible = false;
-
             //fill topics
             SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
             try
             {
                 conStr.Open();
                 //Get the answer for the question
-                SqlCommand cmd = new SqlCommand("SELECT Topic.Topic_Id, Topic.Name FROM Course INNER JOIN "+
-                         "TopicOnCourse ON Course.Course_Id = TopicOnCourse.CourseID INNER JOIN "+
+                SqlCommand cmd = new SqlCommand("SELECT Topic.Topic_Id, Topic.Name FROM Course INNER JOIN " +
+                         "TopicOnCourse ON Course.Course_Id = TopicOnCourse.CourseID INNER JOIN " +
                          "Topic ON TopicOnCourse.TopicID = Topic.Topic_Id WHERE Course_Id = @courseID", conStr);
                 SqlParameter p1 = new SqlParameter("@courseID", ddlCourse.SelectedItem.Value);
                 cmd.Parameters.Add(p1);
                 SqlDataReader reader = cmd.ExecuteReader();
 
                 bool hasData = false;
-                while (reader.Read())
+                while (reader.Read() && !reader.IsDBNull(0))
                 {
                     ListItem lstItems = new ListItem();
                     lstItems.Value = Convert.ToString(reader.GetInt32(0));
@@ -486,14 +517,29 @@ public partial class addModuleTest : System.Web.UI.Page
             {
                 conStr.Close();
             }
+        }
 
+        protected void ddlCourse_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //clear all items
+            ddlTopic.Items.Clear();
+            pnlTest.Visible = false;
+
+            //get all topics from DB
+            getTopicsFromDB();
+
+            //get all modules from DB
             fillModules();
         }
+
         protected void ddlTopic_SelectedIndexChanged(object sender, EventArgs e)
         {
             fillModules();
         }
 
+    /*
+     * This function retrieves all modules from DB based on the selected Module in the dropdownlist.
+     * */
         private void fillModules()
         {
             //clear all items
@@ -534,12 +580,13 @@ public partial class addModuleTest : System.Web.UI.Page
             }//end if
         }// end function
 
+    /*
+     * This button is used to save the newly created test questions. Note that it is not enabled for the module that has existing questions.
+     * It first save all test questions to DB, then it generates test versions and assign questions to the test versions
+     * */
         protected void btnSaveTest_Click(object sender, EventArgs e)
         {
-
             List<Question> testQs = (List<Question>)Session["testQuestion"];
-
-
             if (testQs != null)
             {
                 //save test questions
@@ -565,6 +612,10 @@ public partial class addModuleTest : System.Web.UI.Page
            
         }
 
+    /*
+     * This function is used to generate test versions.
+     * It depends on the number of test versions selected by user in the dropdownlist
+     * */
         private void generateTest(List<Question> testQs)
         {
             int totalVer = Convert.ToInt32(ddlVersions.SelectedItem.Value);
@@ -577,10 +628,11 @@ public partial class addModuleTest : System.Web.UI.Page
             {
                 //create temp list to hold the new random order questions
                 List<int> tempQs = new List<int>();
-                while (qsID.Count > 0)
+                //the following loop will randomly assign test questions to each test version.
+                while (qsID.Count > 1)
                 {
                     Random rand = new Random();
-                    int no = rand.Next(qsID.Count);
+                    int no = rand.Next(qsID.Count+1); //+1 as the max of random is exclusive
                     tempQs.Add(qsID[no]);
                     qsID.RemoveAt(no);
                 }
@@ -648,7 +700,7 @@ public partial class addModuleTest : System.Web.UI.Page
         }
 
         /*
-         * This method is used to save the test questions
+         * This method is used to save the test questions to DB
          * */
         private void saveQuestions(List<Question> testQs)
         {
@@ -790,9 +842,12 @@ public partial class addModuleTest : System.Web.UI.Page
                 }
         }
 
+    /*
+     * This button is used to update the existing questions or adding a new question in DB. This button is called only when
+     * accessing module that has existing questions in DB.
+     * */
         protected void btnUpdateQs_Click(object sender, EventArgs e)
         {
-            
             //The following code would update the changes to the DB
             List<Question> testQs = (List<Question>)Session["testQuestion"];
             SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
@@ -911,6 +966,9 @@ public partial class addModuleTest : System.Web.UI.Page
             }
         }
 
+    /*
+     * This function is used to assign newly updated or created questions to the existing test versions in DB.
+     * */
         private void assignQstoTest()
         {
             //add qsID to a session
@@ -975,6 +1033,9 @@ public partial class addModuleTest : System.Web.UI.Page
             }
         }
 
+    /*
+     * This funciton is used to remove question from DB. It also removes records on the Test_question table.
+     * */
         private void removeQuestionsFromDB()
         {
             //delete data
