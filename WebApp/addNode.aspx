@@ -62,7 +62,7 @@
             <tr>
                 <td class="auto-style16">&nbsp;</td>
                 <td class="auto-style15">
-                    <asp:Button ID="btnAddNewNode" runat="server" Text="Add Node" OnClick="btnAddNewNode_Click" ValidationGroup="NodeVal" />
+                    <asp:Button ID="btnAddNewNode" runat="server" Text="Add Module" OnClick="btnAddNewNode_Click" ValidationGroup="NodeVal" />
                 &nbsp;
                     <asp:Button ID="btnBack" runat="server" OnClick="btnBack_Click" Text="Finish Adding Modules" Width="164px" />
                 </td>

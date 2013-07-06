@@ -58,24 +58,41 @@ public partial class addCourse : System.Web.UI.Page
             SqlCommand cmd = new SqlCommand("SELECT Topic_Id, Name, Description FROM Topic", conStr);
             SqlDataReader reader = cmd.ExecuteReader();
 
-            while (reader.Read())
+            bool hasData = false;
+            while (reader.Read() && !reader.IsDBNull(0))
             {
                 int id = reader.GetInt32(0);
                 string name = reader.GetString(1);
                 string desc = reader.GetString(2);
                 Topic newTopic = new Topic(id, name, desc);
                 allTopics.Add(newTopic);
+                hasData = true;
             }
             reader.Close();
 
-            //bind to dropdown lists
-            drpTopics.DataSource = allTopics;
-            drpTopics.DataTextField = "name";
-            drpTopics.DataValueField = "topicId";
-            drpTopics.DataBind();
+            if (hasData)
+            {
+                //bind to dropdown lists
+                drpTopics.DataSource = allTopics;
+                drpTopics.DataTextField = "name";
+                drpTopics.DataValueField = "topicId";
+                drpTopics.DataBind();
 
-            txtTopicDesc.Text = allTopics[0].description;
-            Session["allTopics"] = allTopics;
+                //enable dropdown
+                drpTopics.Enabled = true;
+                txtTopicDesc.Enabled = true;
+                btnAddTopicCourse.Enabled = true;
+
+                txtTopicDesc.Text = allTopics[0].description;
+                Session["allTopics"] = allTopics;
+            }
+            else
+            {
+                drpTopics.Items.Add("No existing Topics");
+                drpTopics.Enabled = false;
+                btnAddTopicCourse.Enabled = false;
+                txtTopicDesc.Enabled = false;
+            }
         }
         catch (Exception ex)
         {

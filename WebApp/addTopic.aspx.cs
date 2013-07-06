@@ -17,8 +17,75 @@ public partial class addTopic : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        if (!IsPostBack)
+        {
+            //if there is no course in the session
+            if (Session["CourseID"] == null)
+            {
+                getCourseFromDB();
+            }
+            else
+            {
+                //disable the course dropdownlist
+                drpCourse.Enabled = false;
+                //add course ID from session to the dropdownlist
+                drpCourse.Items.Add(Session["CourseID"].ToString());
+            }
+        }
     }
+
+    /*
+     * This function is used to get all courses in DB.
+     * */
+    private void getCourseFromDB()
+    {
+        SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
+        try
+        {
+            conStr.Open();
+            SqlCommand cmd = new SqlCommand("SELECT Course_Id, Name, Code FROM Course", conStr);
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read() && !reader.IsDBNull(0))
+            {
+                ListItem list = new ListItem();
+                list.Text = reader.GetString(2) + " - " + reader.GetString(1);
+                list.Value = reader.GetInt32(0).ToString();
+                drpCourse.Items.Add(list);
+            }
+            //close reader
+            reader.Close();
+
+            //check whether there is existing course in DB
+            if (drpCourse.Items.Count > 0)
+            {
+                //add to the session the first courseID of dropdownlist
+                Session["CourseID"] = drpCourse.Items[0].Value;
+                //enable the dropdownlist
+                drpCourse.Enabled = true;
+            }
+            else
+            {
+                drpCourse.Items.Add("No existing course in DB. Please add the course before adding Topic");
+                drpCourse.Enabled = false;
+                btnCreate.Enabled = false;
+                btnEnableCourse.Enabled = false;
+            }
+        }
+        catch (Exception ex)
+        {
+            ex.ToString();
+            Response.Redirect("~/Error.aspx");
+        }
+        finally
+        {
+            conStr.Close();
+        }
+    }
+
+    /*
+     * This function is used to create new topic in DB.
+     * */
     protected void btnCreate_Click(object sender, EventArgs e)
     {
         int topicID = getNextTopicID() + 1;
@@ -39,7 +106,8 @@ public partial class addTopic : System.Web.UI.Page
 
              //Insert topicOnCourse
              cmd = new SqlCommand("INSERT INTO TopicOnCourse VALUES (@courseID, @topicID)", conStr);
-             p1 = new SqlParameter("@courseID", (int) Session["CourseID"]);
+             int courseId = Convert.ToInt32(Session["CourseID"]);
+             p1 = new SqlParameter("@courseID", courseId);
               p2 = new SqlParameter("@topicID", topicID);
              cmd.Parameters.Add(p1);
              cmd.Parameters.Add(p2);
@@ -126,7 +194,7 @@ public partial class addTopic : System.Web.UI.Page
             try
             {
                 conStr.Open();
-                //Get the answer for the question
+                //Get the topic information order by name
                 SqlCommand cmd = new SqlCommand("SELECT Topic_Id, name FROM Topic ORDER BY name", conStr);
                 SqlDataReader reader = cmd.ExecuteReader();
 
@@ -139,6 +207,7 @@ public partial class addTopic : System.Web.UI.Page
                         lstItems.Value = Convert.ToString(topicId);
                         lstItems.Text = reader.GetString(1);
                         ddlTopic.Items.Add(lstItems);
+                        ddlTopic.Enabled = true;
                     }
                 }
                 reader.Close();
@@ -153,8 +222,18 @@ public partial class addTopic : System.Web.UI.Page
                 conStr.Close();
             }
 
-            //fill in the modules for first item in the dropdown list
-            fillExistingModules(Convert.ToInt32(ddlTopic.Items[0].Value));
+            //check whether there is existing topics in DB.
+            if (ddlTopic.Items.Count > 0)
+            {
+                ddlTopic.Enabled = true;
+                //fill in the modules for first item in the dropdown list
+                fillExistingModules(Convert.ToInt32(ddlTopic.Items[0].Value));
+            }
+            else
+            {
+                ddlTopic.Items.Add("No existing modules");
+                ddlTopic.Enabled = false;
+            }
         } 
     }
 
@@ -185,6 +264,8 @@ public partial class addTopic : System.Web.UI.Page
                 lstItems.Text = n.Name;
                 lstExistingModules.Items.Add(lstItems);
             }
+            //enable the dropdownlist
+            ddlTopic.Enabled = true;
         }
         else
         {
@@ -293,5 +374,18 @@ public partial class addTopic : System.Web.UI.Page
             System.Web.HttpContext.Current.Response.Write("alert('You have not assigned any module to the new topic. Please assign the modules')");
             System.Web.HttpContext.Current.Response.Write("</SCRIPT>");
         }
+    }
+    protected void drpCourse_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        Session["CourseID"] = drpCourse.Items[drpCourse.SelectedIndex].Value;
+    }
+
+    /*
+     * Enable button for course selection
+     * */
+    protected void btnEnableCourse_Click(object sender, EventArgs e)
+    {
+        drpCourse.Items.Clear(); //remove all items
+        getCourseFromDB();
     }
 }

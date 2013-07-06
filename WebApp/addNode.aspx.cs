@@ -31,12 +31,14 @@ public partial class addNode : System.Web.UI.Page
             SqlCommand cmd = new SqlCommand("SELECT MAX(Node_Id) FROM Nodes", conStr);
             SqlDataReader reader = cmd.ExecuteReader();
 
-            while (reader.Read())
+            while (reader.Read() && !reader.IsDBNull(0))
             {
-                nodeID = reader.GetInt32(0) + 1;
+                nodeID = reader.GetInt32(0);
             }
             reader.Close();
-        
+
+            //increase the nodeID by 1 for adding new node
+            nodeID += 1;
             //Insert new node to DB
             cmd = new SqlCommand("INSERT INTO Nodes VALUES (@nodeId, @name, @desc)", conStr);
             SqlParameter p1 = new SqlParameter("@nodeId", nodeID);
@@ -93,11 +95,14 @@ public partial class addNode : System.Web.UI.Page
                 SqlCommand cmd = new SqlCommand("SELECT MAX(Material_Id) FROM Materials", conStr);
                 SqlDataReader reader = cmd.ExecuteReader();
 
-                while (reader.Read())
+                while (reader.Read() && !reader.IsDBNull(0))
                 {
-                    materialID = reader.GetInt32(0) + 1;
+                    materialID = reader.GetInt32(0);
                 }
                 reader.Close();
+
+                //increase materialID by 1 to add new record
+                materialID += 1;
 
                 //get textbox value per line
                 string txt = txtLinks.Text;

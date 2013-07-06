@@ -621,23 +621,23 @@ public partial class addModuleTest : System.Web.UI.Page
             int totalVer = Convert.ToInt32(ddlVersions.SelectedItem.Value);
             //save the first version of test
             List<int> qsID = (List<int>)Session["allQsID"];
-            saveTest(qsID);
+            saveTest(qsID); //save the first test version
 
             //create other versions of test
             for (int i = 1; i < totalVer; i++)
             {
                 //create temp list to hold the new random order questions
                 List<int> tempQs = new List<int>();
+                List<int> tempQsId = new List<int>(qsID);
                 //the following loop will randomly assign test questions to each test version.
-                while (qsID.Count > 1)
+                while (tempQsId.Count >= 1)
                 {
                     Random rand = new Random();
-                    int no = rand.Next(qsID.Count+1); //+1 as the max of random is exclusive
-                    tempQs.Add(qsID[no]);
-                    qsID.RemoveAt(no);
+                    int no = rand.Next(tempQsId.Count);
+                    tempQs.Add(tempQsId[no]);
+                    tempQsId.RemoveAt(no);
                 }
                 saveTest(tempQs);
-                qsID = (List<int>)Session["allQsID"];
             }
 
         }

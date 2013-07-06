@@ -20,4 +20,11 @@ public class Course
         this.code = code;
         this.description = desc;
 	}
+
+    public Course(int courseID, String name, String code)
+    {
+        this.courseID = courseID;
+        this.name = name;
+        this.code = code;
+    }
 }

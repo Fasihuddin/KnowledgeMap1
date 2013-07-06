@@ -8,7 +8,7 @@
         }
         .auto-style3
         {
-            width: 81px;
+            width: 102px;
         }
         .auto-style13
         {
@@ -44,7 +44,7 @@
         .auto-style22
         {
             height: 23px;
-            width: 81px;
+            width: 102px;
         }
     </style>
 
@@ -52,10 +52,22 @@
     
         <h3>Add New Topic<br />
         </h3>
+        <p>&nbsp;</p>
             <table style="width: 89%;">
                 <tr>
                     <td class="auto-style22">
-                        <asp:Label ID="lblName" runat="server" Text="Topic Name:"></asp:Label>
+                        <asp:Label ID="lblName0" runat="server" Text="Select Course:"></asp:Label>
+                    </td>
+                    <td class="auto-style13">
+                        <asp:DropDownList ID="drpCourse" runat="server" AutoPostBack="True" OnSelectedIndexChanged="drpCourse_SelectedIndexChanged" Width="330px">
+                        </asp:DropDownList>
+&nbsp;
+                        <asp:Button ID="btnEnableCourse" runat="server" OnClick="btnEnableCourse_Click" Text="Enable course selection" Width="157px" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="auto-style22">
+                        <asp:Label ID="lblName" runat="server" Text="New Topic Name:"></asp:Label>
                     </td>
                     <td class="auto-style13">
                         <asp:TextBox ID="txtTopic" runat="server" Width="324px"></asp:TextBox>
@@ -64,7 +76,7 @@
                 </tr>
                 <tr>
                     <td class="auto-style3">
-                        <asp:Label ID="Label1" runat="server" Text="Description:"></asp:Label>
+                        <asp:Label ID="Label1" runat="server" Text="Topic Description:"></asp:Label>
                     </td>
                     <td class="auto-style14">
                         <asp:TextBox ID="txtDescription" runat="server" Height="76px" TextMode="MultiLine" Width="328px"></asp:TextBox>
