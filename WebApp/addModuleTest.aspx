@@ -7,8 +7,7 @@
         .auto-style1
         {
             height: 30px;
-            width: 214px;
-        }
+            }
         .auto-style2
         {
             width: 207px;
@@ -149,15 +148,11 @@
                                 <asp:TextBox ID="txtAnswer2" runat="server" Height="16px" Width="420px" Text='<%# Bind("choice2") %>'></asp:TextBox> <br />
                                 Option 3: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <asp:RadioButton ID="rdbAnswer3" runat="server" Text="Answer" GroupName="Answer" /> 
-                            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" ValidationGroup="Update" runat="server"
-                            ControlToValidate="txtAnswer3" ErrorMessage="Please Enter Option 3"
-                            ToolTip="Please Enter Option 3" SetFocusOnError="true" ForeColor="Red">*</asp:RequiredFieldValidator><br />
+                           <br />
                                 <asp:TextBox ID="txtAnswer3" runat="server" Height="16px" Width="420px" Text='<%# Bind("choice3") %>'></asp:TextBox> <br />
                                 Option 4: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <asp:RadioButton ID="rdbAnswer4" runat="server" Text="Answer" GroupName="Answer"/> 
-                            <asp:RequiredFieldValidator ID="rfvChoice4" ValidationGroup="Update" runat="server"
-                            ControlToValidate="txtAnswer4" ErrorMessage="Please Enter Option 4"
-                            ToolTip="Please Enter Option 4" SetFocusOnError="true" ForeColor="Red">*</asp:RequiredFieldValidator><br />
+                           <br />
                                 <asp:TextBox ID="txtAnswer4" runat="server" Height="16px" Width="420px" Text='<%# Bind("choice4") %>'></asp:TextBox> <br />
                         </EditItemTemplate>
                         <ItemTemplate>
@@ -181,15 +176,11 @@
                                 <asp:TextBox ID="txtAnswer2" runat="server" Height="16px" Width="420px"></asp:TextBox> <br />
                                 Option 3: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <asp:RadioButton ID="rdbAnswer3" runat="server" Text="Answer" GroupName="Answer" /> 
-                            <asp:RequiredFieldValidator ID="RequiredFieldValidator4" ValidationGroup="Insert" runat="server"
-                            ControlToValidate="txtAnswer3" ErrorMessage="Please Enter Option 3"
-                            ToolTip="Please Enter Option 3" SetFocusOnError="true" ForeColor="Red">*</asp:RequiredFieldValidator><br />
+                            <br />
                                 <asp:TextBox ID="txtAnswer3" runat="server" Height="16px" Width="420px"></asp:TextBox> <br />
                                 Option 4: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <asp:RadioButton ID="rdbAnswer4" runat="server" Text="Answer" GroupName="Answer"/> 
-                             <asp:RequiredFieldValidator ID="rfvChoice4" ValidationGroup="Insert" runat="server"
-                            ControlToValidate="txtAnswer4" ErrorMessage="Please Enter Option 4"
-                            ToolTip="Please Enter Option 4" SetFocusOnError="true" ForeColor="Red">*</asp:RequiredFieldValidator><br />
+                             <br />
                                 <asp:TextBox ID="txtAnswer4" runat="server" Height="16px" Width="420px"></asp:TextBox> <br />
                     </FooterTemplate>
                     </asp:TemplateField>
@@ -288,15 +279,11 @@
                                 <asp:TextBox ID="txtAnswer2" runat="server" Height="16px" Width="420px"></asp:TextBox>
                                 Option 3: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <asp:RadioButton ID="rdbAnswer3" runat="server" Text="Answer" GroupName="Answer" />
-                                <asp:RequiredFieldValidator ID="rfvChoice3" ValidationGroup="emptyInsert" runat="server"
-                            ControlToValidate="txtAnswer3" ErrorMessage="Please Enter Option 3"
-                            ToolTip="Please Enter Option 3" SetFocusOnError="true" ForeColor="Red">*</asp:RequiredFieldValidator> <br />
+                               <br />
                                 <asp:TextBox ID="txtAnswer3" runat="server" Height="16px" Width="420px"></asp:TextBox>
                                 Option 4: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <asp:RadioButton ID="rdbAnswer4" runat="server" Text="Answer" GroupName="Answer"/> 
-                                <asp:RequiredFieldValidator ID="rfvChoice4" ValidationGroup="emptyInsert" runat="server"
-                            ControlToValidate="txtAnswer4" ErrorMessage="Please Enter Option 4"
-                            ToolTip="Please Enter Option 4" SetFocusOnError="true" ForeColor="Red">*</asp:RequiredFieldValidator><br />
+                                <br />
                                 <asp:TextBox ID="txtAnswer4" runat="server" Height="16px" Width="420px"></asp:TextBox>
                                 
                             </td>
@@ -324,7 +311,7 @@
             <br />
             <table style="width: 340px; height: 78px;">
                 <tr>
-                    <td class="auto-style1">Number of Test Versions:&nbsp;&nbsp;
+                    <td class="auto-style1" colspan="2">Select Number of Test Versions:&nbsp;&nbsp;
                         <asp:DropDownList ID="ddlVersions" runat="server">
                             <asp:ListItem>1</asp:ListItem>
                             <asp:ListItem>2</asp:ListItem>
@@ -333,7 +320,6 @@
                             <asp:ListItem>5</asp:ListItem>
                         </asp:DropDownList>
                     </td>
-                    <td class="auto-style9"></td>
                 </tr>
                 <tr>
                     <td class="auto-style1">

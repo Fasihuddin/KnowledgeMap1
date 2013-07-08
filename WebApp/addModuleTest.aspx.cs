@@ -800,29 +800,35 @@ public partial class addModuleTest : System.Web.UI.Page
                         cmd.Parameters.Add(p4);
                         x = cmd.ExecuteNonQuery();
 
-                        //choice 3
-                        cmd = new SqlCommand("INSERT INTO Choices VALUES(@ChoiceID, @text, @status, @qID)", conStr);
-                        p1 = new SqlParameter("@ChoiceID", maxChoiceID + 3);
-                        p2 = new SqlParameter("@text", q.choice3);
-                        p3 = new SqlParameter("@status", answers[3]);
-                        p4 = new SqlParameter("@qID", maxQsID + 1);
-                        cmd.Parameters.Add(p1);
-                        cmd.Parameters.Add(p2);
-                        cmd.Parameters.Add(p3);
-                        cmd.Parameters.Add(p4);
-                        x = cmd.ExecuteNonQuery();
+                        if (!q.choice3.Equals(""))
+                        {
+                            //choice 3
+                            cmd = new SqlCommand("INSERT INTO Choices VALUES(@ChoiceID, @text, @status, @qID)", conStr);
+                            p1 = new SqlParameter("@ChoiceID", maxChoiceID + 3);
+                            p2 = new SqlParameter("@text", q.choice3);
+                            p3 = new SqlParameter("@status", answers[3]);
+                            p4 = new SqlParameter("@qID", maxQsID + 1);
+                            cmd.Parameters.Add(p1);
+                            cmd.Parameters.Add(p2);
+                            cmd.Parameters.Add(p3);
+                            cmd.Parameters.Add(p4);
+                            x = cmd.ExecuteNonQuery();
+                        }
 
-                        //choice 4
-                        cmd = new SqlCommand("INSERT INTO Choices VALUES(@ChoiceID, @text, @status, @qID)", conStr);
-                        p1 = new SqlParameter("@ChoiceID", maxChoiceID + 4);
-                        p2 = new SqlParameter("@text", q.choice4);
-                        p3 = new SqlParameter("@status", answers[4]);
-                        p4 = new SqlParameter("@qID", maxQsID + 1);
-                        cmd.Parameters.Add(p1);
-                        cmd.Parameters.Add(p2);
-                        cmd.Parameters.Add(p3);
-                        cmd.Parameters.Add(p4);
-                        x = cmd.ExecuteNonQuery();
+                        if (!q.choice4.Equals(""))
+                        {
+                            //choice 4
+                            cmd = new SqlCommand("INSERT INTO Choices VALUES(@ChoiceID, @text, @status, @qID)", conStr);
+                            p1 = new SqlParameter("@ChoiceID", maxChoiceID + 4);
+                            p2 = new SqlParameter("@text", q.choice4);
+                            p3 = new SqlParameter("@status", answers[4]);
+                            p4 = new SqlParameter("@qID", maxQsID + 1);
+                            cmd.Parameters.Add(p1);
+                            cmd.Parameters.Add(p2);
+                            cmd.Parameters.Add(p3);
+                            cmd.Parameters.Add(p4);
+                            x = cmd.ExecuteNonQuery();
+                        }
 
                         //increase the qsID
                         qsID.Add(maxQsID + 1);
@@ -919,24 +925,113 @@ public partial class addModuleTest : System.Web.UI.Page
                     x = cmd.ExecuteNonQuery();
 
                     //choice 3
-                    cmd = new SqlCommand("UPDATE Choices SET Text = @text, Status = @status WHERE Choice_Id = @ChoiceID", conStr);
-                    p1 = new SqlParameter("@ChoiceID", q.choiceID3);
-                    p2 = new SqlParameter("@text", q.choice3);
-                    p3 = new SqlParameter("@status", answers[3]);
-                    cmd.Parameters.Add(p1);
-                    cmd.Parameters.Add(p2);
-                    cmd.Parameters.Add(p3);
-                    x = cmd.ExecuteNonQuery();
+                    if (!q.choice3.Equals(""))
+                    {
+                        if (q.choiceID3 != 0) //check if there is existing choiceID in the DB
+                        {
+                            //if choice exists, update the record
+                            cmd = new SqlCommand("UPDATE Choices SET Text = @text, Status = @status WHERE Choice_Id = @ChoiceID", conStr);
+                            p1 = new SqlParameter("@ChoiceID", q.choiceID3);
+                            p2 = new SqlParameter("@text", q.choice3);
+                            p3 = new SqlParameter("@status", answers[3]);
+                            cmd.Parameters.Add(p1);
+                            cmd.Parameters.Add(p2);
+                            cmd.Parameters.Add(p3);
+                            x = cmd.ExecuteNonQuery();
+                        }
+                        else
+                        {
+                            //if choice does not exists, insert new record
+
+                            //save choice 1
+                            //get max choiceID
+                            int maxChoiceID = 0;
+                            //get the largest test ID from DB
+                            cmd = new SqlCommand("SELECT MAX(Choice_Id) FROM Choices", conStr);
+                            SqlDataReader reader = cmd.ExecuteReader();
+
+                            while (reader.Read() && !reader.IsDBNull(0))
+                            {
+                                maxChoiceID = reader.GetInt32(0);
+                            }
+                            reader.Close();
+
+                            //choice 3
+                            cmd = new SqlCommand("INSERT INTO Choices VALUES(@ChoiceID, @text, @status, @qID)", conStr);
+                            p1 = new SqlParameter("@ChoiceID", maxChoiceID + 1);
+                            p2 = new SqlParameter("@text", q.choice3);
+                            p3 = new SqlParameter("@status", answers[3]);
+                            p4 = new SqlParameter("@qID", q.qId);
+                            cmd.Parameters.Add(p1);
+                            cmd.Parameters.Add(p2);
+                            cmd.Parameters.Add(p3);
+                            cmd.Parameters.Add(p4);
+                            x = cmd.ExecuteNonQuery();
+                            q.choiceID3 = maxChoiceID + 1;
+                        }
+                    }
+                    else if (q.choiceID3 != 0)
+                    {
+                        //delete choice
+                        cmd = new SqlCommand("DELETE FROM Choices WHERE Choice_Id = @ChoiceID", conStr);
+                        p1 = new SqlParameter("@ChoiceID", q.choiceID3);
+                        cmd.Parameters.Add(p1);
+                        x = cmd.ExecuteNonQuery();
+                        q.choiceID3 = 0;
+                    }
 
                     //choice 4
-                    cmd = new SqlCommand("UPDATE Choices SET Text = @text, Status = @status WHERE Choice_Id = @ChoiceID", conStr);
-                    p1 = new SqlParameter("@ChoiceID", q.choiceID4);
-                    p2 = new SqlParameter("@text", q.choice4);
-                    p3 = new SqlParameter("@status", answers[4]);
-                    cmd.Parameters.Add(p1);
-                    cmd.Parameters.Add(p2);
-                    cmd.Parameters.Add(p3);
-                    x = cmd.ExecuteNonQuery();
+                    if (!q.choice4.Equals(""))
+                    {
+                        if (q.choiceID4 != 0)
+                        {
+                            cmd = new SqlCommand("UPDATE Choices SET Text = @text, Status = @status WHERE Choice_Id = @ChoiceID", conStr);
+                            p1 = new SqlParameter("@ChoiceID", q.choiceID4);
+                            p2 = new SqlParameter("@text", q.choice4);
+                            p3 = new SqlParameter("@status", answers[4]);
+                            cmd.Parameters.Add(p1);
+                            cmd.Parameters.Add(p2);
+                            cmd.Parameters.Add(p3);
+                            x = cmd.ExecuteNonQuery();
+                        }
+                        else
+                        {
+                            //save choice 1
+                            //get max choiceID
+                            int maxChoiceID = 0;
+                            //get the largest test ID from DB
+                            cmd = new SqlCommand("SELECT MAX(Choice_Id) FROM Choices", conStr);
+                            SqlDataReader reader = cmd.ExecuteReader();
+
+                            while (reader.Read() && !reader.IsDBNull(0))
+                            {
+                                maxChoiceID = reader.GetInt32(0);
+                            }
+                            reader.Close();
+
+                            //choice 4
+                            cmd = new SqlCommand("INSERT INTO Choices VALUES(@ChoiceID, @text, @status, @qID)", conStr);
+                            p1 = new SqlParameter("@ChoiceID", maxChoiceID + 1);
+                            p2 = new SqlParameter("@text", q.choice4);
+                            p3 = new SqlParameter("@status", answers[4]);
+                            p4 = new SqlParameter("@qID", q.qId);
+                            cmd.Parameters.Add(p1);
+                            cmd.Parameters.Add(p2);
+                            cmd.Parameters.Add(p3);
+                            cmd.Parameters.Add(p4);
+                            x = cmd.ExecuteNonQuery();
+                            q.choiceID4 = maxChoiceID + 1;
+                        }
+                    }
+                    else if (q.choiceID4 != 0)
+                    {
+                        //delete choice
+                        cmd = new SqlCommand("DELETE FROM Choices WHERE Choice_Id = @ChoiceID", conStr);
+                        p1 = new SqlParameter("@ChoiceID", q.choiceID4);
+                        cmd.Parameters.Add(p1);
+                        x = cmd.ExecuteNonQuery();
+                        q.choiceID4 = 0;
+                    }
                 }
 
                 //delete the removed questions in DB

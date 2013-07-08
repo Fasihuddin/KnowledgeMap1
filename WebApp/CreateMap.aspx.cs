@@ -240,7 +240,7 @@ public partial class CourseNode : System.Web.UI.Page
                 //connecting node with its prerequisite nodes
                 if (degree == 1)
                 {
-                    this.ConnectNode(g, 500, 20, startX + 36, startY, Color.Red);
+                    this.ConnectNode(g, 500, 70, startX + 36, startY, Color.Red);
                 }
                 else
                 {
