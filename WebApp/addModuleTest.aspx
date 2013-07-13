@@ -73,7 +73,7 @@
             <tr>
                 <td class="auto-style3">Select Module:</td>
                 <td class="auto-style5">
-                    <asp:DropDownList ID="ddlModule" runat="server" Height="26px" Width="352px">
+                    <asp:DropDownList ID="ddlModule" runat="server" Height="26px" Width="352px" >
                     </asp:DropDownList>
                 </td>
             </tr>
