@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+  <siteMapNode url="mainPage.aspx" title=" Home"  description="">
+
+
+    <siteMapNode url="" title=" Courses"  description="">
+      <siteMapNode url="addCourse.aspx" title="Add course" description=""></siteMapNode>
+    </siteMapNode>
+    
+    <siteMapNode url="" title=" Topics"  description="">
+      <siteMapNode url="addTopic.aspx" title="Add Topic" description=""></siteMapNode>
+    </siteMapNode>
+
+    <siteMapNode url="" title=" Modules"  description="">
+      <siteMapNode url="addModuleTest.aspx" title="Create test for a Module" description=""></siteMapNode>
+    </siteMapNode>
+    
+  </siteMapNode>
+</siteMap>

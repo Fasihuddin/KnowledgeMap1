@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data.SqlClient;
+using System.Web.Security;
 
 public partial class InstLogin : System.Web.UI.Page
 {
@@ -26,28 +27,30 @@ public partial class InstLogin : System.Web.UI.Page
         }
 
     }
-    protected void Login1_Authenticate(object sender, AuthenticateEventArgs e)
-    {
-        Boolean blnresult;
-        blnresult = false;
+    //protected void Login1_Authenticate(object sender, AuthenticateEventArgs e)
+    //{
+    //    Boolean blnresult;
+    //    blnresult = false;
 
-        // Pass UserName  and Password from login1 control to an authentication function which will check will check the user name and password from sql server.
-        // Then will retrun a true or false value into blnresult variable
-        blnresult = Authentication(Login1.UserName, Login1.Password);
+    //    // Pass UserName  and Password from login1 control to an authentication function which will check will check the user name and password from sql server.
+    //    // Then will retrun a true or false value into blnresult variable
+    //    blnresult = Authentication(Login1.UserName, Login1.Password);
 
-        // If blnresult has a true value then authenticate user 
-        if (blnresult == true)
-        {
-            // This is the actual statement which will authenticate the user
-            e.Authenticated = true;
-            // Store authentication mode in session variable 
-            Session["Check"] = true;
-        }
-        else
-            // If user faild to provide valid user name and password
-            e.Authenticated = false;
+    //    // If blnresult has a true value then authenticate user 
+    //    if (blnresult == true)
+    //    {
+    //        // This is the actual statement which will authenticate the user
+    //        e.Authenticated = true;
+    //        // Store authentication mode in session variable 
+    //        Session["Check"] = true;
+    //        FormsAuthentication.SetAuthCookie(Login1.UserName, false);
 
-    }
+    //    }
+    //    else
+    //        // If user faild to provide valid user name and password
+    //        e.Authenticated = false;
+
+    //}
 
     // Function name Authentication which will get check the user_name and passwrod from sql database then return a value true or false
     protected Boolean Authentication(string username, string password)
@@ -70,12 +73,38 @@ public partial class InstLogin : System.Web.UI.Page
         {
             string InstId = reader.GetString(0);
             Session["InstId"] = InstId;
+            Session["Role"] = "Instructor";
             return true;
         }
         else
         {
             return false;
         }
+
+    }
+
+
+    protected void btnLogin_Click(object sender, EventArgs e)
+    {
+        Boolean blnresult;
+        blnresult = false;
+        string username = TxtUsername.Text.Trim();
+        // Pass UserName  and Password from login1 control to an authentication function which will check will check the user name and password from sql server.
+        // Then will retrun a true or false value into blnresult variable
+        blnresult = Authentication(username, TxtPassword.Text);
+
+        // If blnresult has a true value then authenticate user 
+        if (blnresult == true)
+        {
+            // Store authentication mode in session variable 
+            Session["Check"] = true;
+            FormsAuthentication.SetAuthCookie(username, false);
+            Response.Redirect("~/addCourse.aspx");
+
+        }
+        else
+            // If user faild to provide valid user name and password
+            LabelFailed.Text = "Login Failed";
 
     }
 }

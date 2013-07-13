@@ -1,6 +1,13 @@
-﻿<%@ Page Title="Add Module" Language="C#" MasterPageFile="~/InstMasterPage.master" AutoEventWireup="true" CodeFile="addNode.aspx.cs" Inherits="addNode" %>
+﻿<%@ Page  Language="C#"  AutoEventWireup="true" CodeFile="addNode.aspx.cs" Inherits="addNode" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">    
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title></title>
+</head>
+<body>
+    <form id="form1" runat="server">
     <style type="text/css">
         .auto-style4
         {
@@ -27,12 +34,15 @@
         {
             width: 246px;
         }
+        .auto-style17 {
+            background-color: #99CCFF;
+        }
     </style>
 
     
     <div>
     
-        <h3>Add New Modules</h3>
+        <h3 style="background-position: 100% 70%; width:410px; height:30px; color:#00111A; font:28px/28px Georgia,Times, serif; background-image: url('../images/border2.gif'); background-repeat: no-repeat; background-attachment: scroll;" class="auto-style17">Add New Modules</h3>
         <p>Add new module in this form. Please note that maximum length of module name is 30 characters.</p>
         <table class="auto-style14">
             <tr>
@@ -74,4 +84,6 @@
         </table>
     
     </div>
-    </asp:Content>
+  </form>
+</body>
+</html>

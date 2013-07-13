@@ -5,12 +5,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
+    <style type="text/css">
+        .auto-style1 {
+            background-color: #99CCFF;
+        }
+    </style>
 </head>
 <body>
     <form id="form1" runat="server">
     <div>
     
-        <h1><strong>Add Prerequisite Modules</strong></h1>
+        <h3 style="background-position: 100% 70%; width:410px; height:30px; color:#00111A; font:28px/28px Georgia, Times, serif; background-image: url('../images/border2.gif'); background-repeat: no-repeat; background-attachment: scroll;" class="auto-style1">Add Prerequisite Modules</h3>
         <br />
         <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" onRowCommand="GridView1_RowCommand">
             <Columns>

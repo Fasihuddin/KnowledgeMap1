@@ -43,11 +43,14 @@
         {
             width: 402px;
         }
+        .auto-style2 {
+            height: 36px;
+        }
         </style>
 
 
    
-    <div><h1>Topic Node</h1>
+    <div><h3>Topic Knowledge Map</h3>
             <table style="width:63%;">
                 <tr>
                     <td><asp:Label ID="lblTopicName" runat="server" Font-Italic="True" Text="Topic: " Font-Bold="True" ForeColor="#6666FF"></asp:Label></td>
@@ -56,10 +59,10 @@
                     </td>
                 </tr>
                 <tr>
-                    <td valign="top">
+                    <td valign="top" class="auto-style2">
             <asp:Label ID="lblDesc" runat="server" Font-Italic="True" Text="Description: " Font-Bold="True" ForeColor="#6666FF"></asp:Label>
                     </td>
-                    <td>
+                    <td class="auto-style2">
             <asp:TextBox ID="txtDesc" runat="server" ReadOnly="True" TextMode="MultiLine" Font-Italic="True" BorderWidth="0" BorderStyle="None" Rows="2" Width="556px" Font-Bold="True" ForeColor="#6666FF"></asp:TextBox>
                     </td>
                 </tr>

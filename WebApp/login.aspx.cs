@@ -17,6 +17,14 @@ public partial class login : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        //redirect to instructor login page if the return url is one of the instructor's pages
+        if (!string.IsNullOrEmpty(Request.QueryString["returnUrl"]))
+        {
+            if ((Request.QueryString["returnUrl"].Contains("addCourse")) || (Request.QueryString["returnUrl"].Contains("addModuleTest")) || (Request.QueryString["returnUrl"].Contains("addNode"))
+                || (Request.QueryString["returnUrl"].Contains("addNodesPrereq")) || (Request.QueryString["returnUrl"].Contains("addTopic")) || (Request.QueryString["returnUrl"].Contains("CreateMap"))
+                || (Request.QueryString["returnUrl"].Contains("saveMap")))
+                Response.Redirect("~/InstLogin.aspx");
+        }
         try
         {
             // Check if the user is already loged in or not
@@ -49,6 +57,14 @@ public partial class login : System.Web.UI.Page
             e.Authenticated = true;
             // Store authentication mode in session variable 
             Session["Check"] = true;
+
+            // redirect to course intro if the requested page is restriced or if it is logout
+            if (string.Equals(Request.QueryString["returnUrl"], "/WebApp/StdQuestionsForm.aspx") || string.Equals(Request.QueryString["returnUrl"], "/WebApp/testResult.aspx") )
+            {
+                //setAutCookie is used to enable redirecting to specific page
+                FormsAuthentication.SetAuthCookie(Login1.UserName, false);
+                Response.Redirect("~/StdCourseIntro.aspx");
+            }
         }
         else
             // If user faild to provide valid user name and password

@@ -11,19 +11,24 @@
         {
             width: 503px;
         }
+        .auto-style3 {
+            font-size: medium;
+        }
     </style>
 
    
     <div>
     
-        <h3>Node Page</h3>
+        <h3>Module Learning Materials</h3>
         <br />
         <br />
         <table style="width:100%;">
             <tr>
-                <td class="auto-style2"><span class="auto-style1"><strong>Node Materials</strong></span><br />
+                <td class="auto-style2"><strong><span class="auto-style3">Module</span>:
+                    <asp:Label ID="NodeLbl" runat="server" Font-Size="Small" Font-Italic="True"></asp:Label>
+                    </strong><br />
                     <br />
-                    &lt;&lt; Links for the node materials here &gt;&gt;<br />
+                    &lt;&lt; Following is some links for different learning materials &gt;&gt;<br />
                     <br />
                     <asp:GridView ID="grdLinks2" runat="server" CellPadding="4" GridLines="None" AutoGenerateColumns="False" ForeColor="#333333">
                         <AlternatingRowStyle BackColor="White" ForeColor="#284775" />

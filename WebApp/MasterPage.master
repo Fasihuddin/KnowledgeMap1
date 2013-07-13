@@ -17,8 +17,11 @@
         <li class="home">Home</li>
         <li><a href="AboutUs.aspx">About us</a></li>
         <li><a href="StdCourseIntro.aspx">Courses</a></li>
-        <li class="uon"><a href="https://uonline.newcastle.edu.au/webapps/portal/frameset.jsp">Uon Blackboard</a></li>
-        <li class="contact"><a href="http://www.free-css.com/" class="contact">Contact</a></li>
+        <li class="uon"><a href="https://uonline.newcastle.edu.au/webapps/portal/frameset.jsp" style="border-right-style: solid; border-right-width: 1px; border-right-color: #E5E5E5">Uon Blackboard</a></li>
+          <li><a href="#">Survey</a></li>
+        <li class="contact"><a href="Contact.aspx" style="border-right-style: solid; border-right-width: 1px; border-right-color: #E5E5E5">Contact</a></li>
+         
+          
       </ul>
     </div>
     <div id="topMenuRightPan"></div>
@@ -28,23 +31,21 @@
 <div id="bodyPan" style="position: relative; left: -46px; top: 0px;">
     <div id="topLoginInfoPan" style="background-color: #CEE3F6; font-size: medium; width: 970px;">
          <asp:Label ID="UserLabel" runat="server" Font-Bold="True" Font-Italic="False"></asp:Label>
-      <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutPageUrl="~/logout.aspx" LogoutAction="Redirect" />
+      <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutPageUrl="~/logout.aspx" LogoutAction="Redirect" OnLoggingOut="LoginStatus1_LoggingOut" />
       <br/>
 
     </div>
   <div id="bodyLeftPan">
+      <div style="min-height:280px;">
       <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
           
       </asp:ContentPlaceHolder>
+          </div>
   </div>
   </div>
 <div id="footermainPan">
   <div id="footerPan">
-    <ul>
-      <li><a href="http://www.free-css.com/">Home</a>| </li>
-      <li><a href="AboutUs.aspx">About us</a>| </li>
-      <li><a href="http://www.free-css.com/">Contact</a>| </li>
-    </ul>
+    <p>For any help please email <a href="mailto:Open-CALC@hotmail.com">Open-CALC@hotmail.com</a> </p>
     <p class="copyright">© CALC. All right reserved.</p>
     <ul class="templateworld">
       <li>design by:</li>

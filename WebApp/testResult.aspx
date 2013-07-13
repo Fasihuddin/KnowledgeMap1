@@ -5,7 +5,7 @@
   
     <div>
     
-        <asp:LoginName ID="LoginName1" runat="server" />
+        
     
     </div>
         <p>

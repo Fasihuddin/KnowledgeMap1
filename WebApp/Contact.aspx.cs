@@ -5,13 +5,10 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class logout : System.Web.UI.Page
+public partial class Contact : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if ((Session["Check"] != null) && (Convert.ToBoolean(Session["Check"]) == true))
-        {
-            Response.Redirect("~/StdCourseIntro.aspx");
-        }
+
     }
 }

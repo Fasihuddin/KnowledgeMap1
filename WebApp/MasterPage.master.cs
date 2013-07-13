@@ -33,4 +33,8 @@ public partial class MasterPage : System.Web.UI.MasterPage
             Console.WriteLine(ex.ToString());
         }
     }
+    protected void LoginStatus1_LoggingOut(object sender, LoginCancelEventArgs e)
+    {
+        Session.Abandon(); //remove all sessions for a particular username
+    }
 }

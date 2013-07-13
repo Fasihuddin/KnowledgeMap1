@@ -1,19 +1,14 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="mainPage.aspx.cs" Inherits="loginSuccess" %>
+﻿<%@ Page Title="Instructors Main"Language="C#" MasterPageFile="~/InstMasterPage.master" AutoEventWireup="true" CodeFile="mainPage.aspx.cs" Inherits="loginSuccess" %>
 
-<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-</head>
-<body>
-    <asp:LoginName ID="LoginName1" runat="server" FormatString="Welcome {0}" />
-
-    <form id="form1" runat="server">
-        <asp:LoginStatus ID="LoginStatus1" runat="server" LogoutPageUrl="~/logout.aspx" LogoutAction="Redirect" />
-        <h2>The mainpage</h2>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+        <h2>The home page</h2>
         <div>
+            <br/>
+            Welcome to CALC!! 
+            <ul style="list-style-type: disc; left: 15px; position: absolute;"><li>To add a new course, select add course</li>
+                <li>To add a new topic or assign topic to a course, select add topic</li>
+                <li>To create a test for an existing module, select create test for a module</li>
+            </ul>
         </div>
-    </form>
-</body>
-</html>
+    </asp:Content>
+

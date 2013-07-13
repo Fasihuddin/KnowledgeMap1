@@ -70,7 +70,7 @@ position:relative; margin:0 auto; padding:25px 0 0;
 }
 /*----BODY LEFT PANEL----*/
 #bodyLeftPan{width:868px; 
-float:left; padding:12px 36px 0 0;
+float:left; padding:12px 36px 0 0; height:700px;
 }
 #bodyLeftPan h2{width:410px; height:30px; background:#fff url('../images/border1.gif') no-repeat 100% 70%; 
 color:#00111A; font:28px/28px Georgia, "Times New Roman", Times, serif;

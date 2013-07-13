@@ -46,7 +46,19 @@ public partial class startTest : System.Web.UI.Page
             System.Web.HttpContext.Current.Response.Write("</SCRIPT>");
             //Response.Redirect("~/StdShowTopicMap.aspx");
         }
-       
+       // to show node/module name
+        SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
+        SqlCommand cmd = new SqlCommand("SELECT Name from Nodes where Node_Id=" + strNodeID, conStr);
+        try
+        {
+            conStr.Open();
+            string node_name = cmd.ExecuteScalar().ToString();
+            NodeLbl.Text = node_name;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+        }
     }
 
     /*

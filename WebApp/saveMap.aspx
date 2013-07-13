@@ -10,13 +10,16 @@
         {
             text-decoration: underline;
         }
+        .auto-style2 {
+            background-color: #99CCFF;
+        }
     </style>
 
 
 </head>
 <body>
     <form id="form1" runat="server">
-        <h1><strong>Save Knowledge Map</strong></h1>
+        <h3 style="background-position: 100% 70%; width:410px; height:30px; color:#00111A; font:28px/28px Georgia,Times, serif; background-image: url('../images/border2.gif'); background-repeat: no-repeat; background-attachment: scroll;" class="auto-style2">Save Knowledge Map</h3>
         <table style="width:100%;">
             <tr>
                 <td>* Please review the computer-generated knowledge map below. This knowledge map will be used by students<br />

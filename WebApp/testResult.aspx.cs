@@ -49,7 +49,12 @@ public partial class testResult : System.Web.UI.Page
             cmd.CommandText = sqlQuery;
             cmd.Connection = conStr;
             varNodeId = cmd.ExecuteScalar().ToString();
-            NodeIdLabel.Text = varNodeId;
+            // get the module name
+            sqlQuery.Remove(0);
+            sqlQuery = "SELECT Name from Nodes where Node_Id=" + varNodeId;
+            cmd.CommandText = sqlQuery;
+            string node_name = cmd.ExecuteScalar().ToString();
+            NodeIdLabel.Text = node_name;
 
             //reading the questions answers and thier strength
             sqlQuery.Remove(0);
