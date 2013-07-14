@@ -8,7 +8,7 @@
             var val = navigator.userAgent.toLowerCase();
             if (val.indexOf("firefox") > -1) {
                 pos_x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft - 180 - document.getElementById("pointer_div").offsetLeft;
-                pos_y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop - 420 - document.getElementById("pointer_div").offsetTop;
+                pos_y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop - 396 - document.getElementById("pointer_div").offsetTop;
                
             } else {
                 // Getting the x and y position of the mouse
