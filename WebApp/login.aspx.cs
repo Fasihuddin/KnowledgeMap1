@@ -22,7 +22,7 @@ public partial class login : System.Web.UI.Page
         {
             if ((Request.QueryString["returnUrl"].Contains("addCourse")) || (Request.QueryString["returnUrl"].Contains("addModuleTest")) || (Request.QueryString["returnUrl"].Contains("addNode"))
                 || (Request.QueryString["returnUrl"].Contains("addNodesPrereq")) || (Request.QueryString["returnUrl"].Contains("addTopic")) || (Request.QueryString["returnUrl"].Contains("CreateMap"))
-                || (Request.QueryString["returnUrl"].Contains("saveMap")))
+                || (Request.QueryString["returnUrl"].Contains("saveMap")) || (Request.QueryString["returnUrl"].Contains("ModifyModule")))
                 Response.Redirect("~/InstLogin.aspx");
         }
         try

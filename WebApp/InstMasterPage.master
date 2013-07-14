@@ -72,9 +72,10 @@
           </div>
   <div id="bodyLeftPan" style="height:800px;">
       
-       <asp:TreeView ID="TreeView1" runat="server" BackColor="#99D5FF" DataSourceID="SiteMapDataSource1" BorderStyle="Outset" Font-Bold="True" Width="150px" NodeIndent="10" NodeWrap="True" ShowExpandCollapse="False">
-           <LeafNodeStyle NodeSpacing="10px" />
+       <asp:TreeView ID="TreeView1" runat="server" BackColor="#C4E1FF" DataSourceID="SiteMapDataSource1" BorderStyle="Outset" Font-Bold="True" Width="150px" NodeIndent="7" NodeWrap="True" ShowExpandCollapse="False" BorderColor="#E5E5E5" ShowLines="True">
+           <LeafNodeStyle NodeSpacing="7px" />
            <ParentNodeStyle Font-Bold="True" Font-Italic="False" Font-Overline="False" />
+           <SelectedNodeStyle BackColor="#CCCCCC" />
          </asp:TreeView>
       <div style="left: 160px; width: 750px; position: absolute; top: 50px; height: 700px;">
 

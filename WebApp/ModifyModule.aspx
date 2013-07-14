@@ -1,8 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/InstMasterPage.master" AutoEventWireup="true" CodeFile="ModifyModule.aspx.cs" Inherits="ModifyModule" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-    <p>
-        Module Page</p>
+    <h3>
+        Module update</h3>
     <p>
         &nbsp;</p>
         <table style="width: 56%;">
@@ -62,15 +62,16 @@
                                 <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" />
                                 <asp:BoundField DataField="URL_Address" HeaderText="URL_Address" SortExpression="URL_Address" />
                             </Columns>
-                            <FooterStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
-                            <HeaderStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
-                            <PagerStyle BackColor="#FFCC66" ForeColor="#333333" HorizontalAlign="Center" />
-                            <RowStyle BackColor="#FFFBD6" ForeColor="#333333" />
-                            <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="Navy" />
-                            <SortedAscendingCellStyle BackColor="#FDF5AC" />
-                            <SortedAscendingHeaderStyle BackColor="#4D0000" />
-                            <SortedDescendingCellStyle BackColor="#FCF6C0" />
-                            <SortedDescendingHeaderStyle BackColor="#820000" />
+                            <EditRowStyle BackColor="#2461BF" />
+                            <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+                            <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+                            <PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />
+                            <RowStyle BackColor="#EFF3FB" />
+                            <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
+                            <SortedAscendingCellStyle BackColor="#F5F7FB" />
+                            <SortedAscendingHeaderStyle BackColor="#6D95E1" />
+                            <SortedDescendingCellStyle BackColor="#E9EBEF" />
+                            <SortedDescendingHeaderStyle BackColor="#4870BE" />
                         </asp:GridView>
                         <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:connString %>" DeleteCommand="DELETE FROM [Materials] WHERE [Material_Id] = @Material_Id" InsertCommand="INSERT INTO [Materials] ([Material_Id], [Name], [URL_Address]) VALUES (@Material_Id, @Name, @URL_Address)" SelectCommand="SELECT [Material_Id], [Name], [URL_Address] FROM [Materials] WHERE ([Node] = @Node)" UpdateCommand="UPDATE [Materials] SET [Name] = @Name, [URL_Address] = @URL_Address WHERE [Material_Id] = @Material_Id">
                             <DeleteParameters>

@@ -13,6 +13,7 @@
 
     <siteMapNode url="" title=" Modules"  description="">
       <siteMapNode url="addModuleTest.aspx" title="Create test for a Module" description=""></siteMapNode>
+      <siteMapNode url="ModifyModule.aspx" title="Modify a Module" description=""></siteMapNode>
     </siteMapNode>
     
   </siteMapNode>
