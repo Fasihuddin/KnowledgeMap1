@@ -162,6 +162,7 @@ public partial class ModifyModule : System.Web.UI.Page
     }
     protected void btnModify_Click(object sender, EventArgs e)
     {
+        lblMessage.Visible = false;
         Panel1.Visible = true;
 
         //insert module details
@@ -221,7 +222,15 @@ public partial class ModifyModule : System.Web.UI.Page
             cmd.Parameters.Add(p3);
 
             int x = cmd.ExecuteNonQuery();
+
+            //Get the current selected module for showing after updating the module
+            int selectedIndex = this.ddlModule.SelectedIndex;
             fillModules();
+
+            ddlModule.SelectedIndex = selectedIndex;// show the current updated module
+
+            //show success message
+            lblMessage.Visible = true;
         }
         catch (Exception ex)
         {

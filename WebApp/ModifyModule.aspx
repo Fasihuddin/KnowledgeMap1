@@ -34,6 +34,7 @@
                 </td>
             </tr>
         </table>
+    <asp:Label ID="lblMessage" runat="server" Font-Italic="True" ForeColor="Red" Text="* Module information has been updated." Visible="False"></asp:Label>
     <br />
     <br />
         <asp:Panel ID="Panel1" runat="server" Visible="False">
@@ -71,7 +72,7 @@
                             <SortedDescendingCellStyle BackColor="#FCF6C0" />
                             <SortedDescendingHeaderStyle BackColor="#820000" />
                         </asp:GridView>
-                        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:KnowledgeMapConnectionString %>" DeleteCommand="DELETE FROM [Materials] WHERE [Material_Id] = @Material_Id" InsertCommand="INSERT INTO [Materials] ([Material_Id], [Name], [URL_Address]) VALUES (@Material_Id, @Name, @URL_Address)" SelectCommand="SELECT [Material_Id], [Name], [URL_Address] FROM [Materials] WHERE ([Node] = @Node)" UpdateCommand="UPDATE [Materials] SET [Name] = @Name, [URL_Address] = @URL_Address WHERE [Material_Id] = @Material_Id">
+                        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:connString %>" DeleteCommand="DELETE FROM [Materials] WHERE [Material_Id] = @Material_Id" InsertCommand="INSERT INTO [Materials] ([Material_Id], [Name], [URL_Address]) VALUES (@Material_Id, @Name, @URL_Address)" SelectCommand="SELECT [Material_Id], [Name], [URL_Address] FROM [Materials] WHERE ([Node] = @Node)" UpdateCommand="UPDATE [Materials] SET [Name] = @Name, [URL_Address] = @URL_Address WHERE [Material_Id] = @Material_Id">
                             <DeleteParameters>
                                 <asp:Parameter Name="Material_Id" Type="Int32" />
                             </DeleteParameters>
@@ -93,14 +94,10 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="height: 73px">Material Links:<br />
-                        <br />
-                    </td>
-                </tr>
-                <tr>
                     <td style="width: 160px">&nbsp;</td>
                     <td style="width: 376px">
                         <asp:Button ID="btnUpdate" runat="server" OnClick="btnUpdate_Click" Text="Update" Width="125px" />
+                        &nbsp;
                     </td>
                     <td>&nbsp;</td>
                 </tr>
