@@ -925,7 +925,7 @@ public partial class addModuleTest : System.Web.UI.Page
                     x = cmd.ExecuteNonQuery();
 
                     //choice 3
-                    if (!q.choice3.Equals(""))
+                    if (q.choice4 != null && !q.choice3.Equals(""))
                     {
                         if (q.choiceID3 != 0) //check if there is existing choiceID in the DB
                         {
@@ -981,7 +981,7 @@ public partial class addModuleTest : System.Web.UI.Page
                     }
 
                     //choice 4
-                    if (!q.choice4.Equals(""))
+                    if (q.choice4 != null && !q.choice4.Equals(""))
                     {
                         if (q.choiceID4 != 0)
                         {

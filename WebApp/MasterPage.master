@@ -14,7 +14,7 @@
     <div id="topMenuLeftPan"></div>
     <div id="topMenuMiddlePan">
       <ul>
-        <li class="home">Home</li>
+        <li class="home"><a href="default.aspx">Home</a></li>
         <li><a href="AboutUs.aspx">About us</a></li>
         <li><a href="StdCourseIntro.aspx">Courses</a></li>
         <li class="uon"><a href="https://uonline.newcastle.edu.au/webapps/portal/frameset.jsp" style="border-right-style: solid; border-right-width: 1px; border-right-color: #E5E5E5">Uon Blackboard</a></li>
