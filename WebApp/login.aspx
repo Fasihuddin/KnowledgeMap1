@@ -8,5 +8,9 @@
         <p>
             <asp:Login ID="Login1" runat="server" DestinationPageUrl="~/StdCourseIntro.aspx" Height="130px" Width="401px" OnAuthenticate="Login1_Authenticate" DisplayRememberMe="False">
             </asp:Login>
-        </p>
+            <asp:HyperLink ID="Recovery" runat="server" NavigateUrl="~/PasswordRecovery.aspx" Font-Size="Small">Forgot my password</asp:HyperLink><br /><br />
+
+        Dont't have an account? 
+            <asp:HyperLink ID="SignUp" runat="server" NavigateUrl="~/RegistrationForm.aspx">Sign up now</asp:HyperLink>
+</p>
   </asp:Content>

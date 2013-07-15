@@ -1,10 +1,7 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="RegistrationForm.aspx.cs" Inherits="RegistrationForm" %>
+﻿<%@ Page Title="Registration" Language="C#" AutoEventWireup="true" CodeFile="RegistrationForm.aspx.cs" Inherits="RegistrationForm" MasterPageFile="~/MasterPage.master" %>
 
-<!DOCTYPE html>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
     <style type="text/css">
         .auto-style1 {
             width: 100%;
@@ -35,13 +32,12 @@
             font-size: x-small;
         }
     </style>
-</head>
-<body>
-    <form id="form1" runat="server">
+
+    
     <div>
     
-        <h2 class="auto-style7">Registration Form<br />
-        </h2>
+        <h3>Create an Account<br />
+        </h3>
         <table class="auto-style1">
             <tr>
                 <td class="auto-style2">Name</td>
@@ -120,10 +116,9 @@
                 <td>&nbsp;</td>
             </tr>
         </table>
-        <asp:Label ID="LblResults" runat="server"></asp:Label>
+        <asp:Label ID="LblResults" runat="server" Font-Bold="True"></asp:Label>
         <br />
     
     </div>
-    </form>
-</body>
-</html>
+   
+    </asp:Content>

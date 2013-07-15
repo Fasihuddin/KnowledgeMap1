@@ -56,7 +56,7 @@ public partial class RegistrationForm : System.Web.UI.Page
                 if (added > 0)
                 {
                     LblResults.ForeColor = new System.Drawing.Color();
-                    LblResults.Text = "You have successfuly registered";
+                    LblResults.Text = "You have successfuly registered! You can login now.";
                 }
             }
         }

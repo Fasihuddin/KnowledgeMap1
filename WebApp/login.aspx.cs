@@ -60,7 +60,7 @@ public partial class login : System.Web.UI.Page
 
             // redirect to course intro if the requested page is restriced or if it is logout
             if (!string.IsNullOrEmpty(Request.QueryString["returnUrl"]))
-            if ((Request.QueryString["returnUrl"].Contains("StdQuestionForm")) || (Request.QueryString["returnUrl"].Contains("testResult")) )
+            if ((Request.QueryString["returnUrl"].Contains("StdQuestionsForm")) || (Request.QueryString["returnUrl"].Contains("testResult")) )
             {
                 //setAutCookie is used to enable redirecting to specific page
                 FormsAuthentication.SetAuthCookie(Login1.UserName, false);
