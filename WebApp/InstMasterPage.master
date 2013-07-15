@@ -18,42 +18,7 @@
 <div id="topPan" class="auto-style1"> <img src="images/CALC.png" alt="CALC" width="245" height="37" class="logo" title="Education Zone"/>
   <p>Collaborative Adaptive Learning on the Cloud </p>
   <div id="topMenuPan">
-    <%--<div id="topMenuLeftPan"></div>
-    <div id="topMenuMiddlePan">
-        <ul>
-            <li><a href="#">Home</a></li>
-
-            <li><a href="#">About Us</a>
-                <ul>
-                    <li><a href="#">The Team</a></li>            
-                    <li><a href="#">Vision</a></li>
-                </ul>
-            </li>
-            <li><a href="#">Courses</a>
-                <ul>
-                    <li><a href="addCourse.aspx">Create new course</a></li>
-                    <li><a href="#">Edit existing course</a></li>
-                    
-                </ul>
-            </li>
-            <li><a href="#">Topics</a>
-                <ul>
-                    <li><a href="addTopic.aspx">Add new topic</a></li>
-                    <li><a href="#">Edit existing topic</a></li>                
-                </ul>
-            </li>
-             <li><a href="#">Modules</a>
-                <ul>
-                    <li><a href="addNode.aspx">Add new module</a></li>
-                    <li><a href="#">Edit existing module</a></li>
-                    <li><a href="addModuleTest.aspx">Create test for a module</a></li>                
-                </ul>
-            </li>
-             <li><a href="#">Contact</a></li>
-</ul>  
-    </div>
-
-    <div id="topMenuRightPan"></div>--%>
+   
   </div>
 </div>
         
@@ -77,7 +42,7 @@
            <ParentNodeStyle Font-Bold="True" Font-Italic="False" Font-Overline="False" />
            <SelectedNodeStyle BackColor="#CCCCCC" />
          </asp:TreeView>
-      <div style="left: 160px; width: 750px; position: absolute; top: 50px; height: 700px;">
+      <div style="left: 160px; width: 750px; position: absolute; top: 50px; min-height:280px;"">
 
       <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
           

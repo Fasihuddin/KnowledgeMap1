@@ -35,7 +35,7 @@ public partial class startTest : System.Web.UI.Page
             }
             else
             {
-                lblTestId.Text = "You are not login! Please login before doing the test!";
+                lblTestId.Text = "You are not logged in! Please login before doing the test!";
             }
         }
         else if (strNodeID == "" || strNodeID == null)
