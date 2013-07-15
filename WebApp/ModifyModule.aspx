@@ -41,26 +41,25 @@
             &nbsp;<table style="width: 100%;">
                 <tr>
                     <td style="width: 160px">Module Name: </td>
-                    <td style="width: 376px">
+                    <td style="width: 271px">
                         <asp:TextBox ID="txtNode" runat="server" MaxLength="30" Width="343px"></asp:TextBox>
                     </td>
-                    <td>Material Links:</td>
+                    <td><strong>Edit Material Links:</strong></td>
+                    <td>&nbsp;</td>
                 </tr>
-            </table>
-            <table style="width: 100%;">
                 <tr>
-                    <td style="width: 160px; height: 156px">Description: </td>
-                    <td style="width: 376px; height: 156px">
+                    <td style="width: 160px">Description: </td>
+                    <td style="width: 271px">
                         <asp:TextBox ID="txtNodeDesc" runat="server" Height="124px" TextMode="MultiLine" Width="348px"></asp:TextBox>
                     </td>
-                    <td rowspan="2">
+                    <td rowspan="2" style="vertical-align:text-top">
                         <asp:GridView ID="GridView1" runat="server" AllowSorting="True" AutoGenerateColumns="False" CellPadding="4" DataKeyNames="Material_Id" DataSourceID="SqlDataSource1" ForeColor="#333333" GridLines="None">
                             <AlternatingRowStyle BackColor="White" />
                             <Columns>
                                 <asp:CommandField ShowDeleteButton="True" ShowEditButton="True" />
                                 <asp:BoundField DataField="Material_Id" HeaderText="Material_Id" ReadOnly="True" SortExpression="Material_Id" />
-                                <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" />
                                 <asp:BoundField DataField="URL_Address" HeaderText="URL_Address" SortExpression="URL_Address" />
+                                <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" />
                             </Columns>
                             <EditRowStyle BackColor="#2461BF" />
                             <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
@@ -73,36 +72,46 @@
                             <SortedDescendingCellStyle BackColor="#E9EBEF" />
                             <SortedDescendingHeaderStyle BackColor="#4870BE" />
                         </asp:GridView>
-                        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:connString %>" DeleteCommand="DELETE FROM [Materials] WHERE [Material_Id] = @Material_Id" InsertCommand="INSERT INTO [Materials] ([Material_Id], [Name], [URL_Address]) VALUES (@Material_Id, @Name, @URL_Address)" SelectCommand="SELECT [Material_Id], [Name], [URL_Address] FROM [Materials] WHERE ([Node] = @Node)" UpdateCommand="UPDATE [Materials] SET [Name] = @Name, [URL_Address] = @URL_Address WHERE [Material_Id] = @Material_Id">
+                        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:connString %>" DeleteCommand="DELETE FROM [Materials] WHERE [Material_Id] = @Material_Id" InsertCommand="INSERT INTO [Materials] ([Material_Id], [URL_Address], [Name]) VALUES (@Material_Id, @URL_Address, @Name)" ProviderName="System.Data.SqlClient" SelectCommand="SELECT [Material_Id], [URL_Address], [Name] FROM [Materials] WHERE ([Node] = @Node)" UpdateCommand="UPDATE [Materials] SET [URL_Address] = @URL_Address, [Name] = @Name WHERE [Material_Id] = @Material_Id">
                             <DeleteParameters>
                                 <asp:Parameter Name="Material_Id" Type="Int32" />
                             </DeleteParameters>
                             <InsertParameters>
                                 <asp:Parameter Name="Material_Id" Type="Int32" />
-                                <asp:Parameter Name="Name" Type="String" />
                                 <asp:Parameter Name="URL_Address" Type="String" />
+                                <asp:Parameter Name="Name" Type="String" />
                             </InsertParameters>
                             <SelectParameters>
-                                <asp:ControlParameter ControlID="ddlModule" DefaultValue="0" Name="Node" PropertyName="SelectedValue" Type="Int32" />
+                                <asp:ControlParameter ControlID="ddlModule" Name="Node" PropertyName="SelectedValue" Type="Int32" />
                             </SelectParameters>
                             <UpdateParameters>
-                                <asp:Parameter Name="Name" Type="String" />
                                 <asp:Parameter Name="URL_Address" Type="String" />
+                                <asp:Parameter Name="Name" Type="String" />
                                 <asp:Parameter Name="Material_Id" Type="Int32" />
                             </UpdateParameters>
                         </asp:SqlDataSource>
-                        <br />
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 160px">&nbsp;</td>
-                    <td style="width: 376px">
-                        <asp:Button ID="btnUpdate" runat="server" OnClick="btnUpdate_Click" Text="Update" Width="125px" />
-                        &nbsp;
                     </td>
                     <td>&nbsp;</td>
                 </tr>
+                <tr>
+                    <td style="width: 160px">Material Links:<br /> <em>(One link per line)<br /> Format: name;link<br />
+                        <br />
+                        For Example:<br /> Search engine;http://www.google.com</em></td>
+                    <td style="width: 271px">
+                        <asp:TextBox ID="txtLinks" runat="server" Height="146px" TextMode="MultiLine" Width="348px"></asp:TextBox>
+                    </td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="width: 160px">&nbsp;</td>
+                    <td style="width: 271px">
+                        <asp:Button ID="btnUpdate" runat="server" OnClick="btnUpdate_Click" Text="Update" Width="125px" />
+                    </td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
             </table>
+            
         </asp:Panel>
 
     <div style="float:right;">

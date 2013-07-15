@@ -164,6 +164,7 @@ public partial class ModifyModule : System.Web.UI.Page
     {
         lblMessage.Visible = false;
         Panel1.Visible = true;
+        txtLinks.Text = "";
 
         //insert module details
         SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
@@ -225,9 +226,17 @@ public partial class ModifyModule : System.Web.UI.Page
 
             //Get the current selected module for showing after updating the module
             int selectedIndex = this.ddlModule.SelectedIndex;
+            int topicSelectedIndex = this.ddlTopic.SelectedIndex;
+
+            //Insert links of the node to the database
+            addMaterials(Convert.ToInt32(ddlModule.SelectedValue), Convert.ToInt32(ddlTopic.SelectedValue));
+
             fillModules();
 
             ddlModule.SelectedIndex = selectedIndex;// show the current updated module
+
+            
+
 
             //show success message
             lblMessage.Visible = true;
@@ -240,6 +249,103 @@ public partial class ModifyModule : System.Web.UI.Page
         finally
         {
             conStr.Close();
+        }
+    }
+
+    /*
+     * This method is used to insert links of the node to the database
+     * */
+    private void addMaterials(int nodeID, int topic)
+    {
+        if (!txtLinks.Text.Equals(""))
+        {
+            int materialID = 0;
+            SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
+            try
+            {
+                conStr.Open();
+
+                //Get the latest nodeID
+                SqlCommand cmd = new SqlCommand("SELECT MAX(Material_Id) FROM Materials", conStr);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read() && !reader.IsDBNull(0))
+                {
+                    materialID = reader.GetInt32(0);
+                }
+                reader.Close();
+
+                //increase materialID by 1 to add new record
+                materialID += 1;
+
+                //get order
+                int order = 1;
+                //Get the highest order
+                cmd = new SqlCommand("SELECT MAX(Material_Order) FROM Materials WHERE Node = @Node", conStr);
+                SqlParameter p0 = new SqlParameter("@Node", nodeID);
+                cmd.Parameters.Add(p0);
+
+                reader = cmd.ExecuteReader();
+
+                while (reader.Read() && !reader.IsDBNull(0))
+                {
+                    order = reader.GetInt32(0);
+                }
+                reader.Close();
+
+                //increase materialID by 1 to add new record
+                order += 1;
+
+                //get textbox value per line
+                string txt = txtLinks.Text;
+                string[] lst = txt.Split(new Char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+
+                
+                foreach (string link in lst)
+                {
+                    //get name and the links
+                    string[] requestLoc = new string[2];
+                    if (link.IndexOf(";") != -1)
+                    {
+                        requestLoc = link.Split(';');
+                    }
+                    else
+                    {
+                        requestLoc[0] = "Material Link";
+                        requestLoc[1] = link;
+                    }
+
+                    //Insert new link to DB
+                    cmd = new SqlCommand("INSERT INTO Materials VALUES (@materialId, @name, @url, @order, @nodeId, @topicId)", conStr);
+                    SqlParameter p1 = new SqlParameter("@materialId", materialID);
+                    SqlParameter p2 = new SqlParameter("@name", requestLoc[0]);
+                    SqlParameter p3 = new SqlParameter("@url", requestLoc[1]);
+                    SqlParameter p4 = new SqlParameter("@order", order);
+                    SqlParameter p5 = new SqlParameter("@nodeId", nodeID);
+                    SqlParameter p6 = new SqlParameter("@topicId", topic);
+                    cmd.Parameters.Add(p1);
+                    cmd.Parameters.Add(p2);
+                    cmd.Parameters.Add(p3);
+                    cmd.Parameters.Add(p4);
+                    cmd.Parameters.Add(p5);
+                    cmd.Parameters.Add(p6);
+                    int x = cmd.ExecuteNonQuery();
+
+                    //increment materialID and order
+                    materialID++;
+                    order++;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                Response.Redirect("~/Error.aspx");
+            }
+            finally
+            {
+                conStr.Close();
+            }
         }
     }
 }
