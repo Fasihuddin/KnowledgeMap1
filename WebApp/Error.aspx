@@ -9,12 +9,10 @@
 <body>
     <h2>
         <br />
-        Oops... Seems there is an error</h2>
+        Oops... Seems there is an error.</h2>
     <form id="form1" runat="server">
     <div>
-    
-        Error Message:
-        <asp:Label ID="lblError" runat="server" Text="Label"></asp:Label>
+         We are working hard to fix this error. Meanwhile, please go to the course selection page by clicking this <a href="StdCourseIntro.aspx">link</a>
     
     </div>
     </form>

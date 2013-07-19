@@ -7,17 +7,18 @@
             //detect browser. firefox?
             var val = navigator.userAgent.toLowerCase();
             if (val.indexOf("firefox") > -1) {
-                pos_x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft - 180 - document.getElementById("pointer_div").offsetLeft;
-                pos_y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop - 396 - document.getElementById("pointer_div").offsetTop;
-               
+                pos_x = (event.offsetX?(event.offsetX):event.layerX-document.getElementById("pointer_div").offsetLeft) - 2;
+                pos_y = (event.offsetY?(event.offsetY):event.layerY-document.getElementById("pointer_div").offsetTop) - 239;
             } else {
                 // Getting the x and y position of the mouse
                 pos_x = event.offsetX ? (event.offsetX) : event.pageX - document.getElementById("pointer_div").offsetLeft;
                 pos_y = event.offsetY ? (event.offsetY) : event.pageY - document.getElementById("pointer_div").offsetTop;
+
+                document.getElementById("imageCanvas").style.left = (pos_x - 1);
+                document.getElementById("imageCanvas").style.top = (pos_y - 15);
+                document.getElementById("imageCanvas").style.visibility = "visible";
             }
-            document.getElementById("imageCanvas").style.left = (pos_x - 1);
-            document.getElementById("imageCanvas").style.top = (pos_y - 15);
-            document.getElementById("imageCanvas").style.visibility = "visible";
+   
             //Calling the server to pass the coordinate of the mouse click        
             CallServer(pos_x + ";" + pos_y, "Position of the mouse click");
         }

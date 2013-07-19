@@ -15,15 +15,6 @@
         {
             height: 79px;
         }
-        .auto-style4
-        {
-            width: 164px;
-            height: 31px;
-        }
-        .auto-style5
-        {
-            height: 31px;
-        }
         .auto-style6
         {
             color: #FF0000;
@@ -46,6 +37,15 @@
         {
             height: 39px;
         }
+         .auto-style11
+         {
+             width: 164px;
+             height: 21px;
+         }
+         .auto-style12
+         {
+             height: 21px;
+         }
     </style>
 
     <div>
@@ -69,9 +69,9 @@
                 </td>
             </tr>
             <tr>
-                <td class="auto-style4">Select Topic:</td>
-                <td class="auto-style5">
-                    <asp:ListBox ID="lstTopic" runat="server" AutoPostBack="True" Enabled="False" Height="16px" OnSelectedIndexChanged="lstTopic_SelectedIndexChanged" Rows="1" Width="247px"></asp:ListBox>
+                <td class="auto-style11">Select Topic:</td>
+                <td class="auto-style12">
+                    <asp:ListBox ID="lstTopic" runat="server" AutoPostBack="True" Enabled="False" Height="20px" OnSelectedIndexChanged="lstTopic_SelectedIndexChanged" Rows="1" Width="247px"></asp:ListBox>
 &nbsp;&nbsp;&nbsp;&nbsp; </td>
             </tr>
             <tr>
