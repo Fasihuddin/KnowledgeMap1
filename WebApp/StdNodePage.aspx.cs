@@ -42,7 +42,7 @@ public partial class startTest : System.Web.UI.Page
         {
             // Show Fail Javascript message
             System.Web.HttpContext.Current.Response.Write("<SCRIPT LANGUAGE='JavaScript'>");
-            System.Web.HttpContext.Current.Response.Write("alert('No Node ID has been Selected! Please select the nodeID first!')");
+            System.Web.HttpContext.Current.Response.Write("alert('You have not selected the course, topic and module! Please select them in Course page accessible from the menu!')");
             System.Web.HttpContext.Current.Response.Write("</SCRIPT>");
             //Response.Redirect("~/StdShowTopicMap.aspx");
         }
@@ -58,6 +58,10 @@ public partial class startTest : System.Web.UI.Page
         catch (Exception ex)
         {
             Console.WriteLine(ex.ToString());
+        }
+        finally
+        {
+            conStr.Close();
         }
     }
 
@@ -78,17 +82,17 @@ public partial class startTest : System.Web.UI.Page
             SqlDataAdapter dtAdapt = new SqlDataAdapter();
             dtAdapt.SelectCommand = cmd;
             dtAdapt.Fill(ds, "links");
-
-            DataTable dt = ds.Tables["links"];
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.ToString());
         }
-
-        //bind to gridview
-        grdLinks2.DataSource = ds;
-        grdLinks2.DataBind();
+        if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count>0)
+        {
+            //bind to gridview
+            grdLinks2.DataSource = ds;
+            grdLinks2.DataBind();
+        }
 
     }
 
@@ -136,11 +140,12 @@ public partial class startTest : System.Web.UI.Page
     {
 
         int testID = 0;
-        List<int> allTests = new List<int>();
+        List<int> allTests = new List<int>();  
+        //select all test versions for the node
+        SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
+          
         try
         {
-            //select all test versions for the node
-            SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
             conStr.Open();
             SqlCommand cmd = new SqlCommand("SELECT Test_Id FROM Test WHERE Node_Id = @nodeId", conStr);
             SqlParameter p1 = new SqlParameter("@nodeId", nodeID);
@@ -153,7 +158,6 @@ public partial class startTest : System.Web.UI.Page
             }
             //close sql connection
             reader.Close();
-            conStr.Close();
 
             //check whether student has passed the node on any of its test versions
             bool isPassed = getPassedTest(nodeID);
@@ -162,8 +166,7 @@ public partial class startTest : System.Web.UI.Page
             if (allTests.Count >= 1 && !isPassed)
             {
                 List<int> availableTest = new List<int>();
-                conStr.Open();
-                cmd = new SqlCommand("SELECT Test_Id FROM Test WHERE Test_Id NOT IN "+
+                cmd = new SqlCommand("SELECT Test_Id FROM Test WHERE Test_Id NOT IN " +
                              "(SELECT Test.Test_Id FROM Test JOIN " +
                              "Student_test ON Test.Test_Id = Student_test.Test_Id " +
                              "WHERE Node_Id = @nodeId GROUP BY Test.Test_Id) AND Node_Id = @nodeId", conStr);
@@ -176,7 +179,6 @@ public partial class startTest : System.Web.UI.Page
                 }
                 //close sql connection
                 reader.Close();
-                conStr.Close();
 
                 if (availableTest.Count > 0)
                 {
@@ -208,6 +210,10 @@ public partial class startTest : System.Web.UI.Page
         catch (Exception ex)
         {
             Console.WriteLine(ex.ToString());
+        }
+        finally
+        {
+            conStr.Close();
         }
 
         return testID;

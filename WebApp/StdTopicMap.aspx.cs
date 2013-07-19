@@ -84,11 +84,14 @@ public partial class StdTopicMap : System.Web.UI.Page
 
             //close sql connection
             reader.Close();
-            conStr.Close();
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.ToString());
+        }
+        finally
+        {
+            conStr.Close();
         }
 
         return imageByte;
@@ -120,7 +123,7 @@ public partial class StdTopicMap : System.Web.UI.Page
             conStr.Close();
 
             //create regions
-            for (int i=0; i<nodeId.Count;i++)
+            for (int i = 0; i < nodeId.Count; i++)
             {
                 if (loc[i] != null)
                 {
@@ -138,7 +141,7 @@ public partial class StdTopicMap : System.Web.UI.Page
 
                     //conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
                     conStr.Open();
-                    cmd = new SqlCommand("SELECT Student_test.IsPassed FROM Student_test INNER JOIN TEST ON "+
+                    cmd = new SqlCommand("SELECT Student_test.IsPassed FROM Student_test INNER JOIN TEST ON " +
                                         "Student_test.Test_Id = Test.Test_Id WHERE Test.Node_Id = @nodeID AND " +
                                         "Student_test.Student_Id = @studentID", conStr);
                     SqlParameter p1 = new SqlParameter("@nodeID", nodeId[i]);
@@ -155,7 +158,6 @@ public partial class StdTopicMap : System.Web.UI.Page
                         }
                     }
                     reader.Close();
-                    conStr.Close(); 
 
                     if (isComplete)
                     {
@@ -187,6 +189,10 @@ public partial class StdTopicMap : System.Web.UI.Page
         catch (Exception ex)
         {
             Console.WriteLine(ex.ToString());
+        }
+        finally
+        {
+            conStr.Close();
         }
     }
 

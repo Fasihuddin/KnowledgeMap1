@@ -64,12 +64,15 @@ public partial class saveMap : System.Web.UI.Page
             cmd.Parameters.Add(p3);
             cmd.ExecuteNonQuery();
 
-            //close sql connection
-            conStr.Close();
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.ToString());
+        }
+        finally
+        {
+            //close sql connection
+            conStr.Close();
         }
     }
 
@@ -77,20 +80,20 @@ public partial class saveMap : System.Web.UI.Page
     {
         //{0} NodeID, {1} startX, {2} endX, {3} startY, {4} endY
         List<String> nodesLocation = (List<String>)Session["NodesLocation"];
+        SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
         try
         {
-            SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
             conStr.Open();
 
             for (int i = 0; i < nodesLocation.Count; i++)
             {
                 //get node Info (id and name)
                 String[] nodeInfo = nodesLocation[i].ToString().Split(';');
-                SqlCommand cmd = new SqlCommand("UPDATE NodeOnTopic SET NodeLocation = @loc "+
+                SqlCommand cmd = new SqlCommand("UPDATE NodeOnTopic SET NodeLocation = @loc " +
                                  "WHERE (Node_Id = @nodeId) AND (Topic_Id = @topicId)", conStr);
                 SqlParameter p2 = new SqlParameter("@topicId", Convert.ToInt32(Session["TopicID"]));
                 SqlParameter p3 = new SqlParameter("@nodeId", Convert.ToInt32(nodeInfo[0]));
-                SqlParameter p4 = new SqlParameter("@loc",nodeInfo[1]+";"+nodeInfo[2]+";"+nodeInfo[3]+";"+nodeInfo[4]);
+                SqlParameter p4 = new SqlParameter("@loc", nodeInfo[1] + ";" + nodeInfo[2] + ";" + nodeInfo[3] + ";" + nodeInfo[4]);
                 cmd.Parameters.Add(p2);
                 cmd.Parameters.Add(p3);
                 cmd.Parameters.Add(p4);
@@ -104,6 +107,10 @@ public partial class saveMap : System.Web.UI.Page
         catch (Exception ex)
         {
             Console.WriteLine(ex.ToString());
+        }
+        finally
+        {
+            conStr.Close();
         }
     }
     protected void btnAddTopic_Click(object sender, EventArgs e)

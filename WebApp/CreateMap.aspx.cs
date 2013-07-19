@@ -112,10 +112,15 @@ public partial class CourseNode : System.Web.UI.Page
             {
                 topicName = reader.GetString(0);
             }
+            reader.Close();
         }
         catch (Exception ex)
         {
             ex.ToString();
+        }
+        finally
+        {
+            conStr.Close();
         }
         return topicName;
     }
@@ -134,9 +139,9 @@ public partial class CourseNode : System.Web.UI.Page
         try
         {
             conStr.Open();
-            SqlCommand cmd = new SqlCommand("SELECT Nodes.Node_Id, Nodes.Name, Nodes.Description, NodeOnTopic.Degree "+
-                             "FROM NodeOnTopic INNER JOIN Nodes ON NodeOnTopic.Node_Id = Nodes.Node_Id "+
-                             "WHERE (NodeOnTopic.Topic_Id = @topicID)",conStr);
+            SqlCommand cmd = new SqlCommand("SELECT Nodes.Node_Id, Nodes.Name, Nodes.Description, NodeOnTopic.Degree " +
+                             "FROM NodeOnTopic INNER JOIN Nodes ON NodeOnTopic.Node_Id = Nodes.Node_Id " +
+                             "WHERE (NodeOnTopic.Topic_Id = @topicID)", conStr);
             SqlParameter p2 = new SqlParameter("@topicID", topicId);
             cmd.Parameters.Add(p2);
             SqlDataReader reader = cmd.ExecuteReader();
@@ -159,12 +164,15 @@ public partial class CourseNode : System.Web.UI.Page
                 }
             }
             reader.Close();
-            //close SQL connection
-            conStr.Close();
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.ToString());
+        }
+        finally
+        {
+            //close SQL connection
+            conStr.Close();
         }
         return allNodes;
     }
@@ -182,27 +190,30 @@ public partial class CourseNode : System.Web.UI.Page
             {
                 conStr.Open();
                 //get all pre-requisites courses and add those to node object
-                SqlCommand cmd = new SqlCommand("SELECT Prereq_ID FROM Prerequisites "+
-                                "WHERE (Node_ID = @nodeID) AND (Topic_ID = @topicID)",conStr);
-                    
+                SqlCommand cmd = new SqlCommand("SELECT Prereq_ID FROM Prerequisites " +
+                                "WHERE (Node_ID = @nodeID) AND (Topic_ID = @topicID)", conStr);
+
                 SqlParameter p1 = new SqlParameter("@nodeID", allNodes[i].NodeId);
                 SqlParameter p2 = new SqlParameter("@topicID", topicId);
                 cmd.Parameters.Add(p1);
                 cmd.Parameters.Add(p2);
                 SqlDataReader reader2 = cmd.ExecuteReader();
-                
+
                 while (reader2.Read())
                 {
                     int prereqId = reader2.GetInt32(0);
                     allNodes[i].addPrerequisite(prereqId);
                 }
                 reader2.Close();
-                conStr.Close();
             } // end for
         }// end try
         catch (Exception ex)
         {
             Console.WriteLine(ex.ToString());
+        }
+        finally
+        {
+            conStr.Close();
         }
     }
 

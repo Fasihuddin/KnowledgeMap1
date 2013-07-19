@@ -57,30 +57,38 @@ public partial class InstLogin : System.Web.UI.Page
     {
         string sqlstring;
         sqlstring = "SELECT Inst_Id FROM Instructors WHERE Inst_Id='" + username + "' AND Password ='" + password + "'";
+        bool isAuthenticated = false;
 
         // create a connection with sqldatabase 
         SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
-        SqlDataReader reader;
-        SqlCommand cmd = new SqlCommand(sqlstring, conStr);
-        // open a connection with sqldatabase
-        conStr.Open();
-
-        // execute sql command and store a return values in reader
-        reader = cmd.ExecuteReader();
-
-        // check if reader has any value then return true otherwise return false
-        if (reader.Read())
+        try
         {
-            string InstId = reader.GetString(0);
-            Session["InstId"] = InstId;
-            Session["Role"] = "Instructor";
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+            SqlDataReader reader;
+            SqlCommand cmd = new SqlCommand(sqlstring, conStr);
+            // open a connection with sqldatabase
+            conStr.Open();
 
+            // execute sql command and store a return values in reader
+            reader = cmd.ExecuteReader();
+
+            // check if reader has any value then return true otherwise return false
+            if (reader.Read())
+            {
+                string InstId = reader.GetString(0);
+                Session["InstId"] = InstId;
+                Session["Role"] = "Instructor";
+                isAuthenticated = true;
+            }
+        }
+        catch (Exception ex)
+        {
+            ex.ToString();
+        }
+        finally
+        {
+            conStr.Close();
+        }
+        return isAuthenticated;
     }
 
 

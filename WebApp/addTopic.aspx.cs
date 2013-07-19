@@ -108,7 +108,7 @@ public partial class addTopic : System.Web.UI.Page
              cmd = new SqlCommand("INSERT INTO TopicOnCourse VALUES (@courseID, @topicID)", conStr);
              int courseId = Convert.ToInt32(Session["CourseID"]);
              p1 = new SqlParameter("@courseID", courseId);
-              p2 = new SqlParameter("@topicID", topicID);
+             p2 = new SqlParameter("@topicID", topicID);
              cmd.Parameters.Add(p1);
              cmd.Parameters.Add(p2);
              x = cmd.ExecuteNonQuery();
@@ -136,6 +136,10 @@ public partial class addTopic : System.Web.UI.Page
          {
              Console.WriteLine(ex.ToString());
              Response.Redirect("~/Error.aspx");
+         }
+         finally
+         {
+             conStr.Close();
          }
 
         //enable node textboxes and button

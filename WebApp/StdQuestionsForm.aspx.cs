@@ -177,6 +177,10 @@ public partial class StdQuestionsForm : System.Web.UI.Page
          {
              ex.ToString();
          }
+         finally
+         {
+             conStr.Close();
+         }
     }
 
     private void SaveAnswer(int qid, int cid, int testId)
@@ -195,14 +199,14 @@ public partial class StdQuestionsForm : System.Web.UI.Page
             while (reader.Read())
             {
                 //if student choice is similar with the answer of the question, student's answer is right
-                if(cid == reader.GetInt32(0)){
+                if (cid == reader.GetInt32(0))
+                {
                     isRight = 1;
                 }
-                
-            }
-            conStr.Close();
 
-            conStr.Open();
+            }
+            reader.Close();
+
             var today = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             //Now inserting the values to database
             cmd = new SqlCommand("insert into Student_answer(Test_Id,Test_DateTime, Question_Id,Student_choice,IsRight) values(@testId,@DateTime,@qid,@cid,@isRight)", conStr);
@@ -219,9 +223,14 @@ public partial class StdQuestionsForm : System.Web.UI.Page
             cmd.Parameters.Add(p6);
 
             cmd.ExecuteNonQuery();
-            conStr.Close();
-        }catch(Exception ex){
+        }
+        catch (Exception ex)
+        {
             Console.WriteLine(ex.ToString());
+        }
+        finally
+        {
+            conStr.Close();
         }
     }
 

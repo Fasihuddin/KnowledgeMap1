@@ -75,30 +75,39 @@ public partial class login : System.Web.UI.Page
     // Function name Authentication which will get check the user_name and passwrod from sql database then return a value true or false
     protected Boolean Authentication(string username, string password)
     {
+        bool isAuthenticated = false;
         string sqlstring;
         sqlstring = "SELECT Student_Id FROM Students WHERE Student_Id='" + username + "' AND Password ='" + password + "'";
-
         // create a connection with sqldatabase 
         SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
-        SqlDataReader reader;
-        SqlCommand cmd = new SqlCommand(sqlstring, conStr);
-        // open a connection with sqldatabase
-        conStr.Open();
-
-        // execute sql command and store a return values in reader
-        reader = cmd.ExecuteReader();
-
-        // check if reader has any value then return true otherwise return false
-        if (reader.Read())
+           
+        try
         {
-            int studentId = reader.GetInt32(0);
-            Session["StudentID"] = studentId;
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+            SqlDataReader reader;
+            SqlCommand cmd = new SqlCommand(sqlstring, conStr);
+            // open a connection with sqldatabase
+            conStr.Open();
 
+            // execute sql command and store a return values in reader
+            reader = cmd.ExecuteReader();
+
+            // check if reader has any value then return true otherwise return false
+            if (reader.Read())
+            {
+                int studentId = reader.GetInt32(0);
+                Session["StudentID"] = studentId;
+                isAuthenticated = true;
+            }
+            reader.Close();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+        }
+        finally
+        {
+            conStr.Close();
+        }
+        return isAuthenticated;
     }
 }
