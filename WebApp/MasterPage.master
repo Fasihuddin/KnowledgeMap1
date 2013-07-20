@@ -45,12 +45,13 @@
   </div>
 <div id="footermainPan">
   <div id="footerPan">
-    <p>For assistance please contact us at the following email address <a href="mailto:Open-CALC@hotmail.com">Open-CALC@hotmail.com</a> </p>
-    <p class="copyright">© CALC. All right reserved.</p>
+    <p>For any help please email <a href="mailto:Open-CALC@hotmail.com">Open-CALC@hotmail.com</a> </p>
+    
     <ul class="templateworld">
-      <li>design by:</li>
-      <li><a href="http://www.templateworld.com" target="_blank">Template World</a></li>
-    </ul>
+      <li>design by: <a href="http://www.templateworld.com" target="_blank">Template World</a></li>
+        <li>Website development by: <a href="mailto:ipranata.biz@gmail.com">IP</a></li>
+    </ul><br />
+      <p class="copyright">© CALC. All right reserved.</p><br />
   </div>
 </div>
         </form>
