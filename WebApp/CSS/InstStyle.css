@@ -70,7 +70,7 @@ position:relative; margin:0 auto; padding:25px 0 0;
 }
 /*----BODY LEFT PANEL----*/
 #bodyLeftPan{width:868px; 
-float:left; padding:12px 36px 0 0; height:700px;
+float:left; padding:12px 36px 0 0; 
 }
 #bodyLeftPan h2{width:410px; height:30px; background:#fff url('../images/border1.gif') no-repeat 100% 70%; 
 color:#00111A; font:28px/28px Georgia, "Times New Roman", Times, serif;
@@ -103,33 +103,8 @@ color:#676363; text-decoration:underline;
 #bodyLeftPan p.next a{display:block; width:44px; height:11px; background:#fff; color:#003D5C; text-decoration:none; margin:0 0 0 246px; line-height:11px; text-align:center; padding:0px; text-transform:uppercase;}
 #bodyLeftPan p.next a:hover{display:block; width:44px; height:11px; background:#E0DEDE; color:#003D5C; text-decoration:none;}
 
-#bookcatagories{width:410px; position:relative; margin:0 auto; padding:5px 0 0;}
-#namePan{width:156px; float:left; background:#fff url('../images/name-dot.gif') no-repeat 100% 85%; 
-color:#4F4F4F; font-size:14px; text-transform:uppercase;
-}
-#nameonePan{width:156px; float:left;}
-#nameonePan ul{width:156px;}
-#nameonePan ul li{width:140px; height:20px; background:#fff url('../images/arrow.gif') no-repeat 0 6px; 
-color:#03537D; padding:0 0 0 10px;
-}
 
-#pricePan{width:106px; float:left; background:#fff url('../images/price-dot.gif') no-repeat 100% 85%; 
-color:#4F4F4F; font-size:14px; text-transform:uppercase;
-}
-#priceonePan{width:143px; float:left;}
-#priceonePan ul{width:143px;}
-#priceonePan ul li{width:133px; height:20px; background:#fff url('../images/price-border.gif') no-repeat 100% 50%; 
-color:#00111A; line-height:20px; font-size:12px; font-weight:bold; padding:0 0 0 10px;
-}
 
-#discountPan{width:126px; float:left; background:#fff url('../images/discount-dot.gif') no-repeat 100% 85%; 
-color:#4F4F4F; font-size:14px; text-transform:uppercase; padding:0 0 0 12px;
-}
-#discountonePan{width:110px; float:left;}
-#discountonePan ul{width:110px;}
-#discountonePan ul li{width:100px; height:20px; background:#fff url('../images/dicount-border.gif') no-repeat 100% 50%; 
-color:#00111A; font-size:12px; font-weight:bold; padding:0 0 0 10px;
-}
 
 /*----/BODY LEFT PANEL----*/
 /*----BODY RIGHT PANEL----*/
@@ -159,13 +134,13 @@ color:#797878; text-decoration:none;
 /*----/BODY RIGHT PANEL----*/
 /*----/BODY PANEL----*/
 /*----FOOTER PANEL----*/
-#footermainPan{height:85px; background:#fff url('../images/footerbg.gif') repeat-x 0 0; 
+#footermainPan{position: relative; height:85px; background:#fff url('../images/footerbg.gif') repeat-x 0 0; 
 color:#010101; clear:both; padding:72px 0 0;
 }
 
-#footerPan{width:683px; position:relative; margin:0 auto; font-family:"Trebuchet MS",Arial, Helvetica, sans-serif}
+#footerPan{position: relative; width:683px;  margin:0 auto; font-family:"Trebuchet MS",Arial, Helvetica, sans-serif}
 
-#footerPan ul{width:624px; position:relative; margin:0 auto;}
+#footerPan ul{width:624px;  margin:0 auto;}
 #footerPan li{float:left; }
 #footerPan ul li a{padding:0 10px 0; color:#010101; background:#F3F3F3; text-decoration:none;}
 #footerPan ul li a:hover{text-decoration:underline;}
