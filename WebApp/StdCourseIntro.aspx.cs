@@ -44,11 +44,18 @@ public partial class _Default : System.Web.UI.Page
                 Course newCourse = new Course(courseId, name, code, desc);
                 ListCourse.Items.Add(code + ", " + name);
                 newItem.Add(newCourse);
-                txtCourseDesc.Text = desc;
             }
             reader.Close();
-            addTopics(newItem[0].courseID);
-            ListCourse.SelectedIndex = 0;
+            if (newItem.Count > 0)
+            {
+                addTopics(newItem[0].courseID);
+                ListCourse.SelectedIndex = 0;
+                txtCourseDesc.Text = newItem[0].description;
+            }
+            else
+            {
+                txtCourseDesc.Text = "no course is created in the database";
+            }
             Session["CourseList"] = newItem;
         }
         catch (Exception err)
