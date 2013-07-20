@@ -28,7 +28,7 @@
                     <asp:Label ID="NodeLbl" runat="server" Font-Size="Small" Font-Italic="True"></asp:Label>
                     </strong><br />
                     <br />
-                    &lt;&lt; Following is some links for different learning materials &gt;&gt;<br />
+                    &lt;&lt; Following are some links for different learning materials &gt;&gt;<br />
                     <br />
                     <asp:GridView ID="grdLinks2" runat="server" CellPadding="4" GridLines="None" AutoGenerateColumns="False" ForeColor="#333333">
                         <AlternatingRowStyle BackColor="White" ForeColor="#284775" />

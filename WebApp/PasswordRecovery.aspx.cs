@@ -18,7 +18,7 @@ public partial class PasswordRecovery : System.Web.UI.Page
     {
         string sqlstring;
         sqlstring = "SELECT Student_Id FROM Students WHERE Student_Id=" + UsernameTxt.Text;
-
+       
         // create a connection with sqldatabase 
         SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
         SqlDataReader reader;
@@ -36,18 +36,31 @@ public partial class PasswordRecovery : System.Web.UI.Page
                 sqlstring.Remove(0);
                 sqlstring = "SELECT SecurityQuestion FROM Students WHERE Student_Id=" + UsernameTxt.Text;
                 SqlCommand cmd1 = new SqlCommand(sqlstring, conStr);
-                   string Question = cmd1.ExecuteScalar().ToString();
+                string Question = cmd1.ExecuteScalar().ToString();
                 SecurityQs.Text = Question;
                 Label1.Visible = true;
                 SecurityQs.Visible = true;
                 AnswerTxt.Visible = true;
                 Button2.Visible = true;
+                RequiredFieldValidator2.Visible = true;
+                noUserLbl.Visible = false;
+               
             }
-            conStr.Close();
+            else
+            {
+                noUserLbl.Visible = true;
+                noUserLbl.ForeColor = System.Drawing.Color.Red;
+                noUserLbl.Text = "This username is not exist!";
+            }
+           
         }
         catch (Exception ex)
         {
             MsgLbl.Text=ex.ToString();
+        }
+        finally
+        {
+            conStr.Close();
         }
     }
     protected void Button2_Click(object sender, EventArgs e)
@@ -92,6 +105,10 @@ public partial class PasswordRecovery : System.Web.UI.Page
         catch (Exception ex)
         {
             MsgLbl.Text = ex.ToString();
+        }
+        finally
+        {
+            conStr.Close();
         }
     }
 }

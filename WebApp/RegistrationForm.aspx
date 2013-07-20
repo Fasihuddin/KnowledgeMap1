@@ -56,6 +56,8 @@
                     <span class="auto-style8">Enter your student Id (eg. 3131313)</span></td>
                 <td>
                     <asp:RequiredFieldValidator ID="RequiredFieldValidatorId" runat="server" ControlToValidate="TBId" ErrorMessage="Please enter your student Id" ForeColor="Red"></asp:RequiredFieldValidator>
+                   <br />
+                     <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ErrorMessage="Please enter numbers only (eg. 313131)" ControlToValidate="TBId" ForeColor="Red" ValidationExpression="[0-9]*"></asp:RegularExpressionValidator>
                 </td>
             </tr>
             <tr>

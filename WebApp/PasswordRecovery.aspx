@@ -10,11 +10,15 @@
             <td style="width: 6px">Username</td>
             <td> <asp:TextBox ID="UsernameTxt" runat="server"></asp:TextBox>
                &nbsp&nbsp<asp:Button ID="Button1" runat="server" Text="Next" Width="70px" OnClick="Button1_Click" />
+            &nbsp;
+                <asp:Label ID="noUserLbl" runat="server" Visible="False"></asp:Label>
             </td>
         </tr>
         <tr>
             <td colspan="2">
                 <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="UsernameTxt" ErrorMessage="Username must be entered" ForeColor="Red"></asp:RequiredFieldValidator>
+            &nbsp;
+                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="UsernameTxt" ErrorMessage="Please enter numbers only (eg. 313131)" Font-Size="X-Small" ForeColor="Red" ValidationExpression="[0-9]*"></asp:RegularExpressionValidator>
             </td>
         </tr>
         <tr>
@@ -29,7 +33,7 @@
         </tr>
         <tr>
             <td style="width: 6px; text-align: right;">
-                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="AnswerTxt" ErrorMessage="*" Font-Size="Large" ForeColor="Red"></asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="AnswerTxt" ErrorMessage="*" Font-Size="Large" ForeColor="Red" Visible="False"></asp:RequiredFieldValidator>
             </td>
             <td>
     <asp:TextBox ID="AnswerTxt" runat="server" Visible="False"></asp:TextBox>

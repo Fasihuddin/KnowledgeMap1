@@ -11,18 +11,22 @@
             left: 0px;
             top: 0px;
         }
+        .auto-style6 {
+            font-size: x-small;
+        }
     </style>
     </head>
 <body>
     <form id="form1" runat="server">
 <div id="topPan" class="auto-style1"> <img src="images/CALC.png" alt="CALC" width="245" height="37" class="logo" title="Education Zone"/>
-  <p>Collaborative Adaptive Learning on the Cloud </p>
+  <p>Collaborative Adaptive Learning in the Cloud </p>
   <div id="topMenuPan">
    
   </div>
 </div>
         
-<div id="bodyPan" style="position: relative; left: -46px; top: 0px;">
+        <div id="bodyPan" style="position: relative;">
+
     <div id="topLoginInfoPan" style="background-color: #CEE3F6; font-size: medium; width: 970px;">
          <asp:Label ID="UserLabel" runat="server" Font-Bold="True" Font-Italic="False"></asp:Label>
          <asp:HyperLink ID="LoginLink" runat="server" NavigateUrl="~/InstLogin.aspx" Visible="False">Login</asp:HyperLink>
@@ -35,7 +39,7 @@
         
          <asp:SiteMapDataSource ID="SiteMapDataSource1" runat="server" />
           </div>
-  <div id="bodyLeftPan" style="height:800px;" >
+  <div id="bodyLeftPan" style="min-height:1200px; ">
       
        <asp:TreeView ID="TreeView1" runat="server" BackColor="#C4E1FF" DataSourceID="SiteMapDataSource1" BorderStyle="Outset" Font-Bold="True" Width="150px" NodeIndent="7" NodeWrap="True" ShowExpandCollapse="False" BorderColor="#E5E5E5" ShowLines="True">
            <LeafNodeStyle NodeSpacing="7px" />
@@ -47,19 +51,23 @@
       <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
           
       </asp:ContentPlaceHolder>
-          </div><br />
-  </div><br />
-  </div><br />
-<div id="footermainPan">
+          </div>
+  </div>
+  </div>
+
+    <div id="footermainPan" >
   <div id="footerPan">
-    <p>For any help please email <a href="mailto:Open-CALC@hotmail.com">Open-CALC@hotmail.com</a> </p>
-    <p class="copyright">© CALC. All right reserved.</p>
+    <p>For assistance please contact us at the following email address <a href="mailto:Open-CALC@hotmail.com">Open-CALC@hotmail.com</a> </p>
+    <%--<p class="copyright">© CALC. All right reserved.</p>
     <ul class="templateworld">
       <li>design by:</li>
       <li><a href="http://www.templateworld.com" target="_blank">Template World</a></li>
-    </ul>
+    </ul>--%>
+      <p class="auto-style6">© CALC. All right reserved.</p>
+      <p class="auto-style6">design by: <a href="http://www.templateworld.com" target="_blank">Template World</a></p>
   </div>
-</div>
+</div>   
         </form>
+     
 </body>
 </html>
