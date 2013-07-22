@@ -239,7 +239,15 @@ public partial class StdQuestionsForm : System.Web.UI.Page
         try
         {
             int testId = Convert.ToInt32(Request.QueryString["id"]);
-            int studentId = (int) Session["StudentID"];
+            if (Session["StudentID"] != null)
+            {
+                int studentId = (int)Session["StudentID"];
+            }
+            else
+            {
+                lblThanks.Text = "You are not login! Please login before continuing with the test";
+                DataList1.Enabled = false;
+            }
         }
         catch (Exception ex)
         {

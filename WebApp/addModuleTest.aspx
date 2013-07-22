@@ -80,7 +80,7 @@
             <tr>
                 <td class="auto-style3">&nbsp;</td>
                 <td class="auto-style5">
-                    <asp:Button ID="btnTest" runat="server" Text="Create/Edit Test Questions" Width="230px" OnClick="btnTest_Click" />
+                    <asp:Button ID="btnTest" runat="server" Text="Create/Edit Test Questions" Width="230px" OnClick="btnTest_Click" style="height: 26px" />
                 </td>
             </tr>
         </table>

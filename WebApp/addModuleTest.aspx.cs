@@ -143,6 +143,7 @@ public partial class addModuleTest : System.Web.UI.Page
                     {
                         List<Question> newQuestions = (List<Question>)Session["newQuestions"];
                         newQuestions.Add(qs);
+                        Session["newQuestions"] = newQuestions;
                     }
                     //add to session
                     testQs.Add(qs);
@@ -246,7 +247,7 @@ public partial class addModuleTest : System.Web.UI.Page
                 String contentType;
                 String imgName;
                 FileUpload fuPic = (FileUpload)emptyRow.FindControl("fuPicture");
-                if (fuPic.HasFile)
+                if (fuPic.HasFile) //check if user upload new picture
                 {
                     imageData = fuPic.FileBytes;
                     contentType = fuPic.PostedFile.ContentType;
@@ -254,6 +255,7 @@ public partial class addModuleTest : System.Web.UI.Page
                 }
                 else
                 {
+                    //if user doesn't upload new pic, use the existing picture
                     List<Question> testQs2 = (List<Question>)Session["testQuestion"];
                     contentType = testQs2[e.RowIndex].contentType;
                     imageData = testQs2[e.RowIndex].imgData;
@@ -339,7 +341,7 @@ public partial class addModuleTest : System.Web.UI.Page
                              while (reader.Read())
                              {
                                  qs.contentType = reader.GetString(0);
-                                 if (reader["imgData"] == null)
+                                 if (reader["imgData"] != null)
                                  {
                                      qs.imgData = (Byte[])reader["imgData"];
                                  }
@@ -739,6 +741,17 @@ public partial class addModuleTest : System.Web.UI.Page
                         cmd.Parameters.Add(p5);
                         int x = cmd.ExecuteNonQuery();
 
+                        ////set questionID to session
+                        List<Question> listOfQs = (List<Question>)Session["testQuestion"];
+
+                        foreach (Question qs in listOfQs)
+                        {
+                            if (qs.text.Equals(q.text))
+                            {
+                                qs.qId = maxQsID + 1;
+                            }
+                        }
+
                         //save strength
                         cmd = new SqlCommand("INSERT INTO Strength VALUES(@nodeID, @qID, @strength)", conStr);
                         p1 = new SqlParameter("@nodeID", Convert.ToInt32(ddlModule.SelectedItem.Value));
@@ -854,13 +867,45 @@ public partial class addModuleTest : System.Web.UI.Page
      * */
         protected void btnUpdateQs_Click(object sender, EventArgs e)
         {
+            //add new questions
+            List<Question> newQuestions = (List<Question>)Session["newQuestions"];
+            if (newQuestions.Count > 0)
+            {
+                saveQuestions(newQuestions);
+                assignQstoTest();
+            }
+
+            //get new qsID from a session
+            List<int> allNewQuestions = (List<int>)Session["allQsID"];
+
+
             //The following code would update the changes to the DB
             List<Question> testQs = (List<Question>)Session["testQuestion"];
+
+            //The following algorithm search for the updated questions. It removes the new questions from update.
+            List<Question> updatedQsList = new List<Question>();
+            foreach (Question q in testQs)
+            {
+                bool updateQs = true;
+                foreach (int newQ in allNewQuestions)
+                {
+                    if (q.qId == newQ)
+                    {
+                        updateQs = false;
+                    }
+                }
+                if (updateQs)
+                {
+                    updatedQsList.Add(q);
+                }
+            }
+
+            //Now we have updated questions, update each question.
             SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
             try
             {
                 conStr.Open();
-                foreach (Question q in testQs)
+                foreach (Question q in updatedQsList)
                 {
                     //update questions in questions table
                     SqlCommand cmd = new SqlCommand("UPDATE Questions SET Text = @qText, img_contenttype = @imgType, imgData = @imgData, "+
@@ -925,7 +970,7 @@ public partial class addModuleTest : System.Web.UI.Page
                     x = cmd.ExecuteNonQuery();
 
                     //choice 3
-                    if (q.choice4 != null && !q.choice3.Equals(""))
+                    if (q.choice3 != null && !q.choice3.Equals(""))
                     {
                         if (q.choiceID3 != 0) //check if there is existing choiceID in the DB
                         {
@@ -1023,7 +1068,7 @@ public partial class addModuleTest : System.Web.UI.Page
                             q.choiceID4 = maxChoiceID + 1;
                         }
                     }
-                    else if (q.choiceID4 != 0)
+                    else if (q.choiceID4 != 0) // if no choice, delete
                     {
                         //delete choice
                         cmd = new SqlCommand("DELETE FROM Choices WHERE Choice_Id = @ChoiceID", conStr);
@@ -1037,13 +1082,9 @@ public partial class addModuleTest : System.Web.UI.Page
                 //delete the removed questions in DB
                 removeQuestionsFromDB();
 
-                //add new questions
-                List<Question> newQuestions = (List<Question>)Session["newQuestions"];
-                if (newQuestions.Count > 0)
-                {
-                    saveQuestions(newQuestions);
-                    assignQstoTest();
-                }
+                //Clear all new questions and ID
+                Session["newQuestions"] = new List<Question>();
+                Session["allQsID"] = new List<int>();
 
                 //Show success Alerts
                 System.Web.HttpContext.Current.Response.Write("<SCRIPT LANGUAGE='JavaScript'>");
@@ -1066,7 +1107,7 @@ public partial class addModuleTest : System.Web.UI.Page
      * */
         private void assignQstoTest()
         {
-            //add qsID to a session
+            //get new qsID from a session
             List<int> allNewQuestions = (List<int>) Session["allQsID"];
             SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
 
