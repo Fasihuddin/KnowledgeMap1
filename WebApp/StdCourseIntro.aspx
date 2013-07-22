@@ -51,7 +51,7 @@
     <div>
     
         <h3>Course Selection</h3>
-        <span class="auto-style6">Please select the course that you want to access the contents. Then, select the Topic of the course.</span><br />
+        <span class="auto-style6">Please select a course to access its contents. Then, select a topic.</span><br />
 &nbsp;<br />
         <table style="width:100%;">
             <tr>
