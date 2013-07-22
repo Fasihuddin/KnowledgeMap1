@@ -252,9 +252,7 @@
                             <th scope="col">Delete </th>
                         </tr>
                         <tr class="gridFooterRow">
-                            <td>
-                                <asp:TextBox ID="txtNo" runat="server" MaxLength="6" Width="34px"></asp:TextBox>
-                            </td>
+                            <td>                            </td>
                             <td>
                                 <asp:TextBox ID="txtQuestionText" runat="server" Height="157px" Width="282px" TextMode="MultiLine"></asp:TextBox>
                                 <asp:RequiredFieldValidator ID="rfvQuestionText" ValidationGroup="emptyInsert" runat="server"

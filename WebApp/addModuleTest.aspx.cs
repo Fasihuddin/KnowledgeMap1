@@ -887,16 +887,19 @@ public partial class addModuleTest : System.Web.UI.Page
             foreach (Question q in testQs)
             {
                 bool updateQs = true;
-                foreach (int newQ in allNewQuestions)
+                if (allNewQuestions != null)
                 {
-                    if (q.qId == newQ)
+                    foreach (int newQ in allNewQuestions)
                     {
-                        updateQs = false;
+                        if (q.qId == newQ)
+                        {
+                            updateQs = false;
+                        }
                     }
-                }
-                if (updateQs)
-                {
-                    updatedQsList.Add(q);
+                    if (updateQs)
+                    {
+                        updatedQsList.Add(q);
+                    }
                 }
             }
 
