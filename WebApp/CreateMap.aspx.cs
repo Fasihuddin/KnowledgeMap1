@@ -184,10 +184,11 @@ public partial class CourseNode : System.Web.UI.Page
     private void assignNodePrereq(List<Node> allNodes, int topicId)
     {
         conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
-        try
+        for (int i = 0; i < allNodes.Count; i++)
         {
-            for (int i = 0; i < allNodes.Count; i++)
+            try
             {
+            
                 conStr.Open();
                 //get all pre-requisites courses and add those to node object
                 SqlCommand cmd = new SqlCommand("SELECT Prereq_ID FROM Prerequisites " +
@@ -199,22 +200,25 @@ public partial class CourseNode : System.Web.UI.Page
                 cmd.Parameters.Add(p2);
                 SqlDataReader reader2 = cmd.ExecuteReader();
 
+                Console.WriteLine(allNodes[i].NodeId + "-" + allNodes[i].Name);
+
                 while (reader2.Read())
                 {
                     int prereqId = reader2.GetInt32(0);
                     allNodes[i].addPrerequisite(prereqId);
                 }
                 reader2.Close();
-            } // end for
-        }// end try
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.ToString());
-        }
-        finally
-        {
-            conStr.Close();
-        }
+                conStr.Close();
+            }// end try
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                conStr.Close();
+            }
+        } // end for
     }
 
     private void DrawNodePerDegree(List<Node> NodesPerDegree, List<Node> allNodes, int degree)
@@ -232,13 +236,21 @@ public partial class CourseNode : System.Web.UI.Page
             if (noOfNodes % 2 != 0)
             {
                 leftNodes = Math.DivRem(noOfNodes, 2, out rightNodes);
-                rightNodes = leftNodes + 1;
+                if (rightNodes < 5)
+                {
+                    rightNodes = leftNodes + 1;
+                }
+                else
+                {
+                    leftNodes++;
+                }
             }
             else
             {
                 leftNodes = noOfNodes / 2;
                 rightNodes = leftNodes;
             }
+
 
             int startX = (Xcanvas / 2) + 10;
             int startY = degree*100;
@@ -442,12 +454,19 @@ public partial class CourseNode : System.Web.UI.Page
                 leftCounter++;
 
             }
-            else if(rightCounter <= 5)
+            else if(rightCounter < 5)
             {
                 NodesPerDegree[u].position = 1;
                 NodesPerDegree[u].noLeft = left;
                 rightNodesPos.Add(u);
                 rightCounter++;
+            }
+            else if (rightCounter >= 5)
+            {
+                NodesPerDegree[u].position = 0;
+                NodesPerDegree[u].noLeft = left;
+                leftNodesPos.Add(u);
+                leftCounter++;
             }
         }
 
