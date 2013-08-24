@@ -40,7 +40,7 @@
                                     <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
                                 </EditItemTemplate>
                                 <ItemTemplate>
-                                    <asp:HyperLink ID="hyperCtl" runat="server" NavigateUrl='<%# Eval("URL_Address") %>' Text='<%# Eval("URL_Address") %>'></asp:HyperLink>
+                                    <asp:HyperLink ID="hyperCtl" runat="server" NavigateUrl='<%# Eval("URL_Address") %>' Text='<%# Eval("URL_Address") %>' Target="_blank"></asp:HyperLink>
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>
@@ -57,7 +57,10 @@
                         <SortedDescendingCellStyle BackColor="#FFFDF8" />
                         <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
                     </asp:GridView>
+
+                    <br /><asp:Button ID="Back" runat="server" Text="Back to knowledge map" OnClientClick="JavaScript:window.history.back(1);return false;" />
                 </td>
+                
                 <td><span class="auto-style1"><strong>Start Test</strong></span><br />
                     <br />
                     Computer-generated Test ID is:&nbsp; <asp:Label ID="lblTestId" runat="server" Text="Label"></asp:Label>
