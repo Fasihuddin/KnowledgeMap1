@@ -123,6 +123,7 @@ public partial class StdTopicMap : System.Web.UI.Page
             conStr.Close();
 
             //create regions
+            conStr.Open();
             for (int i = 0; i < nodeId.Count; i++)
             {
                 if (loc[i] != null)
@@ -140,7 +141,7 @@ public partial class StdTopicMap : System.Web.UI.Page
                     bool isComplete = false;
 
                     //conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
-                    conStr.Open();
+                    
                     cmd = new SqlCommand("SELECT Student_test.IsPassed FROM Student_test INNER JOIN TEST ON " +
                                         "Student_test.Test_Id = Test.Test_Id WHERE Test.Node_Id = @nodeID AND " +
                                         "Student_test.Student_Id = @studentID", conStr);
