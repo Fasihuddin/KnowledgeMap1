@@ -406,6 +406,7 @@ public partial class addModuleTest : System.Web.UI.Page
                          btnSaveTest.Enabled = false;
                          ddlVersions.Enabled = false;
                          btnUpdateQs.Enabled = true;
+                         MoreTestBtn.Enabled = true;
                         //fill data to gridview
                          FillQuestionGrid();
                     }//end foreach
@@ -424,6 +425,9 @@ public partial class addModuleTest : System.Web.UI.Page
                     btnSaveTest.Enabled = true;
                     ddlVersions.Enabled = true;
                     btnUpdateQs.Enabled = false;
+                    MoreTestBtn.Enabled = false;
+                    generateOkBtn.Visible = false;
+                    GenerateMsgLbl.Visible = false;
                 }
                 pnlTest.Visible = true;
             }
@@ -676,17 +680,20 @@ public partial class addModuleTest : System.Web.UI.Page
                  int x = cmd.ExecuteNonQuery();
 
                  //assign test to questions
-                 for (int i = 0; i < qsItem.Count; i++)
+                 for (int i = 0; i < 5; i++) //i< 5 instead of i< qsItem.count to randomly assign 5 QS only for each test
                  {
-                     cmd = new SqlCommand("INSERT INTO Test_questions VALUES(@testID, @qsId, @order)", conStr);
-                     p1 = new SqlParameter("@testID", maxTestID + 1);
-                     p2 = new SqlParameter("@qsID", qsItem[i]);
-                     SqlParameter p3 = new SqlParameter("@order", i+1);
-                     cmd.Parameters.Add(p1);
-                     cmd.Parameters.Add(p2);
-                     cmd.Parameters.Add(p3);
+                     if (i < qsItem.Count) // this condition to ensure no error is raised in case the QS are less than 5
+                     {
+                         cmd = new SqlCommand("INSERT INTO Test_questions VALUES(@testID, @qsId, @order)", conStr);
+                         p1 = new SqlParameter("@testID", maxTestID + 1);
+                         p2 = new SqlParameter("@qsID", qsItem[i]);
+                         SqlParameter p3 = new SqlParameter("@order", i + 1);
+                         cmd.Parameters.Add(p1);
+                         cmd.Parameters.Add(p2);
+                         cmd.Parameters.Add(p3);
 
-                     x = cmd.ExecuteNonQuery();
+                         x = cmd.ExecuteNonQuery();
+                     }
                  }
 
              }
@@ -872,7 +879,7 @@ public partial class addModuleTest : System.Web.UI.Page
             if (newQuestions.Count > 0)
             {
                 saveQuestions(newQuestions);
-                assignQstoTest();
+              //  assignQstoTest();
             }
 
             //get new qsID from a session
@@ -901,6 +908,11 @@ public partial class addModuleTest : System.Web.UI.Page
                         updatedQsList.Add(q);
                     }
                 }
+                
+            }
+            if (allNewQuestions == null)
+            {
+                updatedQsList = testQs;
             }
 
             //Now we have updated questions, update each question.
@@ -1108,69 +1120,69 @@ public partial class addModuleTest : System.Web.UI.Page
     /*
      * This function is used to assign newly updated or created questions to the existing test versions in DB.
      * */
-        private void assignQstoTest()
-        {
-            //get new qsID from a session
-            List<int> allNewQuestions = (List<int>) Session["allQsID"];
-            SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
+        //private void assignQstoTest()
+        //{
+        //    //get new qsID from a session
+        //    List<int> allNewQuestions = (List<int>) Session["allQsID"];
+        //    SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
 
-            try
-            {
-                conStr.Open();
-                //get all test versions of the module
-                List<int> testVersions = new List<int>();
-                SqlCommand cmd = new SqlCommand("SELECT Test_Id FROM Test WHERE Node_Id = @nodeID", conStr);
-                SqlParameter p1 = new SqlParameter("@nodeID", Convert.ToInt32(ddlModule.SelectedItem.Value));
-                cmd.Parameters.Add(p1);
-                SqlDataReader reader = cmd.ExecuteReader();
+        //    try
+        //    {
+        //        conStr.Open();
+        //        //get all test versions of the module
+        //        List<int> testVersions = new List<int>();
+        //        SqlCommand cmd = new SqlCommand("SELECT Test_Id FROM Test WHERE Node_Id = @nodeID", conStr);
+        //        SqlParameter p1 = new SqlParameter("@nodeID", Convert.ToInt32(ddlModule.SelectedItem.Value));
+        //        cmd.Parameters.Add(p1);
+        //        SqlDataReader reader = cmd.ExecuteReader();
 
-                while (reader.Read())
-                {
-                    testVersions.Add(reader.GetInt32(0));
-                }
-                reader.Close();
+        //        while (reader.Read())
+        //        {
+        //            testVersions.Add(reader.GetInt32(0));
+        //        }
+        //        reader.Close();
 
-                //assign new questions to each test versions
-                foreach(int i in testVersions)
-                {
-                    //get max question_Order
-                    int qs_order = 1;
-                    cmd = new SqlCommand("SELECT MAX(Question_order) FROM Test_questions WHERE Test_Id = @testId", conStr);
-                    p1 = new SqlParameter("@testId", i);
-                    cmd.Parameters.Add(p1);
-                    reader = cmd.ExecuteReader();
+        //        //assign new questions to each test versions
+        //        foreach(int i in testVersions)
+        //        {
+        //            //get max question_Order
+        //            int qs_order = 1;
+        //            cmd = new SqlCommand("SELECT MAX(Question_order) FROM Test_questions WHERE Test_Id = @testId", conStr);
+        //            p1 = new SqlParameter("@testId", i);
+        //            cmd.Parameters.Add(p1);
+        //            reader = cmd.ExecuteReader();
 
-                    while (reader.Read() && !reader.IsDBNull(0))
-                    {
-                            qs_order += reader.GetInt32(0);
-                    }
-                    reader.Close();
+        //            while (reader.Read() && !reader.IsDBNull(0))
+        //            {
+        //                    qs_order += reader.GetInt32(0);
+        //            }
+        //            reader.Close();
 
-                    //insert new questions to the test questions
-                    foreach (int j in allNewQuestions)
-                    {
-                        cmd = new SqlCommand("INSERT INTO Test_questions VALUES(@testID, @qsID, @order)", conStr);
-                        p1 = new SqlParameter("@testID", i);
-                        SqlParameter p2 = new SqlParameter("@qsID", j);
-                        SqlParameter p3 = new SqlParameter("@order", qs_order);
-                        cmd.Parameters.Add(p1);
-                        cmd.Parameters.Add(p2);
-                        cmd.Parameters.Add(p3);
-                        int x = cmd.ExecuteNonQuery();
-                        qs_order ++;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ex.ToString();
-                Response.Redirect("~/Error.aspx");
-            }
-            finally
-            {
-                conStr.Close();
-            }
-        }
+        //            //insert new questions to the test questions
+        //            foreach (int j in allNewQuestions)
+        //            {
+        //                cmd = new SqlCommand("INSERT INTO Test_questions VALUES(@testID, @qsID, @order)", conStr);
+        //                p1 = new SqlParameter("@testID", i);
+        //                SqlParameter p2 = new SqlParameter("@qsID", j);
+        //                SqlParameter p3 = new SqlParameter("@order", qs_order);
+        //                cmd.Parameters.Add(p1);
+        //                cmd.Parameters.Add(p2);
+        //                cmd.Parameters.Add(p3);
+        //                int x = cmd.ExecuteNonQuery();
+        //                qs_order ++;
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ex.ToString();
+        //        Response.Redirect("~/Error.aspx");
+        //    }
+        //    finally
+        //    {
+        //        conStr.Close();
+        //    }
+        //}
 
     /*
      * This funciton is used to remove question from DB. It also removes records on the Test_question table.
@@ -1217,5 +1229,39 @@ public partial class addModuleTest : System.Web.UI.Page
                     conStr.Close();
                 }
             }//end if
+        }
+        protected void MoreTestBtn_Click(object sender, EventArgs e)
+        {
+            ddlVersions.Enabled = true; // to enable the selection of test versions to be added
+
+            GenerateMsgLbl.Visible = true;
+            generateOkBtn.Visible = true;
+
+        }
+        protected void generateOkBtn_Click(object sender, EventArgs e)
+        {
+            List<Question> qsItem = (List<Question>)Session["testQuestion"];
+            List<int> qId = new List<int>();
+            foreach (Question q in qsItem) // to get the question id
+            {
+                qId.Add(q.qId);
+            }
+            int totalVer = Convert.ToInt32(ddlVersions.SelectedItem.Value);
+          for (int i = 0; i < totalVer; i++)
+          {
+              //create temp list to hold the new random order questions
+              List<int> tempQs = new List<int>();
+              List<int> tempQsId = new List<int>(qId);
+              //the following loop will randomly assign test questions to each test version.
+              while (tempQsId.Count >= 1)
+              {
+                  Random rand = new Random();
+                  int no = rand.Next(tempQsId.Count);
+                  tempQs.Add(tempQsId[no]);
+                  tempQsId.RemoveAt(no);
+              }
+              saveTest(tempQs);
+          }
+            
         }
 }

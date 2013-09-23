@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Test" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="StdQuestionsForm.aspx.cs" Inherits="StdQuestionsForm" %>
+﻿<%@ Page Title="Test" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="StdQuestionsForm.aspx.cs" maintainScrollPositionOnPostBack="true" Inherits="StdQuestionsForm" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <div>

@@ -29,6 +29,7 @@ public partial class testResult : System.Web.UI.Page
        int updated =0;
         int rightOrWrong;
         string ansResult;
+        string rightAns; // to hold the right answer of the question
 
         // Try to open database and read information.
         try
@@ -117,7 +118,7 @@ public partial class testResult : System.Web.UI.Page
 
             //show the student a report of his Q&A through grid view
             
-            sqlQuery = "select q.text, ch.text, sa.IsRight, l.Strength_Level FROM Questions q, Choices ch, Student_answer sa, Student_test st, Strength l WHERE st.Student_Id=" + User.Identity.Name + " and sa.test_Id=" + varTestId + " and sa.Test_DateTime= '" + varDateTime + "' and sa.Question_Id= q.Question_Id and sa.Student_choice= ch.Choice_Id and sa.Test_Id= st.Test_Id and sa.Test_DateTime= st.Test_DateTime  and l.Question_Id= sa.Question_Id and l.Node_Id="+ varNodeId;
+            sqlQuery = "select q.text, ch.text, sa.IsRight, l.Strength_Level, q.Question_Id FROM Questions q, Choices ch, Student_answer sa, Student_test st, Strength l WHERE st.Student_Id=" + User.Identity.Name + " and sa.test_Id=" + varTestId + " and sa.Test_DateTime= '" + varDateTime + "' and sa.Question_Id= q.Question_Id and sa.Student_choice= ch.Choice_Id and sa.Test_Id= st.Test_Id and sa.Test_DateTime= st.Test_DateTime  and l.Question_Id= sa.Question_Id and l.Node_Id="+ varNodeId;
             cmd.CommandText = sqlQuery;
             reader = cmd.ExecuteReader();
             List<ResultQA> newItem = new List<ResultQA>();
@@ -127,18 +128,27 @@ public partial class testResult : System.Web.UI.Page
                 string Answer = reader.GetString(1);
                 int isRight = reader.GetInt32(2);
                 int weight = reader.GetInt32(3);
+                int QuestionId = reader.GetInt32(4); //this to get the q id and use it to get the right answer
 
-                if (isRight==1)
-                    ansResult= "Right";
+                if (isRight == 1)
+                {
+                    ansResult = "Right";
+                    rightAns = Answer;
+                }
                 else
-                    ansResult ="Wrong";
+                {
+                    ansResult = "Wrong";
+                    rightAns = GetRightAnswer(QuestionId);
+
+                }
                 double temp = (double) weight / strengthTotal; 
                 int varWeight = Convert.ToInt32(temp* 100);
                 string strWeight = varWeight.ToString() + "%";
-                newItem.Add(new ResultQA(Question,Answer,isRight,ansResult,strWeight));
+                newItem.Add(new ResultQA(Question,Answer,isRight,ansResult,strWeight,rightAns));
             }//end of while
             GridView1.DataSource = newItem;
             GridView1.DataBind();
+                     
 
             //to hide the isRight col. in the grid view
             GridView1.HeaderRow.Cells[2].Visible = false;
@@ -149,7 +159,9 @@ public partial class testResult : System.Web.UI.Page
             // to change the color of the cell
             foreach (GridViewRow gvr in GridView1.Rows)
             {
-                if (gvr.Cells[2].Text.Equals("1"))
+                //if (gvr.Cells[2].Text.Equals("1"))
+                Label name = (Label)gvr.Cells[3].FindControl("AnswerResult"); // this is to get the value of the template field (right/wrong), AnswerResult is the ID of the label in template Item
+                if(name.Text.Equals("Right"))
                 {
                     gvr.Cells[3].ForeColor = Color.Green;
                     gvr.Cells[3].BorderColor = Color.Black;
@@ -158,6 +170,8 @@ public partial class testResult : System.Web.UI.Page
                 {
                     gvr.Cells[3].ForeColor = Color.Red;
                     gvr.Cells[3].BorderColor = Color.Black;
+                    LinkButton showAnswer = (LinkButton)gvr.Cells[5].FindControl("ShowAns"); // this is to change the visibility of the linkButton, ShowAns is the ID of the linkButton
+                    showAnswer.Visible = true;
                 }
 
             }
@@ -175,4 +189,46 @@ public partial class testResult : System.Web.UI.Page
     {
         Response.Redirect("~/StdCourseIntro.aspx");
     }
+
+    public string GetRightAnswer(int QuestionId)
+    {
+        string rightAns="";
+        string query = "select text from choices where Question= "+QuestionId+" and status ='Y'";
+        SqlConnection conStr = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connString"].ConnectionString);
+        SqlCommand cmd = new SqlCommand(query, conStr);
+        try
+        {
+            conStr.Open();
+            rightAns = cmd.ExecuteScalar().ToString();
+
+        }
+        catch (Exception err)
+        {
+            LblErrMsg.Text += err.Message;
+        }
+        
+        finally
+        {
+            conStr.Close();
+        }
+        return rightAns;
+    }
+    protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        
+        GridView1.Columns[6].HeaderText = "Right Answer";
+            
+        //Get the linkbutton that raised the event inside Gridview
+        LinkButton btn = (LinkButton)sender;
+
+        //Get the row that contains this button
+        GridViewRow gridviewRow = (GridViewRow)btn.NamingContainer;
+
+       // get the label control in the template field to change its property
+        Label rightAns = (Label)gridviewRow.Cells[6].FindControl("RightAnswer");
+        rightAns.Visible = true;
+     
+    }
 }
+
+ 

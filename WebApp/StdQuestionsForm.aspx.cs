@@ -125,32 +125,54 @@ public partial class StdQuestionsForm : System.Web.UI.Page
 
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
-        int testId = Convert.ToInt32(Request.QueryString["id"]);
-        //saveTest
-        SaveTest(testId, (int)Session["StudentId"]);
-
-        //save student answers
+        // This is to check whethre all questions are answered
+        bool allanswer=true;
+        
         foreach (DataListItem item in DataList1.Items)
         {
             if (item.ItemType == ListItemType.Item | item.ItemType == ListItemType.AlternatingItem)
             {
-                int questionid = 0;
-                int choiceid = 0;
-                Label lbl = (Label)item.FindControl("lblQuestionID");
-                questionid = Convert.ToInt32(lbl.Text);
-
+                
                 RadioButtonList rbl = (RadioButtonList)item.FindControl("RadioButtonList1");
-                choiceid = Convert.ToInt32(rbl.SelectedValue);
-
-                SaveAnswer(questionid, choiceid, testId);
+                if(!(rbl.SelectedItem !=null))
+                {
+                    lblThanks.ForeColor = System.Drawing.Color.Red;
+                    lblThanks.Visible = true;
+                    lblThanks.Text = " You need to answer all questions. ";
+                    allanswer = false;
+                    return;
+                }
             }
         }
+        if (allanswer == true)
+        {
+            //Ilung starts here
+            int testId = Convert.ToInt32(Request.QueryString["id"]);
+            //saveTest
+            SaveTest(testId, (int)Session["StudentId"]);
 
-        DataList1.Visible = false;
-        lblThanks.Text = "Thank you for answering the questions!";
+            //save student answers
+            foreach (DataListItem item in DataList1.Items)
+            {
+                if (item.ItemType == ListItemType.Item | item.ItemType == ListItemType.AlternatingItem)
+                {
+                    int questionid = 0;
+                    int choiceid = 0;
+                    Label lbl = (Label)item.FindControl("lblQuestionID");
+                    questionid = Convert.ToInt32(lbl.Text);
 
-        //to get to student result
-        Response.Redirect("~/testResult.aspx");
+                    RadioButtonList rbl = (RadioButtonList)item.FindControl("RadioButtonList1");
+                    choiceid = Convert.ToInt32(rbl.SelectedValue);
+                    SaveAnswer(questionid, choiceid, testId);
+                }
+            }
+
+            DataList1.Visible = false;
+            lblThanks.Text = "Thank you for answering the questions!";
+
+            //to get to student result
+            Response.Redirect("~/testResult.aspx");
+        }//end of if
     }
 
     private void SaveTest(int testId, int studentId)

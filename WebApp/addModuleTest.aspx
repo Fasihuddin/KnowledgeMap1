@@ -35,18 +35,26 @@
             height: 30px;
             width: 198px;
         }
-        .auto-style8
-        {
-            width: 161px;
-        }
-        .auto-style9
-        {
-            height: 30px;
-            width: 161px;
-        }
         .auto-style10
         {
             width: 214px;
+        }
+        .auto-style11 {
+            height: 30px;
+            width: 260px;
+        }
+        .auto-style13 {
+            width: 260px;
+            text-align: center;
+        }
+        .auto-style14 {
+            left: 0px;
+            top: 0px;
+            height: 30px;
+            width: 214px;
+        }
+        .auto-style15 {
+            margin-left: 0px;
         }
     </style>
     <div>
@@ -320,16 +328,21 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="auto-style1">
+                    <td class="auto-style14">
                         <asp:Button ID="btnSaveTest" runat="server" OnClick="btnSaveTest_Click" Text="Save Test Questions" Width="222px" />
                     </td>
-                    <td class="auto-style9">
+                    <td class="auto-style11">
                         <asp:Button ID="btnUpdateQs" runat="server" Text="Update Questions" Width="209px" OnClick="btnUpdateQs_Click" />
                     </td>
                 </tr>
                 <tr>
-                    <td class="auto-style10">&nbsp;</td>
-                    <td class="auto-style8">&nbsp;</td>
+                    <td class="auto-style10">
+                        <asp:Button ID="MoreTestBtn" runat="server" Text="Generate more tests" Width="221px" OnClick="MoreTestBtn_Click" />
+                    </td>
+                    <td class="auto-style13">&nbsp;<asp:Label ID="GenerateMsgLbl" runat="server" Font-Size="X-Small" ForeColor="#009900" Text="Select number of tests then press OK" Visible="False"></asp:Label>
+                        &nbsp;
+                         <asp:Button ID="generateOkBtn" runat="server" CssClass="auto-style15" Text="OK" Width="73px" OnClick="generateOkBtn_Click" Visible="False" />
+                    </td>
                 </tr>
             </table>
             <br />
